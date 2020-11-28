@@ -14,9 +14,19 @@
     "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\" && exit 1"
   },
   "dependencies": {
+    "@material-ui/core": "^4.11.1",
+    "@material-ui/data-grid": "^4.0.0-alpha.10",
+    "@material-ui/icons": "^4.9.1",
     "gatsby": "^2.26.1",
+    "gatsby-plugin-local-search": "^2.0.0",
+    "gatsby-source-filesystem": "^2.6.1",
+    "gatsby-theme-material-ui": "^1.0.13",
+    "gatsby-transformer-json": "^2.6.0",
+    "gatsby-transformer-remark": "^2.11.1",
     "react": "^16.12.0",
-    "react-dom": "^16.12.0"
+    "react-dom": "^16.12.0",
+    "react-use-flexsearch": "^0.1.1",
+    "slugify": "^1.4.6"
   },
   "devDependencies": {
     "prettier": "2.1.2"
