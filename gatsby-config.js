@@ -53,4 +53,5 @@ module.exports = {
   siteMetadata: {
     title: "Follow Off Grant",
   },
+  pathPrefix: "/fog-platform",
 }
