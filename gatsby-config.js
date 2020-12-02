@@ -26,27 +26,56 @@ module.exports = {
     {
       resolve: "gatsby-plugin-local-search",
       options: {
-        name: "beneficiaries",
+        name: "data",
         engine: "flexsearch",
-        engineOptions: "speed",
+        engineOptions: {
+          encode: "simple",
+          tokenize: "forward",
+          threshold: 6,
+          resolution: 2,
+          cache: true,
+          worker: true,
+        },
         query: `
           {
             allBeneficiariesJson {
               nodes {
-                id
                 beneficiary_name
+                schema
+              }
+            }
+            allProjectsJson {
+              nodes {
+                purpose
+              }
+            }
+            allProgrammesJson {
+              nodes {
+                programme
               }
             }
           }
         `,
         ref: "id",
         index: ["name"],
-        // store: ["id", "path", "title"],
-        normalizer: ({ data }) =>
-          data.allBeneficiariesJson.nodes.map(node => ({
-            id: node.id,
+        store: ["id", "name", "schema"],
+        normalizer: ({ data }) => [
+          ...data.allBeneficiariesJson.nodes.map((node, i) => ({
+            id: parseInt(`1${i}`),
             name: node.beneficiary_name,
+            schema: node.schema[0].toLowerCase(),
           })),
+          ...data.allProjectsJson.nodes.map((node, i) => ({
+            id: parseInt(`2${i}`),
+            name: node.purpose,
+            schema: "j",
+          })),
+          ...data.allProgrammesJson.nodes.map((node, i) => ({
+            id: parseInt(`3${i}`),
+            name: node.programme,
+            schema: "r",
+          })),
+        ],
       },
     },
   ],

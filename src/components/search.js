@@ -1,22 +1,62 @@
 import React, { useState } from "react"
 import { useStaticQuery, graphql } from "gatsby"
+import slugify from "slugify"
 import { useFlexSearch } from "react-use-flexsearch"
 import TextField from "@material-ui/core/TextField"
-import BeneficiaryList from "../components/beneficiariesList"
+import List from "@material-ui/core/List"
+import ListItemText from "@material-ui/core/ListItemText"
+import { ListItemLink } from "./util"
+import { updateLocationParams, getLocationParam } from "../util"
 
-const Search = () => {
+const PATHS = {
+  1: "beneficiary",
+  2: "project",
+  3: "programme",
+}
+
+const SCHEMATA = {
+  c: "Company",
+  l: "LegalEntity",
+  o: "Organization",
+  p: "PublicBody",
+  j: "Project",
+  r: "Funding programme",
+}
+
+const ResultList = ({ items }) => (
+  <List>
+    {items.map(({ id, name, schema }) => (
+      <ListItemLink
+        key={id}
+        to={`/${PATHS[id.toString()[0]]}/${slugify(name)}`}
+      >
+        <ListItemText>
+          {name} ({SCHEMATA[schema]})
+        </ListItemText>
+      </ListItemLink>
+    ))}
+  </List>
+)
+
+const SearchResults = ({ query }) => {
   const data = useStaticQuery(graphql`
     query localSearchQuery {
-      localSearchBeneficiaries {
+      localSearchData {
         index
         store
       }
     }
   `)
-  const [query, setQuery] = useState(null)
+  const { index, store } = data.localSearchData
+  const results = useFlexSearch(query, index, store, { limit: 10 })
+  return results.length > 0 && <ResultList items={results} />
+}
+
+const Search = () => {
+  const [query, setQuery] = useState(getLocationParam("q"))
   const handleChange = ({ target }) => setQuery(target.value)
-  const { index, store } = data.localSearchBeneficiaries
-  const results = useFlexSearch(query, index, store)
+  query?.length > 3 && updateLocationParams({ q: query })
+
   return (
     <>
       <h1>Search</h1>
@@ -27,7 +67,7 @@ const Search = () => {
         onChange={handleChange}
         autoComplete="off"
       />
-      {results.length > 0 && <BeneficiaryList items={results} />}
+      {query?.length > 3 && <SearchResults query={query} />}
     </>
   )
 }
