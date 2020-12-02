@@ -23,14 +23,20 @@ module.exports = {
     `gatsby-transformer-json`,
     `gatsby-transformer-remark`,
     `gatsby-theme-material-ui`,
+    // {
+    //   resolve: `gatsby-plugin-sitemap`,
+    //   options: {
+    //     sitemapSize: 5000,
+    //   },
+    // },
     {
-      resolve: "gatsby-plugin-local-search",
+      resolve: `gatsby-plugin-local-search`,
       options: {
-        name: "data",
-        engine: "flexsearch",
+        name: `data`,
+        engine: `flexsearch`,
         engineOptions: {
-          encode: "simple",
-          tokenize: "forward",
+          encode: `simple`,
+          tokenize: `forward`,
           threshold: 6,
           resolution: 2,
           cache: true,
@@ -56,9 +62,9 @@ module.exports = {
             }
           }
         `,
-        ref: "id",
-        index: ["name"],
-        store: ["id", "name", "schema"],
+        ref: `id`,
+        index: [`name`],
+        store: [`id`, `name`, `schema`],
         normalizer: ({ data }) => [
           ...data.allBeneficiariesJson.nodes.map((node, i) => ({
             id: parseInt(`1${i}`),
@@ -68,19 +74,20 @@ module.exports = {
           ...data.allProjectsJson.nodes.map((node, i) => ({
             id: parseInt(`2${i}`),
             name: node.purpose,
-            schema: "j",
+            schema: `j`,
           })),
           ...data.allProgrammesJson.nodes.map((node, i) => ({
             id: parseInt(`3${i}`),
             name: node.programme,
-            schema: "r",
+            schema: `r`,
           })),
         ],
       },
     },
   ],
   siteMetadata: {
-    title: "Follow Off Grant",
+    title: `Face Off Grant`,
+    siteUrl: `http://localhost:8000/`,
   },
-  pathPrefix: "/fog-platform",
+  pathPrefix: `/fog-platform`,
 }
