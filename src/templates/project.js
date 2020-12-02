@@ -16,9 +16,9 @@ export const projectQuery = graphql`
         summary
       }
     }
-    programme: programmesJson(programme: { eq: $programmeLookup }) {
+    programme: programmesJson(name: { eq: $programmeLookup }) {
       id
-      programme
+      name
       projects
       beneficiaries
       payments
@@ -33,8 +33,9 @@ export default function ProjectTemplate({
 }) {
   return (
     <Layout route={route} title={title.split('-')[0].trim()}>
-      <h1>{node.purpose}</h1>
+      <h1>{node.name}</h1>
       <strong>Total funding: {node.total_amount} €</strong>
+      <p>{node.description}</p>
       <ProgrammeCard data={programme} />
       <h2>Payments</h2>
       <PaymentsTable rows={payments.nodes} exclude={["programme", "purpose"]} />

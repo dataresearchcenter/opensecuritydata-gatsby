@@ -1,4 +1,4 @@
-const slugify = require("slugify")
+const slugify = require(`slugify`)
 const path = require(`path`)
 const { createFilePath } = require(`gatsby-source-filesystem`)
 
@@ -22,7 +22,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
         edges {
           node {
             id
-            programme
+            name
             projects
             beneficiaries
             total_amount
@@ -33,7 +33,8 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
         edges {
           node {
             id
-            purpose
+            name
+            description
             programme
             beneficiaries
             total_amount
@@ -44,15 +45,28 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
         edges {
           node {
             id
-            beneficiary_name
-            beneficiary_id
+            name
+            country
+            schema
             programmes
             projects
-            schema
-            startDate
+            payments
             total_amount
-            total_payments
             endDate
+            startDate
+          }
+        }
+      }
+      allCountriesJson {
+        edges {
+          node {
+            id
+            name
+            iso
+            projects
+            beneficiaries
+            payments
+            total_amount
           }
         }
       }
@@ -76,13 +90,13 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
   // programmes
   result.data.allProgrammesJson.edges.forEach(({ node }) => {
     createPage({
-      path: `/programme/${slugify(node.programme)}/`,
+      path: `/programme/${slugify(node.name)}/`,
       component: require.resolve(`./src/templates/programme.js`),
       context: {
         node,
-        lookup: node.programme,
-        route: "Programmes",
-        title: node.programme,
+        lookup: node.name,
+        route: `Programmes`,
+        title: node.name,
       },
     })
   })
@@ -90,14 +104,14 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
   // projects
   result.data.allProjectsJson.edges.forEach(({ node }) => {
     createPage({
-      path: `/project/${slugify(node.purpose)}/`,
+      path: `/project/${slugify(node.name)}/`,
       component: require.resolve(`./src/templates/project.js`),
       context: {
         node,
-        projectLookup: node.purpose,
+        projectLookup: node.name,
         programmeLookup: node.programme,
-        route: "Projects",
-        title: node.purpose,
+        route: `Projects`,
+        title: node.name,
       },
     })
   })
@@ -105,13 +119,28 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
   // beneficiaries
   result.data.allBeneficiariesJson.edges.forEach(({ node }) => {
     createPage({
-      path: `/beneficiary/${slugify(node.beneficiary_name)}/`,
+      path: `/beneficiary/${slugify(node.name)}/`,
       component: require.resolve(`./src/templates/beneficiary.js`),
       context: {
         node,
-        lookup: node.beneficiary_id,
-        route: "Beneficiaries",
-        title: node.beneficiary_name,
+        paymentsLookup: node.id,
+        countryLookup: node.country,
+        route: `Beneficiaries`,
+        title: node.name,
+      },
+    })
+  })
+
+  // countries
+  result.data.allCountriesJson.edges.forEach(({ node }) => {
+    createPage({
+      path: `/country/${node.iso}/`,
+      component: require.resolve(`./src/templates/country.js`),
+      context: {
+        node,
+        lookup: node.iso,
+        route: `Countries`,
+        title: node.name,
       },
     })
   })

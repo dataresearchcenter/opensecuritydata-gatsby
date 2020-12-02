@@ -5,12 +5,12 @@ import ProjectsTable from "../components/projectsTable"
 
 export const query = graphql`
   query ProjectsQuery {
-    allProjectsJson {
+    projects: allProjectsJson {
       nodes {
-        beneficiaries
-        programme
-        purpose
         id
+        name
+        programme
+        beneficiaries
         total_amount
         payments
       }
@@ -18,10 +18,10 @@ export const query = graphql`
   }
 `
 
-const ProjectsPage = ({ data }) => (
+const ProjectsPage = ({ data: { projects } }) => (
   <Layout>
     <h1>All projects</h1>
-    <ProjectsTable rows={data.allProjectsJson.nodes} />
+    <ProjectsTable rows={projects.nodes} />
   </Layout>
 )
 

@@ -10,7 +10,7 @@ const columns = [
   { field: "amount", headerName: "Amount", width: 100 },
   { field: "startDate", headerName: "Project start" },
   { field: "endDate", headerName: "Project end" },
-  { field: "summary", headerName: "Role" },
+  // { field: "summary", headerName: "Role" },
 ]
 
 const PaymentsTable = ({ rows, exclude = [] }) => {

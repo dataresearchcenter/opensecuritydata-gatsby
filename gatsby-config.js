@@ -44,20 +44,25 @@ module.exports = {
         },
         query: `
           {
-            allBeneficiariesJson {
+            beneficiaries: allBeneficiariesJson {
               nodes {
-                beneficiary_name
+                name
                 schema
               }
             }
-            allProjectsJson {
+            projects: allProjectsJson {
               nodes {
-                purpose
+                name
               }
             }
-            allProgrammesJson {
+            programmes: allProgrammesJson {
               nodes {
-                programme
+                name
+              }
+            }
+            countries: allCountriesJson {
+              nodes {
+                name
               }
             }
           }
@@ -65,21 +70,28 @@ module.exports = {
         ref: `id`,
         index: [`name`],
         store: [`id`, `name`, `schema`],
-        normalizer: ({ data }) => [
-          ...data.allBeneficiariesJson.nodes.map((node, i) => ({
+        normalizer: ({
+          data: { beneficiaries, projects, programmes, countries },
+        }) => [
+          ...beneficiaries.nodes.map(({ name, schema }, i) => ({
             id: parseInt(`1${i}`),
-            name: node.beneficiary_name,
-            schema: node.schema[0].toLowerCase(),
+            name,
+            schema: schema[0].toLowerCase(),
           })),
-          ...data.allProjectsJson.nodes.map((node, i) => ({
+          ...projects.nodes.map(({ name }, i) => ({
             id: parseInt(`2${i}`),
-            name: node.purpose,
+            name,
             schema: `j`,
           })),
-          ...data.allProgrammesJson.nodes.map((node, i) => ({
+          ...programmes.nodes.map(({ name }, i) => ({
             id: parseInt(`3${i}`),
-            name: node.programme,
+            name,
             schema: `r`,
+          })),
+          ...countries.nodes.map(({ name }, i) => ({
+            id: parseInt(`4${i}`),
+            name,
+            schema: `n`,
           })),
         ],
       },
@@ -89,5 +101,4 @@ module.exports = {
     title: `Face Off Grant`,
     siteUrl: `http://localhost:8000/`,
   },
-  pathPrefix: `/fog-platform`,
 }

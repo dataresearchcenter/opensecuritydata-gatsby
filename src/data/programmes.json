@@ -1,5 +1,5 @@
 [
-{"id":"1","programme":"FP7-SECURITY","payments":"4072","beneficiaries":"1976","projects":"321","total_amount":"1338754736.67"},
-{"id":"2","programme":"H2020-3.7","payments":"4294","beneficiaries":"2141","projects":"386","total_amount":"1354432692.11"},
-{"id":"3","programme":"Internal Security Fund","payments":"82","beneficiaries":"15","projects":"41","total_amount":"57447119.4055962"}
+{"id":"1","name":"FP7-SECURITY","payments":"4075","beneficiaries":"1976","projects":"321","total_amount":"1338754736.67"},
+{"id":"2","name":"H2020-3.7","payments":"4297","beneficiaries":"2141","projects":"386","total_amount":"1354432692.11"},
+{"id":"3","name":"Internal Security Fund","payments":"82","beneficiaries":"15","projects":"41","total_amount":"57447119.4055962"}
 ]

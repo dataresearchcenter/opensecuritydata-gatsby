@@ -5,9 +5,9 @@ import ProgrammeCard from "../components/programmeCard"
 
 export const query = graphql`
   query ProgrammesQuery {
-    allProgrammesJson {
+    programmes: allProgrammesJson {
       nodes {
-        programme
+        name
         projects
         beneficiaries
         total_amount
@@ -17,10 +17,10 @@ export const query = graphql`
   }
 `
 
-const ProgrammesPage = ({ data }) => (
+const ProgrammesPage = ({ data: { programmes } }) => (
   <Layout route="All funding programmes">
     <h1>Funding programmes</h1>
-    {data.allProgrammesJson.nodes.map(p => (
+    {programmes.nodes.map(p => (
       <ProgrammeCard key={p.id} data={p} />
     ))}
   </Layout>

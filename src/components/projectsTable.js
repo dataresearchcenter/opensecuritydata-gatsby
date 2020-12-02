@@ -4,7 +4,7 @@ import slugify from "slugify"
 import { DataGrid } from "@material-ui/data-grid"
 
 const columns = [
-  { field: "purpose", headerName: "Name", width: 400 },
+  { field: "name", headerName: "Name", width: 400 },
   { field: "total_amount", headerName: "Total amount", width: 200 },
   { field: "beneficiaries", headerName: "Beneficiaries" },
   { field: "programme", headerName: "Programme", width: 200 },
@@ -18,7 +18,7 @@ const ProjectsTable = ({ rows, exclude = [] }) => (
     rowsPerPageOptions={[10, 25, 50, 100]}
     autoHeight
     disableSelectionOnClick
-    onRowClick={({ data }) => navigate(`/project/${slugify(data.purpose)}`)}
+    onRowClick={({ data }) => navigate(`/project/${slugify(data.name)}`)}
   />
 )
 

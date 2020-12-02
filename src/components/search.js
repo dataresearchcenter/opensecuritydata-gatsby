@@ -12,6 +12,7 @@ const PATHS = {
   1: "beneficiary",
   2: "project",
   3: "programme",
+  4: "country",
 }
 
 const SCHEMATA = {
@@ -21,6 +22,7 @@ const SCHEMATA = {
   p: "PublicBody",
   j: "Project",
   r: "Funding programme",
+  n: "Country",
 }
 
 const ResultList = ({ items }) => (
@@ -39,15 +41,15 @@ const ResultList = ({ items }) => (
 )
 
 const SearchResults = ({ query }) => {
-  const data = useStaticQuery(graphql`
+  const { search } = useStaticQuery(graphql`
     query localSearchQuery {
-      localSearchData {
+      search: localSearchData {
         index
         store
       }
     }
   `)
-  const { index, store } = data.localSearchData
+  const { index, store } = search
   const results = useFlexSearch(query, index, store, { limit: 10 })
   return results.length > 0 && <ResultList items={results} />
 }

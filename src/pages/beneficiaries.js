@@ -7,11 +7,12 @@ export const query = graphql`
   query BeneficiariesQuery {
     allBeneficiariesJson {
       nodes {
-        beneficiary_name
         id
+        name
         schema
+        country
         programmes
-        total_payments
+        payments
         total_amount
         projects
         startDate

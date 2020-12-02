@@ -7,7 +7,7 @@ import Typography from "@material-ui/core/Typography"
 import { Button } from "gatsby-theme-material-ui"
 
 const ProgrammeCard = ({
-  data: { id, programme, projects, beneficiaries, total_amount },
+  data: { id, name, projects, beneficiaries, total_amount },
   showHeader = true,
   showName = true,
   showLink = true,
@@ -21,7 +21,7 @@ const ProgrammeCard = ({
       )}
       {showName && (
         <Typography variant="h5" component="h2">
-          {programme}
+          {name}
         </Typography>
       )}
       <Typography color="textSecondary">
@@ -39,7 +39,7 @@ const ProgrammeCard = ({
     </CardContent>
     {showLink && (
       <CardActions>
-        <Button to={`/programme/${slugify(programme)}`} size="small">
+        <Button to={`/programme/${slugify(name)}`} size="small">
           Details
         </Button>
       </CardActions>

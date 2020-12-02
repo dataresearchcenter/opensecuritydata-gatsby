@@ -8,11 +8,11 @@ export const programmeQuery = graphql`
   query programmeProjects($lookup: String!) {
     projects: allProjectsJson(filter: { programme: { eq: $lookup } }) {
       nodes {
-        beneficiaries
         id
-        payments
+        name
         programme
-        purpose
+        beneficiaries
+        payments
         total_amount
       }
     }
@@ -25,7 +25,7 @@ export default function ProgrammeTemplate({
 }) {
   return (
     <Layout route={route} title={title}>
-      <h1>{node.programme}</h1>
+      <h1>{node.name}</h1>
       <ProgrammeCard
         data={node}
         showName={false}
