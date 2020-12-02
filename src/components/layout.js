@@ -5,9 +5,8 @@ import Container from "@material-ui/core/Container"
 import AppBar from "@material-ui/core/AppBar"
 import Toolbar from "@material-ui/core/Toolbar"
 import Typography from "@material-ui/core/Typography"
-import IconButton from "@material-ui/core/IconButton"
 import HomeIcon from "@material-ui/icons/Home"
-import { Button } from "gatsby-theme-material-ui"
+import { Button, IconButton } from "gatsby-theme-material-ui"
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -44,7 +43,7 @@ export default function Layout({ children, route, title }) {
             edge="start"
             className={classes.menuButton}
             color="inherit"
-            href="/"
+            to="/"
           >
             <HomeIcon />
           </IconButton>

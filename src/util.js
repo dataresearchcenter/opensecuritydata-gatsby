@@ -13,14 +13,18 @@ if (!Object.entries) {
 // FIXME IE url constructor
 
 export function updateLocationParams(data) {
-  const url = new URL(window.location)
-  Object.entries(data).map(([key, val]) => { // eslint-disable-line
-    url.searchParams.set(key, val)
-  })
-  window.history.pushState({}, "", url)
+  if (typeof window !== `undefined`) {
+    const url = new URL(window.location)
+    Object.entries(data).map(([key, val]) => { // eslint-disable-line
+      url.searchParams.set(key, val)
+    })
+    window.history.pushState({}, "", url)
+  }
 }
 
 export function getLocationParam(key) {
-  const url = new URL(window.location)
-  return url.searchParams.get(key)
+  if (typeof window !== `undefined`) {
+    const url = new URL(window.location)
+    return url.searchParams.get(key)
+  }
 }
