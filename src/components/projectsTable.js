@@ -18,6 +18,7 @@ const ProjectsTable = ({ rows, exclude = [] }) => (
     rowsPerPageOptions={[10, 25, 50, 100]}
     autoHeight
     disableSelectionOnClick
+    hideFooter={rows.length < 11}
     onRowClick={({ data }) => navigate(`/project/${slugify(data.name)}`)}
   />
 )

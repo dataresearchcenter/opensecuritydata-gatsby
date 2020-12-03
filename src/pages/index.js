@@ -8,6 +8,7 @@ import { Button, Link } from "gatsby-theme-material-ui"
 import Layout from "../components/layout"
 import Search from "../components/search"
 import { SimpleList } from "../components/util"
+import { pathSlugify } from "../util"
 
 export const query = graphql`
   query IndexQuery {
@@ -22,10 +23,16 @@ export const query = graphql`
         name
       }
     }
+    topics: allTopicsJson(limit: 10) {
+      nodes {
+        key
+        name
+      }
+    }
   }
 `
 
-const IndexPage = ({ data: { beneficiaries, countries } }) => (
+const IndexPage = ({ data: { beneficiaries, countries, topics } }) => (
   <Layout>
     <Box my={4}>
       <Search />
@@ -42,6 +49,12 @@ const IndexPage = ({ data: { beneficiaries, countries } }) => (
       </Grid>
       <Grid item>
         <h2>Topics</h2>
+        <SimpleList
+          dense
+          items={topics.nodes}
+          getLink={({ key }) => `/topic/${pathSlugify(key)}`}
+        />
+        <Link to="/topics">See all</Link>
       </Grid>
       <Grid item>
         <h2>Countries</h2>
@@ -58,6 +71,7 @@ const IndexPage = ({ data: { beneficiaries, countries } }) => (
       <Button to="/projects">All projects</Button>
       <Button to="/beneficiaries">All beneficiaries</Button>
       <Button to="/countries">All countries</Button>
+      <Button to="/topics">All topics</Button>
     </ButtonGroup>
   </Layout>
 )

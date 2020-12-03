@@ -34,6 +34,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
           node {
             id
             name
+            summary
             description
             programme
             beneficiaries
@@ -70,6 +71,16 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
           }
         }
       }
+      allTopicsJson {
+        edges {
+          node {
+            ancestor
+            descendants
+            key
+            name
+          }
+        }
+      }
       allMarkdownRemark {
         edges {
           node {
@@ -90,7 +101,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
   // programmes
   result.data.allProgrammesJson.edges.forEach(({ node }) => {
     createPage({
-      path: `/programme/${slugify(node.name)}/`,
+      path: `/programme/${slugify(node.name)}`,
       component: require.resolve(`./src/templates/programme.js`),
       context: {
         node,
@@ -104,12 +115,17 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
   // projects
   result.data.allProjectsJson.edges.forEach(({ node }) => {
     createPage({
-      path: `/project/${slugify(node.name)}/`,
+      path: `/project/${slugify(node.name)}`,
       component: require.resolve(`./src/templates/project.js`),
       context: {
         node,
         projectLookup: node.name,
         programmeLookup: node.programme,
+        topicsLookup: (node.summary || "")
+          .split("---\nTopics:\n")
+          .pop()
+          .split(";")
+          .map(t => t.substring(1)),
         route: `Projects`,
         title: node.name,
       },
@@ -119,7 +135,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
   // beneficiaries
   result.data.allBeneficiariesJson.edges.forEach(({ node }) => {
     createPage({
-      path: `/beneficiary/${slugify(node.name)}/`,
+      path: `/beneficiary/${slugify(node.name)}`,
       component: require.resolve(`./src/templates/beneficiary.js`),
       context: {
         node,
@@ -134,12 +150,33 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
   // countries
   result.data.allCountriesJson.edges.forEach(({ node }) => {
     createPage({
-      path: `/country/${node.iso}/`,
+      path: `/country/${node.iso}`,
       component: require.resolve(`./src/templates/country.js`),
       context: {
         node,
         lookup: node.iso,
         route: `Countries`,
+        title: node.name,
+      },
+    })
+  })
+
+  // topics
+  const pathSlugify = path =>
+    path
+      .split("/")
+      .map(p => slugify(p))
+      .join("/")
+  result.data.allTopicsJson.edges.forEach(({ node }) => {
+    createPage({
+      path: `/topic/${pathSlugify(node.key)}`,
+      component: require.resolve(`./src/templates/topic.js`),
+      context: {
+        node,
+        ancestorLookup: node.ancestor || "",
+        descendantsLookup: `/^${node.key}/`,
+        projectsLookup: `/${node.key.replace("/", "\\/")}/`,
+        route: `Topics`,
         title: node.name,
       },
     })

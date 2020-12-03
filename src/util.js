@@ -1,3 +1,5 @@
+import slugify from "slugify"
+
 // polyfill
 if (!Object.entries) {
   Object.entries = function (obj) {
@@ -27,4 +29,11 @@ export function getLocationParam(key) {
     const url = new URL(window.location)
     return url.searchParams.get(key)
   }
+}
+
+export function pathSlugify(path) {
+  return path
+    .split("/")
+    .map(p => slugify(p))
+    .join("/")
 }
