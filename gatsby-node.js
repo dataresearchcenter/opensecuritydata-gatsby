@@ -26,6 +26,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
             projects
             beneficiaries
             total_amount
+            proof
           }
         }
       }
@@ -39,6 +40,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
             programme
             beneficiaries
             total_amount
+            proof
           }
         }
       }
@@ -55,6 +57,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
             total_amount
             endDate
             startDate
+            proof
           }
         }
       }
@@ -105,7 +108,8 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
       component: require.resolve(`./src/templates/programme.js`),
       context: {
         node,
-        lookup: node.name,
+        projectsLookup: node.name,
+        proofLookup: node.proof,
         route: `Programmes`,
         title: node.name,
       },
@@ -126,6 +130,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
           .pop()
           .split(";")
           .map(t => t.substring(1)),
+        proofLookup: node.proof,
         route: `Projects`,
         title: node.name,
       },
@@ -141,6 +146,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
         node,
         paymentsLookup: node.id,
         countryLookup: node.country,
+        proofLookup: node.proof,
         route: `Beneficiaries`,
         title: node.name,
       },
@@ -155,6 +161,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
       context: {
         node,
         lookup: node.iso,
+        proofLookup: node.proof,
         route: `Countries`,
         title: node.name,
       },

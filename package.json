@@ -18,6 +18,7 @@
     "@material-ui/data-grid": "^4.0.0-alpha.10",
     "@material-ui/icons": "^4.9.1",
     "@material-ui/lab": "^4.0.0-alpha.57",
+    "filesize": "^6.1.0",
     "gatsby": "^2.26.1",
     "gatsby-plugin-local-search": "^2.0.0",
     "gatsby-plugin-sitemap": "^2.8.0",

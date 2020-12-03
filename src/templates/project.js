@@ -12,6 +12,7 @@ export const projectQuery = graphql`
     $projectLookup: String!
     $programmeLookup: String!
     $topicsLookup: [String!]
+    $proofLookup: String!
   ) {
     payments: allPaymentsJson(filter: { purpose: { eq: $projectLookup } }) {
       nodes {
@@ -37,6 +38,11 @@ export const projectQuery = graphql`
         name
       }
     }
+    proof: documentsJson(id: { eq: $proofLookup }) {
+      id
+      fileName
+      fileSize
+    }
   }
 `
 
@@ -46,10 +52,11 @@ export default function ProjectTemplate({
     projectLookup,
     programmeLookup,
     topicsLookup,
+    proofLookup,
     route,
     title,
   },
-  data: { payments, programme, topics },
+  data: { payments, programme, topics, proof },
 }) {
   return (
     <Layout route={route} title={title.split("-")[0].trim()}>
@@ -68,7 +75,11 @@ export default function ProjectTemplate({
       <p>{node.description}</p>
       <ProgrammeCard data={programme} />
       <h2>Payments</h2>
-      <PaymentsTable rows={payments.nodes} exclude={["programme", "purpose"]} />
+      <PaymentsTable
+        rows={payments.nodes}
+        exclude={["programme", "purpose"]}
+        proof={proof}
+      />
     </Layout>
   )
 }

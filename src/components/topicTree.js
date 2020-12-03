@@ -1,5 +1,6 @@
 import React, { useState } from "react"
 import { makeStyles } from "@material-ui/core/styles"
+import ButtonGroup from "@material-ui/core/ButtonGroup"
 import TreeView from "@material-ui/lab/TreeView"
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore"
 import CloseIcon from "@material-ui/icons/Close"
@@ -52,12 +53,11 @@ export default function TopicTree({ topics, root = null }) {
   return (
     <>
       {allKeys.length > 7 && (
-        <>
+        <ButtonGroup>
           <Button
             size="small"
             disabled={allExpanded}
             onClick={expandAll}
-            variant="contained"
             startIcon={<ExpandMoreIcon />}
           >
             Expand all
@@ -66,12 +66,11 @@ export default function TopicTree({ topics, root = null }) {
             size="small"
             disabled={allClosed}
             onClick={closeAll}
-            variant="contained"
             startIcon={<CloseIcon />}
           >
             Close all
           </Button>
-        </>
+        </ButtonGroup>
       )}
       <TreeView
         className={classes.root}
