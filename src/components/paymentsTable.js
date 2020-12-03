@@ -15,17 +15,20 @@ const columns = [
 ]
 
 const PaymentsTable = ({ rows, proof, exclude = [] }) => {
-  const handleClick = ({ field, data }) => {
+  const handleClick = ({
+    field,
+    row: { programme, purpose, beneficiary_name },
+  }) => {
     switch (field) {
       case "programme":
-        navigate(`/programme/${slugify(data.programme)}`)
+        navigate(`/programme/${slugify(programme)}`)
         break
       case "purpose":
-        navigate(`/project/${slugify(data.purpose)}`)
+        navigate(`/project/${slugify(purpose)}`)
         break
       default:
         exclude.indexOf("beneficiary_name") < 0 &&
-          navigate(`/beneficiary/${slugify(data.beneficiary_name)}`)
+          navigate(`/beneficiary/${slugify(beneficiary_name)}`)
     }
   }
   return (

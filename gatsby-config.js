@@ -34,14 +34,15 @@ module.exports = {
       options: {
         name: `data`,
         engine: `flexsearch`,
-        engineOptions: {
-          encode: `simple`,
-          tokenize: `forward`,
-          threshold: 6,
-          resolution: 2,
-          cache: true,
-          worker: true,
-        },
+        // engineOptions: {
+        //   encode: `advanced`,
+        //   tokenize: `forward`,
+        //   threshold: 1,
+        //   resolution: 5,
+        //   cache: true,
+        //   async: true,
+        //   worker: 2,
+        // },
         query: `
           {
             beneficiaries: allBeneficiariesJson {
@@ -65,13 +66,19 @@ module.exports = {
                 name
               }
             }
+            topics: allTopicsJson {
+              nodes {
+                key
+                name
+              }
+            }
           }
         `,
         ref: `id`,
         index: [`name`],
-        store: [`id`, `name`, `schema`],
+        store: [`id`, `name`, `schema`, `path`],
         normalizer: ({
-          data: { beneficiaries, projects, programmes, countries },
+          data: { beneficiaries, projects, programmes, countries, topics },
         }) => [
           ...beneficiaries.nodes.map(({ name, schema }, i) => ({
             id: parseInt(`1${i}`),
@@ -92,6 +99,12 @@ module.exports = {
             id: parseInt(`4${i}`),
             name,
             schema: `n`,
+          })),
+          ...topics.nodes.map(({ name, key }, i) => ({
+            id: parseInt(`5${i}`),
+            name,
+            schema: `t`,
+            path: key
           })),
         ],
       },

@@ -22,7 +22,7 @@ const ProjectsTable = ({ rows, proof, exclude = [] }) => (
       autoHeight
       disableSelectionOnClick
       hideFooter={rows.length < 11}
-      onRowClick={({ data }) => navigate(`/project/${slugify(data.name)}`)}
+      onRowClick={({ row: { name } }) => navigate(`/project/${slugify(name)}`)}
     />
   </>
 )

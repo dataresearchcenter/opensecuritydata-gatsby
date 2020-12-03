@@ -6,13 +6,14 @@ import TextField from "@material-ui/core/TextField"
 import List from "@material-ui/core/List"
 import ListItemText from "@material-ui/core/ListItemText"
 import { ListItemLink } from "./util"
-import { updateLocationParams, getLocationParam } from "../util"
+import { updateLocationParams, getLocationParam, pathSlugify } from "../util"
 
 const PATHS = {
   1: "beneficiary",
   2: "project",
   3: "programme",
   4: "country",
+  5: "topic",
 }
 
 const SCHEMATA = {
@@ -23,15 +24,18 @@ const SCHEMATA = {
   j: "Project",
   r: "Funding programme",
   n: "Country",
+  t: "Topic",
 }
+
+const getLink = ({ id, name, schema, path }) =>
+  `/${PATHS[id.toString()[0]]}/${
+    schema === "t" ? pathSlugify(path) : slugify(name)
+  }`
 
 const ResultList = ({ items }) => (
   <List>
-    {items.map(({ id, name, schema }) => (
-      <ListItemLink
-        key={id}
-        to={`/${PATHS[id.toString()[0]]}/${slugify(name)}`}
-      >
+    {items.map(({ id, name, schema, path }) => (
+      <ListItemLink key={id} to={getLink({ id, name, schema, path })}>
         <ListItemText>
           {name} ({SCHEMATA[schema]})
         </ListItemText>
