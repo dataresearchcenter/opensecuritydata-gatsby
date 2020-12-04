@@ -5,6 +5,7 @@ import { Button } from "gatsby-theme-material-ui"
 import Layout from "../components/layout"
 import ProjectsTable from "../components/projectsTable"
 import TopicTree from "../components/topicTree"
+import AttributeTable from "../components/attributeTable"
 import { pathSlugify } from "../util"
 
 export const topicQuery = graphql`
@@ -51,9 +52,29 @@ export default function ProgrammeTemplate({
   },
   data: { ancestor, descendants, projects },
 }) {
+  const {
+    beneficiaries: beneficiaries_count,
+    projects: projects_count,
+    programmes: programmes_count,
+    total_amount,
+  } = node
   return (
     <Layout route={route} title={title}>
       <h1>{node.name}</h1>
+      <h3>
+        Stats for this topic
+        {descendants?.nodes.length > 0
+          ? ` and all its ${descendants.nodes.length} subtopics`
+          : null}
+      </h3>
+      <AttributeTable
+        data={{
+          beneficiaries_count,
+          projects_count,
+          programmes_count,
+          total_amount,
+        }}
+      />
       {ancestor ? (
         <>
           <h2>Parent topic</h2>

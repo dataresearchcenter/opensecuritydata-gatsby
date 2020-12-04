@@ -81,6 +81,11 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
             descendants
             key
             name
+            payments
+            beneficiaries
+            projects
+            programmes
+            total_amount
           }
         }
       }
