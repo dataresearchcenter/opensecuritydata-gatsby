@@ -1,5 +1,6 @@
 import React from "react"
 import { useStaticQuery, graphql } from "gatsby"
+import { Location } from "@reach/router"
 import { makeStyles } from "@material-ui/core/styles"
 import Container from "@material-ui/core/Container"
 import AppBar from "@material-ui/core/AppBar"
@@ -7,6 +8,7 @@ import Toolbar from "@material-ui/core/Toolbar"
 import Typography from "@material-ui/core/Typography"
 import HomeIcon from "@material-ui/icons/Home"
 import { Button, IconButton } from "gatsby-theme-material-ui"
+import Breadcrumbs from "./breadcrumbs"
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -23,7 +25,7 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-export default function Layout({ children, route, title }) {
+export default function Layout({ children, route, title, ...props }) {
   const { site } = useStaticQuery(graphql`
     query siteMetadataQuery {
       site {
@@ -36,28 +38,40 @@ export default function Layout({ children, route, title }) {
   `)
   const classes = useStyles()
   return (
-    <section className={classes.root}>
-      <AppBar position="static">
-        <Toolbar>
-          <IconButton
-            edge="start"
-            className={classes.menuButton}
-            color="inherit"
-            to="/"
-          >
-            <HomeIcon />
-          </IconButton>
-          <Typography variant="h6" className={classes.title}>
-            {site.siteMetadata.title}
-            {route && <span className={classes.route}> / {route}</span>}
-            {title && <span className={classes.route}> / {title}</span>}
-          </Typography>
-          <Button color="inherit" to="/about">About</Button>
-          <Button color="inherit" to="/stories">Stories</Button>
-          <Button color="inherit" to="/data">Data</Button>
-        </Toolbar>
-      </AppBar>
-      <Container maxWidth="md">{children}</Container>
-    </section>
+    <Location>
+      {location => (
+        <section className={classes.root}>
+          <AppBar position="static">
+            <Toolbar>
+              <IconButton
+                edge="start"
+                className={classes.menuButton}
+                color="inherit"
+                to="/"
+              >
+                <HomeIcon />
+              </IconButton>
+              <Typography variant="h6" className={classes.title}>
+                {site.siteMetadata.title}
+                {route && <span className={classes.route}> | {route}</span>}
+              </Typography>
+              <Button color="inherit" to="/about">
+                About
+              </Button>
+              <Button color="inherit" to="/stories">
+                Stories
+              </Button>
+              <Button color="inherit" to="/data">
+                Data
+              </Button>
+            </Toolbar>
+          </AppBar>
+          <Container maxWidth="md">
+            <Breadcrumbs {...location} />
+            {children}
+          </Container>
+        </section>
+      )}
+    </Location>
   )
 }

@@ -20,7 +20,7 @@ const BeneficiariesTable = ({ rows }) => (
     autoHeight
     disableSelectionOnClick
     hideFooter={rows.length < 11}
-    onRowClick={({ data }) => navigate(`/beneficiary/${slugify(data.name)}`)}
+    onRowClick={({ row }) => navigate(`/beneficiaries/${slugify(row.name)}`)}
   />
 )
 

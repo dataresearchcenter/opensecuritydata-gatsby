@@ -40,7 +40,7 @@ export default function TopicTree({ topics, root = null }) {
       label={
         <>
           {node.name}
-          <IconButton size="small" to={`/topic/${pathSlugify(node.key)}`}>
+          <IconButton size="small" to={`/topics/${pathSlugify(node.key)}`}>
             <LaunchIcon />
           </IconButton>
         </>

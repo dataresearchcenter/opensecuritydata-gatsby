@@ -21,14 +21,14 @@ const PaymentsTable = ({ rows, proof, exclude = [] }) => {
   }) => {
     switch (field) {
       case "programme":
-        navigate(`/programme/${slugify(programme)}`)
+        navigate(`/programmes/${slugify(programme)}`)
         break
       case "purpose":
-        navigate(`/project/${slugify(purpose)}`)
+        navigate(`/projects/${slugify(purpose)}`)
         break
       default:
         exclude.indexOf("beneficiary_name") < 0 &&
-          navigate(`/beneficiary/${slugify(beneficiary_name)}`)
+          navigate(`/beneficiaries/${slugify(beneficiary_name)}`)
     }
   }
   return (

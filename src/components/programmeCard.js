@@ -39,7 +39,7 @@ const ProgrammeCard = ({
     </CardContent>
     {showLink && (
       <CardActions>
-        <Button to={`/programme/${slugify(name)}`} size="small">
+        <Button to={`/programmes/${slugify(name)}`} size="small">
           Details
         </Button>
       </CardActions>

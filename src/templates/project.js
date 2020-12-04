@@ -68,7 +68,7 @@ export default function ProjectTemplate({
           key={key}
           label={name}
           component={Link}
-          to={`/topic/${pathSlugify(key)}`}
+          to={`/topics/${pathSlugify(key)}`}
           clickable
         />
       ))}

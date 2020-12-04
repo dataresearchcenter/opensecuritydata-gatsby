@@ -61,12 +61,6 @@ export default function ProgrammeTemplate({
   return (
     <Layout route={route} title={title}>
       <h1>{node.name}</h1>
-      <h3>
-        Stats for this topic
-        {descendants?.nodes.length > 0
-          ? ` and all its ${descendants.nodes.length} subtopics`
-          : null}
-      </h3>
       <AttributeTable
         data={{
           beneficiaries_count,
@@ -79,7 +73,7 @@ export default function ProgrammeTemplate({
         <>
           <h2>Parent topic</h2>
           <Button
-            to={`/topic/${pathSlugify(ancestor.key)}`}
+            to={`/topics/${pathSlugify(ancestor.key)}`}
             startIcon={<ChevronLeftIcon />}
           >
             {ancestor.name}

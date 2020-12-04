@@ -20,7 +20,7 @@ const CountriesPage = ({ data: { countries } }) => (
     <SimpleList
       dense
       items={countries.nodes}
-      getLink={({ iso }) => `/country/${iso}`}
+      getLink={({ iso }) => `/countries/${iso}`}
     />
   </Layout>
 )

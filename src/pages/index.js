@@ -43,7 +43,7 @@ const IndexPage = ({ data: { beneficiaries, countries, topics } }) => (
         <SimpleList
           dense
           items={beneficiaries.nodes}
-          getLink={({ name }) => `/beneficiary/${slugify(name)}`}
+          getLink={({ name }) => `/beneficiaries/${slugify(name)}`}
         />
         <Link to="/beneficiaries">See all</Link>
       </Grid>
@@ -52,7 +52,7 @@ const IndexPage = ({ data: { beneficiaries, countries, topics } }) => (
         <SimpleList
           dense
           items={topics.nodes}
-          getLink={({ key }) => `/topic/${pathSlugify(key)}`}
+          getLink={({ key }) => `/topics/${pathSlugify(key)}`}
         />
         <Link to="/topics">See all</Link>
       </Grid>
@@ -61,7 +61,7 @@ const IndexPage = ({ data: { beneficiaries, countries, topics } }) => (
         <SimpleList
           dense
           items={countries.nodes}
-          getLink={({ iso }) => `/country/${iso}`}
+          getLink={({ iso }) => `/countries/${iso}`}
         />
         <Link to="/countries">See all</Link>
       </Grid>

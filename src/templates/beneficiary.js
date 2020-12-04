@@ -1,7 +1,9 @@
 import React from "react"
 import { graphql } from "gatsby"
+import Chip from "@material-ui/core/Chip"
 import Layout from "../components/layout"
 import PaymentsTable from "../components/paymentsTable"
+import AttributeTable from "../components/attributeTable"
 
 export const beneficiaryQuery = graphql`
   query beneficiaryPayments(
@@ -45,14 +47,21 @@ export default function BeneficiaryTemplate({
   },
   data: { payments, country, proof },
 }) {
+  const tableData = {
+    country: country.name,
+    total_amount: node.total_amount,
+    projects_involved: node.projects,
+    contracts: node.payments,
+    activity_start: node.startDate,
+    activity_end: node.endDate,
+  }
   return (
     <Layout route={route} title={title}>
-      <h1>{node.name}</h1>
-      {node.schema}
-      <br />
-      Country: {country.name}
-      <h2>Funding</h2>
-      <strong>Total money received: {node.total_amount} €</strong>
+      <h1>
+        {node.name}
+        <Chip label={node.schema} />
+      </h1>
+      <AttributeTable data={tableData} />
       <PaymentsTable
         rows={payments.nodes}
         exclude={["beneficiary_name"]}
