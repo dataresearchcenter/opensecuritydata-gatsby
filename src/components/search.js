@@ -9,11 +9,11 @@ import { ListItemLink } from "./util"
 import { updateLocationParams, getLocationParam, pathSlugify } from "../util"
 
 const PATHS = {
-  1: "beneficiary",
-  2: "project",
-  3: "programme",
-  4: "country",
-  5: "topic",
+  1: "beneficiaries",
+  2: "projects",
+  3: "programmes",
+  4: "countries",
+  5: "topics",
 }
 
 const SCHEMATA = {
