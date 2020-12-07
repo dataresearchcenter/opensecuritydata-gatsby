@@ -1,12 +1,13 @@
 import React from "react"
 import { graphql } from "gatsby"
-import ChevronLeftIcon from "@material-ui/icons/ChevronLeft"
-import { Button } from "gatsby-theme-material-ui"
+import Typography from "@material-ui/core/Typography"
 import Layout from "../components/layout"
+import OverviewGrid from "../components/overviewGrid"
 import ProjectsTable from "../components/projectsTable"
-import TopicTree from "../components/topicTree"
-import AttributeTable from "../components/attributeTable"
-import { pathSlugify } from "../util"
+import AttributeCard from "../components/attributeCard"
+import AmountCard from "../components/amountCard"
+import TopicHierarchyCard from "../components/topicHierarchyCard"
+import { TopicSchema } from "../schema"
 
 export const topicQuery = graphql`
   query topicContext(
@@ -56,41 +57,30 @@ export default function ProgrammeTemplate({
     beneficiaries: beneficiaries_count,
     projects: projects_count,
     programmes: programmes_count,
-    total_amount,
   } = node
   return (
     <Layout route={route} title={title}>
-      <h1>{node.name}</h1>
-      <AttributeTable
-        data={{
-          beneficiaries_count,
-          projects_count,
-          programmes_count,
-          total_amount,
-        }}
-      />
-      {ancestor ? (
-        <>
-          <h2>Parent topic</h2>
-          <Button
-            to={`/topics/${pathSlugify(ancestor.key)}`}
-            startIcon={<ChevronLeftIcon />}
-          >
-            {ancestor.name}
-          </Button>
-        </>
-      ) : (
-        <Button to="/topics" startIcon={<ChevronLeftIcon />}>
-          Back to all topics
-        </Button>
-      )}
-      {descendants.nodes.length > 0 && (
-        <>
-          <h2>sub topics</h2>
-          <TopicTree topics={descendants.nodes} root={node.key} />
-        </>
-      )}
-      <h1>Projects</h1>
+      <Typography variant="h3" gutterBottom>
+        {node.name} {TopicSchema.chip}
+      </Typography>
+      <OverviewGrid>
+        <AmountCard color={TopicSchema.color} {...node} />
+        <AttributeCard
+          data={{
+            beneficiaries_count,
+            projects_count,
+            programmes_count,
+          }}
+        />
+        <TopicHierarchyCard
+          ancestor={ancestor}
+          descendants={descendants.nodes}
+          root={node.key}
+        />
+      </OverviewGrid>
+      <Typography variant="h4" gutterBottom>
+        Projects
+      </Typography>
       <ProjectsTable rows={projects.nodes} />
     </Layout>
   )

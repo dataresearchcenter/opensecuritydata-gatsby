@@ -27,6 +27,8 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
             beneficiaries
             total_amount
             proof
+            startDate
+            endDate
           }
         }
       }
@@ -41,6 +43,8 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
             beneficiaries
             total_amount
             proof
+            startDate
+            endDate
           }
         }
       }
@@ -71,6 +75,8 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
             beneficiaries
             payments
             total_amount
+            startDate
+            endDate
           }
         }
       }
@@ -86,6 +92,8 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
             projects
             programmes
             total_amount
+            startDate
+            endDate
           }
         }
       }

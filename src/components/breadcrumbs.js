@@ -29,7 +29,7 @@ const Breadcrumbs = ({ location: { pathname } }) =>
           </Link>
         ) : (
           <Typography key={name} color="textPrimary" variant="caption">
-            {name}
+            {name.length < 100 ? name : `${name.substring(0, 100)}...`}
           </Typography>
         )
       )}

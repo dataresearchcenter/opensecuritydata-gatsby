@@ -1,9 +1,14 @@
 import React from "react"
 import { graphql } from "gatsby"
 import Chip from "@material-ui/core/Chip"
+import Typography from "@material-ui/core/Typography"
 import Layout from "../components/layout"
+import OverviewGrid from "../components/overviewGrid"
 import PaymentsTable from "../components/paymentsTable"
-import AttributeTable from "../components/attributeTable"
+import AttributeCard from "../components/attributeCard"
+import AmountCard from "../components/amountCard"
+import DataCard from "../components/dataCard"
+import SCHEMA from "../schema"
 
 export const beneficiaryQuery = graphql`
   query beneficiaryPayments(
@@ -48,25 +53,27 @@ export default function BeneficiaryTemplate({
   data: { payments, country, proof },
 }) {
   const tableData = {
-    country: country.name,
-    total_amount: node.total_amount,
+    country,
     projects_involved: node.projects,
     contracts: node.payments,
     activity_start: node.startDate,
     activity_end: node.endDate,
   }
+  const schema = SCHEMA[node.schema[0].toLowerCase()]
   return (
     <Layout route={route} title={title}>
-      <h1>
-        {node.name}
-        <Chip label={node.schema} />
-      </h1>
-      <AttributeTable data={tableData} />
-      <PaymentsTable
-        rows={payments.nodes}
-        exclude={["beneficiary_name"]}
-        proof={proof}
-      />
+      <Typography variant="h3" gutterBottom>
+        {node.name} <Chip color={schema.color} label={schema.label} />
+      </Typography>
+      <OverviewGrid>
+        <AmountCard color={schema.color} {...node} />
+        <AttributeCard data={tableData} linkColor={schema.color} />
+        <DataCard sourceUrl="https://cordis.europa.eu/" {...proof} />
+      </OverviewGrid>
+      <Typography variant="h4" gutterBottom>
+        Funding
+      </Typography>
+      <PaymentsTable rows={payments.nodes} exclude={["beneficiary_name"]} />
     </Layout>
   )
 }

@@ -1,5 +1,6 @@
 import React from "react"
 import { graphql } from "gatsby"
+import Typography from "@material-ui/core/Typography"
 import Layout from "../components/layout"
 import BeneficiariesTable from "../components/beneficiariesTable"
 
@@ -24,7 +25,7 @@ export const query = graphql`
 
 const BeneficiariesPage = ({ data }) => (
   <Layout route="Beneficiaries">
-    <h1>All beneficiaries</h1>
+    <Typography variant="h3" gutterBottom>All beneficiaries</Typography>
     <BeneficiariesTable rows={data.allBeneficiariesJson.nodes} />
   </Layout>
 )

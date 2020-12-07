@@ -14,12 +14,9 @@ const useStyles = makeStyles(theme => ({
   heroTitle: {
     fontWeight: "lighter",
   },
-  entityGrid: {
-    marginTop: theme.spacing(8),
-  },
 }))
 
-const IndexPage = ({ data: { beneficiaries, countries, topics } }) => {
+const IndexPage = () => {
   const classes = useStyles()
   return (
     <Layout>

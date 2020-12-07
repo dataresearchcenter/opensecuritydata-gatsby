@@ -1,11 +1,19 @@
 import React from "react"
 import { graphql } from "gatsby"
+import { makeStyles } from "@material-ui/core/styles"
 import Chip from "@material-ui/core/Chip"
+import Typography from "@material-ui/core/Typography"
 import { Link } from "gatsby-theme-material-ui"
 import Layout from "../components/layout"
+import OverviewGrid from "../components/overviewGrid"
+import Tabs from "../components/tabs"
 import ProgrammeCard from "../components/programmeCard"
+import DataCard from "../components/dataCard"
 import PaymentsTable from "../components/paymentsTable"
-import { pathSlugify } from "../util"
+import AmountCard from "../components/amountCard"
+import AttributeCard from "../components/attributeCard"
+import { ProjectSchema } from "../schema"
+import { getTopicLink } from "../links"
 
 export const projectQuery = graphql`
   query projectQuery(
@@ -46,6 +54,35 @@ export const projectQuery = graphql`
   }
 `
 
+const useStyles = makeStyles(theme => ({
+  topic: {
+    marginBottom: theme.spacing(1),
+    marginRight: theme.spacing(1),
+  },
+}))
+
+const ProjectTitle = ({ title }) => {
+  if (title.indexOf(" - ") > 0) {
+    const [maintitle, ...subtitle] = title.split(" - ")
+    return (
+      <>
+        <Typography variant="h3">
+          {maintitle} {ProjectSchema.chip}
+        </Typography>
+        <Typography variant="h5" gutterBottom>
+          {subtitle.join(" - ")}
+        </Typography>
+      </>
+    )
+  } else {
+    return (
+      <Typography variant="h3" gutterBottom>
+        {title} {ProjectSchema.chip}
+      </Typography>
+    )
+  }
+}
+
 export default function ProjectTemplate({
   pageContext: {
     node,
@@ -58,28 +95,58 @@ export default function ProjectTemplate({
   },
   data: { payments, programme, topics, proof },
 }) {
+  const classes = useStyles()
   return (
     <Layout route={route} title={title.split("-")[0].trim()}>
-      <h1>{node.name}</h1>
-      <strong>Total funding: {node.total_amount} €</strong>
-      <h2>Topics</h2>
-      {topics.nodes.map(({ name, key }) => (
-        <Chip
-          key={key}
-          label={name}
-          component={Link}
-          to={`/topics/${pathSlugify(key)}`}
-          clickable
+      <ProjectTitle title={node.name} />
+      <Tabs
+        indicatorColor={ProjectSchema.color}
+        textColor={ProjectSchema.color}
+      >
+        <section title="Overview">
+          <OverviewGrid>
+            <div>
+              <AmountCard color={ProjectSchema.color} {...node} />
+              <AttributeCard
+                hideTitle
+                data={{
+                  beneficiaries: node.beneficiaries,
+                  project_start: node.startDate,
+                  project_end: node.endDate,
+                }}
+              />
+            </div>
+            <ProgrammeCard data={programme} />
+            <DataCard sourceUrl="https://cordis.europa.eu/" {...proof} />
+          </OverviewGrid>
+          {node.description?.length > 0 && (
+            <>
+              <Typography variant="h4" gutterBottom>
+                Description
+              </Typography>
+              <Typography variant="body2" gutterBottom>
+                {node.description}
+              </Typography>
+            </>
+          )}
+          {topics.nodes.map(({ name, key }) => (
+            <Chip
+              variant="outlined"
+              className={classes.topic}
+              key={key}
+              label={name}
+              component={Link}
+              to={getTopicLink({ key })}
+              clickable
+            />
+          ))}
+        </section>
+        <PaymentsTable
+          title="Funding"
+          rows={payments.nodes}
+          exclude={["programme", "purpose"]}
         />
-      ))}
-      <p>{node.description}</p>
-      <ProgrammeCard data={programme} />
-      <h2>Payments</h2>
-      <PaymentsTable
-        rows={payments.nodes}
-        exclude={["programme", "purpose"]}
-        proof={proof}
-      />
+      </Tabs>
     </Layout>
   )
 }

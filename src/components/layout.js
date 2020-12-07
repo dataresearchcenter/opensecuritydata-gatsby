@@ -4,6 +4,7 @@ import { Location } from "@reach/router"
 import { makeStyles } from "@material-ui/core/styles"
 import Container from "@material-ui/core/Container"
 import AppBar from "@material-ui/core/AppBar"
+import Box from "@material-ui/core/Box"
 import Toolbar from "@material-ui/core/Toolbar"
 import Typography from "@material-ui/core/Typography"
 import HomeIcon from "@material-ui/icons/Home"
@@ -25,6 +26,9 @@ const useStyles = makeStyles(theme => ({
   },
   route: {
     fontWeight: "normal",
+  },
+  content: {
+    paddingTop: theme.spacing(6),
   },
 }))
 
@@ -71,7 +75,7 @@ export default function Layout({ children, route, title, ...props }) {
           </AppBar>
           <Container maxWidth="lg">
             <Breadcrumbs {...location} />
-            {children}
+            <Box className={classes.content}>{children}</Box>
           </Container>
         </section>
       )}

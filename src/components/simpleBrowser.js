@@ -38,12 +38,10 @@ function TabPanel(props) {
   )
 }
 
-function a11yProps(index) {
-  return {
-    id: `databrowser-tab-${index}`,
-    "aria-controls": `databrowser-tabpanel-${index}`,
-  }
-}
+const a11yProps = index => ({
+  id: `databrowser-tab-${index}`,
+  "aria-controls": `databrowser-tabpanel-${index}`,
+})
 
 const useStyles = makeStyles(theme => ({
   root: {

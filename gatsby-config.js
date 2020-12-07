@@ -63,6 +63,7 @@ module.exports = {
             }
             countries: allCountriesJson {
               nodes {
+                iso
                 name
               }
             }
@@ -76,7 +77,7 @@ module.exports = {
         `,
         ref: `id`,
         index: [`name`],
-        store: [`id`, `name`, `schema`, `path`],
+        store: [`id`, `name`, `schema`, `key`],
         normalizer: ({
           data: { beneficiaries, projects, programmes, countries, topics },
         }) => [
@@ -95,16 +96,17 @@ module.exports = {
             name,
             schema: `r`,
           })),
-          ...countries.nodes.map(({ name }, i) => ({
+          ...countries.nodes.map(({ name, iso }, i) => ({
             id: parseInt(`4${i}`),
             name,
             schema: `n`,
+            key: iso,
           })),
           ...topics.nodes.map(({ name, key }, i) => ({
             id: parseInt(`5${i}`),
             name,
             schema: `t`,
-            path: key
+            key,
           })),
         ],
       },

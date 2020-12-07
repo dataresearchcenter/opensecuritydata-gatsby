@@ -1,8 +1,15 @@
 import React from "react"
 import { graphql } from "gatsby"
+import Typography from "@material-ui/core/Typography"
 import Layout from "../components/layout"
+import OverviewGrid from "../components/overviewGrid"
+import Tabs from "../components/tabs"
 import ProgrammeCard from "../components/programmeCard"
 import ProjectsTable from "../components/projectsTable"
+import PaymentsTable from "../components/paymentsTable"
+import AmountCard from "../components/amountCard"
+import AttributeCard from "../components/attributeCard"
+import { ProgrammeSchema } from "../schema"
 
 export const programmeQuery = graphql`
   query programmeProjects($projectsLookup: String!, $proofLookup: String!) {
@@ -14,6 +21,19 @@ export const programmeQuery = graphql`
         beneficiaries
         payments
         total_amount
+        startDate
+        endDate
+      }
+    }
+    payments: allPaymentsJson(filter: { programme: { eq: $projectsLookup } }) {
+      nodes {
+        id
+        beneficiary_name
+        purpose
+        programme
+        amount
+        startDate
+        endDate
       }
     }
     proof: documentsJson(id: { eq: $proofLookup }) {
@@ -26,23 +46,46 @@ export const programmeQuery = graphql`
 
 export default function ProgrammeTemplate({
   pageContext: { node, projectsLookup, proofLookup, route, title },
-  data: { projects, proof },
+  data: { payments, projects, proof },
 }) {
   return (
     <Layout route={route} title={title}>
-      <h1>{node.name}</h1>
-      <ProgrammeCard
-        data={node}
-        showName={false}
-        showLink={false}
-        showHeader={false}
-      />
-      <h2>Projects</h2>
-      <ProjectsTable
-        rows={projects.nodes}
-        exclude={["programme"]}
-        proof={proof}
-      />
+      <Typography variant="h3" gutterBottom>
+        {node.name} {ProgrammeSchema.chip}
+      </Typography>
+      <OverviewGrid>
+        <AmountCard color={ProgrammeSchema.color} {...node} />
+        <ProgrammeCard
+          data={{ ...node, proof }}
+          showName={false}
+          showLink={false}
+          showData={false}
+        />
+        <AttributeCard
+          data={{
+            projects: node.projects,
+            beneficiaries: node.beneficiaries,
+            activity_start: node.startDate,
+            activity_end: node.endDate,
+          }}
+        />
+      </OverviewGrid>
+      <Tabs
+        indicatorColor={ProgrammeSchema.color}
+        textColor={ProgrammeSchema.color}
+        centered
+      >
+        <ProjectsTable
+          title="Projects"
+          rows={projects.nodes}
+          exclude={["programme"]}
+        />
+        <PaymentsTable
+          title="Beneficiaries"
+          rows={payments.nodes}
+          exclude={["programme", "startDate", "endDate"]}
+        />
+      </Tabs>
     </Layout>
   )
 }

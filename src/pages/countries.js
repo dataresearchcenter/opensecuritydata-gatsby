@@ -1,5 +1,6 @@
 import React from "react"
 import { graphql } from "gatsby"
+import Typography from "@material-ui/core/Typography"
 import Layout from "../components/layout"
 import CountriesTable from "../components/countryTable"
 
@@ -20,7 +21,7 @@ export const query = graphql`
 
 const CountriesPage = ({ data: { countries } }) => (
   <Layout route="Countries">
-    <h1>All countries</h1>
+    <Typography variant="h3" gutterBottom>All countries</Typography>
     <CountriesTable rows={countries.nodes} />
   </Layout>
 )

@@ -18,3 +18,11 @@ export default {
   getCountryLink,
   getBeneficiaryLink,
 }
+
+export {
+  getProgrammeLink,
+  getProjectLink,
+  getTopicLink,
+  getCountryLink,
+  getBeneficiaryLink,
+}
