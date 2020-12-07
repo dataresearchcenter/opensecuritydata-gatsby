@@ -38,7 +38,7 @@ const DocumentCard = data => (
 )
 
 const DownloadPage = ({ data: { documents } }) => (
-  <Layout>
+  <Layout route="Data">
     <h1>All source data</h1>
     {documents.nodes.map(d => (
       <DocumentCard key={d.id} {...d} />

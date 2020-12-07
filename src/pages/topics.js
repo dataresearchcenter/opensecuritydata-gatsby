@@ -17,7 +17,7 @@ export const query = graphql`
 `
 
 const TopicsPage = ({ data: { topics } }) => (
-  <Layout route="All topics">
+  <Layout route="Topics">
     <h1>Topics</h1>
     <TopicTree topics={topics.nodes} />
   </Layout>

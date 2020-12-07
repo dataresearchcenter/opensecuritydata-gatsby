@@ -14,6 +14,9 @@ const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
   },
+  appBar: {
+    marginBottom: theme.spacing(2),
+  },
   menuButton: {
     marginRight: theme.spacing(2),
   },
@@ -41,7 +44,7 @@ export default function Layout({ children, route, title, ...props }) {
     <Location>
       {location => (
         <section className={classes.root}>
-          <AppBar position="static">
+          <AppBar position="static" color="default" className={classes.appBar}>
             <Toolbar>
               <IconButton
                 edge="start"
@@ -66,7 +69,7 @@ export default function Layout({ children, route, title, ...props }) {
               </Button>
             </Toolbar>
           </AppBar>
-          <Container maxWidth="md">
+          <Container maxWidth="lg">
             <Breadcrumbs {...location} />
             {children}
           </Container>

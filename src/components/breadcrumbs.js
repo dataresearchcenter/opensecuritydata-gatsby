@@ -16,23 +16,24 @@ const getCrumbs = pathname => {
   )
 }
 
-const Breadcrumbs = ({ location: { pathname } }) => (
-  <MUIBreadcrumbs aria-label="breadcrumb">
-    <Link color="inherit" to="/">
-      Start
-    </Link>
-    {getCrumbs(pathname).map(({ name, path }) =>
-      path ? (
-        <Link color="inherit" key={path} to={path}>
-          {name}
-        </Link>
-      ) : (
-        <Typography key={name} color="textPrimary">
-          {name}
-        </Typography>
-      )
-    )}
-  </MUIBreadcrumbs>
-)
+const Breadcrumbs = ({ location: { pathname } }) =>
+  pathname.length > 1 && (
+    <MUIBreadcrumbs aria-label="breadcrumb" variant="caption">
+      <Link color="inherit" to="/">
+        Start
+      </Link>
+      {getCrumbs(pathname).map(({ name, path }) =>
+        path ? (
+          <Link color="inherit" key={path} to={path}>
+            {name}
+          </Link>
+        ) : (
+          <Typography key={name} color="textPrimary" variant="caption">
+            {name}
+          </Typography>
+        )
+      )}
+    </MUIBreadcrumbs>
+  )
 
 export default Breadcrumbs

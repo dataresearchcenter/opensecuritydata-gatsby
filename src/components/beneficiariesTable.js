@@ -5,10 +5,11 @@ import { DataGrid } from "@material-ui/data-grid"
 
 const columns = [
   { field: "name", headerName: "Name", width: 400 },
-  { field: "total_amount", headerName: "Total amount", width: 200 },
-  { field: "projects", headerName: "Projects involved" },
-  { field: "startDate", headerName: "Active from" },
-  { field: "endDate", headerName: "Active until" },
+  { field: "total_amount", headerName: "Total amount", width: 150 },
+  { field: "projects", headerName: "Projects", width: 100 },
+  { field: "startDate", headerName: "Active from", width: 150 },
+  { field: "endDate", headerName: "Active until", width: 150 },
+  { field: "country", headerName: "Country", width: 150 },
 ]
 
 const BeneficiariesTable = ({ rows }) => (
@@ -25,4 +26,3 @@ const BeneficiariesTable = ({ rows }) => (
 )
 
 export default BeneficiariesTable
-

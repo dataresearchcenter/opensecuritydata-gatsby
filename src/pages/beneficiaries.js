@@ -23,7 +23,7 @@ export const query = graphql`
 `
 
 const BeneficiariesPage = ({ data }) => (
-  <Layout>
+  <Layout route="Beneficiaries">
     <h1>All beneficiaries</h1>
     <BeneficiariesTable rows={data.allBeneficiariesJson.nodes} />
   </Layout>

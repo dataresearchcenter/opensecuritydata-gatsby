@@ -2,7 +2,11 @@ import React, { useState } from "react"
 import { useStaticQuery, graphql } from "gatsby"
 import slugify from "slugify"
 import { useFlexSearch } from "react-use-flexsearch"
+import { makeStyles } from "@material-ui/core/styles"
 import TextField from "@material-ui/core/TextField"
+import InputAdornment from "@material-ui/core/InputAdornment"
+import SearchIcon from "@material-ui/icons/Search"
+import Paper from "@material-ui/core/Paper"
 import List from "@material-ui/core/List"
 import ListItemText from "@material-ui/core/ListItemText"
 import { ListItemLink } from "./util"
@@ -32,16 +36,24 @@ const getLink = ({ id, name, schema, path }) =>
     schema === "t" ? pathSlugify(path) : slugify(name)
   }`
 
+const useStyles = makeStyles(theme => ({
+  searchResults: {
+    position: "absolute",
+  },
+}))
+
 const ResultList = ({ items }) => (
-  <List>
-    {items.map(({ id, name, schema, path }) => (
-      <ListItemLink key={id} to={getLink({ id, name, schema, path })}>
-        <ListItemText>
-          {name} ({SCHEMATA[schema]})
-        </ListItemText>
-      </ListItemLink>
-    ))}
-  </List>
+  <Paper>
+    <List dense>
+      {items.map(({ id, name, schema, path }) => (
+        <ListItemLink key={id} to={getLink({ id, name, schema, path })}>
+          <ListItemText>
+            {name} ({SCHEMATA[schema]})
+          </ListItemText>
+        </ListItemLink>
+      ))}
+    </List>
+  </Paper>
 )
 
 const SearchResults = ({ query }) => {
@@ -62,18 +74,29 @@ const Search = () => {
   const [query, setQuery] = useState(getLocationParam("q"))
   const handleChange = ({ target }) => setQuery(target.value)
   query?.length > 3 && updateLocationParams({ q: query })
+  const classes = useStyles()
 
   return (
     <>
-      <h1>Search</h1>
       <TextField
         id="q"
-        label="Search..."
+        placeholder="Search..."
         value={query || ""}
         onChange={handleChange}
         autoComplete="off"
+        variant="outlined"
+        fullWidth
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position="start">
+              <SearchIcon />
+            </InputAdornment>
+          ),
+        }}
       />
-      {query?.length > 3 && <SearchResults query={query} />}
+      {query?.length > 3 && (
+        <SearchResults className={classes.searchResults} query={query} />
+      )}
     </>
   )
 }
