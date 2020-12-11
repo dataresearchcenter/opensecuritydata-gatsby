@@ -34,6 +34,8 @@ export const programmeQuery = graphql`
         amount
         startDate
         endDate
+        legalForm
+        country
       }
     }
     proof: documentsJson(id: { eq: $proofLookup }) {

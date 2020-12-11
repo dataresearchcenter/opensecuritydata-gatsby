@@ -48,7 +48,7 @@ module.exports = {
             beneficiaries: allBeneficiariesJson {
               nodes {
                 name
-                schema
+                legalForm
               }
             }
             projects: allProjectsJson {
@@ -81,15 +81,15 @@ module.exports = {
         normalizer: ({
           data: { beneficiaries, projects, programmes, countries, topics },
         }) => [
-          ...beneficiaries.nodes.map(({ name, schema }, i) => ({
+          ...beneficiaries.nodes.map(({ name, legalForm }, i) => ({
             id: parseInt(`1${i}`),
             name,
-            schema: schema[0].toLowerCase(),
+            schema: legalForm,
           })),
           ...projects.nodes.map(({ name }, i) => ({
             id: parseInt(`2${i}`),
             name,
-            schema: `j`,
+            schema: `p`,
           })),
           ...programmes.nodes.map(({ name }, i) => ({
             id: parseInt(`3${i}`),
@@ -99,7 +99,7 @@ module.exports = {
           ...countries.nodes.map(({ name, iso }, i) => ({
             id: parseInt(`4${i}`),
             name,
-            schema: `n`,
+            schema: `c`,
             key: iso,
           })),
           ...topics.nodes.map(({ name, key }, i) => ({

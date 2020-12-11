@@ -1,6 +1,5 @@
 import React from "react"
 import { graphql } from "gatsby"
-import Chip from "@material-ui/core/Chip"
 import Typography from "@material-ui/core/Typography"
 import Layout from "../components/layout"
 import OverviewGrid from "../components/overviewGrid"
@@ -27,6 +26,8 @@ export const beneficiaryQuery = graphql`
         summary
         startDate
         endDate
+        legalForm
+        country
       }
     }
     country: countriesJson(iso: { eq: $countryLookup }) {
@@ -59,11 +60,11 @@ export default function BeneficiaryTemplate({
     activity_start: node.startDate,
     activity_end: node.endDate,
   }
-  const schema = SCHEMA[node.schema[0].toLowerCase()]
+  const schema = SCHEMA[node.legalForm]
   return (
     <Layout route={route} title={title}>
       <Typography variant="h3" gutterBottom>
-        {node.name} <Chip color={schema.color} label={schema.label} />
+        {node.name} {schema.chip}
       </Typography>
       <OverviewGrid>
         <AmountCard color={schema.color} {...node} />
@@ -73,7 +74,10 @@ export default function BeneficiaryTemplate({
       <Typography variant="h4" gutterBottom>
         Funding
       </Typography>
-      <PaymentsTable rows={payments.nodes} exclude={["beneficiary_name"]} />
+      <PaymentsTable
+        rows={payments.nodes}
+        exclude={["beneficiary_name", "legalForm", "country"]}
+      />
     </Layout>
   )
 }

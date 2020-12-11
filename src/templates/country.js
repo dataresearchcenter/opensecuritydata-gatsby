@@ -6,13 +6,12 @@ import OverviewGrid from "../components/overviewGrid"
 import PaymentsTable from "../components/paymentsTable"
 import AmountCard from "../components/amountCard"
 import AttributeCard from "../components/attributeCard"
+import Flag from "../components/flag"
 import { CountrySchema } from "../schema"
 
 export const countryQuery = graphql`
   query countryQuery($lookup: String!) {
-    payments: allPaymentsJson(
-      filter: { beneficiary_country: { eq: $lookup } }
-    ) {
+    payments: allPaymentsJson(filter: { country: { eq: $lookup } }) {
       nodes {
         id
         beneficiary_name
@@ -22,6 +21,8 @@ export const countryQuery = graphql`
         summary
         purpose
         programme
+        legalForm
+        country
       }
     }
   }
@@ -38,6 +39,7 @@ export default function countryTemplate({
   }
   return (
     <Layout route={route} title={title}>
+      <Flag iso={node.iso} />
       <Typography variant="h3" gutterBottom>
         {node.name} {CountrySchema.chip}
       </Typography>
@@ -48,7 +50,7 @@ export default function countryTemplate({
       <Typography variant="h4" gutterBottom>
         Funding
       </Typography>
-      <PaymentsTable rows={payments.nodes} />
+      <PaymentsTable rows={payments.nodes} exclude={["country"]} />
     </Layout>
   )
 }

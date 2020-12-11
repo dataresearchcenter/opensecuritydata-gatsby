@@ -54,7 +54,9 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
             id
             name
             country
-            schema
+            legalForm
+            address
+            website
             programmes
             projects
             payments

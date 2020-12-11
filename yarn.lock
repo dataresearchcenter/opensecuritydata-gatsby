@@ -10591,6 +10591,11 @@ selfsigned@^1.10.7:
   dependencies:
     node-forge "^0.10.0"
 
+semantic-ui-flag@^2.4.0:
+  version "2.4.0"
+  resolved "https://registry.yarnpkg.com/semantic-ui-flag/-/semantic-ui-flag-2.4.0.tgz#27534157a93fa9564770f2fcca2070bcd0cfc8c6"
+  integrity sha512-d48AvfV+Q/1nyFmLevcipsZlg2Gn1/c2ZxJobcjj/nkIJAWgV5Ujgvbz18qZStesAD7mP4Lj1Zn/8TX1OLsnzQ==
+
 semver-diff@^3.1.1:
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/semver-diff/-/semver-diff-3.1.1.tgz#05f77ce59f325e00e2706afd67bb506ddb1ca32b"

@@ -10,7 +10,7 @@ export const query = graphql`
       nodes {
         id
         name
-        schema
+        legalForm
         country
         programmes
         payments

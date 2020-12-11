@@ -30,6 +30,8 @@ export const projectQuery = graphql`
         startDate
         endDate
         summary
+        legalForm
+        country
       }
     }
     programme: programmesJson(name: { eq: $programmeLookup }) {

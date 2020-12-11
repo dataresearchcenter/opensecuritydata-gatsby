@@ -2,14 +2,34 @@ import React from "react"
 import { navigate } from "gatsby"
 import { DataGrid } from "@material-ui/data-grid"
 import { getProgrammeLink, getProjectLink, getBeneficiaryLink } from "../links"
+import { renderCell } from "./tableUtil"
+
+const render = ({ field, value }) => renderCell(field, value)
 
 const columns = [
   { field: "beneficiary_name", headerName: "Beneficiary", width: 400 },
   { field: "programme", headerName: "Programme", width: 200 },
   { field: "purpose", headerName: "Project", width: 300 },
-  { field: "amount", headerName: "Amount", width: 100 },
-  { field: "startDate", headerName: "Project start", width: 150 },
-  { field: "endDate", headerName: "Project end", width: 150 },
+  { field: "amount", headerName: "Amount", width: 100, renderCell: render },
+  {
+    field: "startDate",
+    headerName: "Project start",
+    width: 150,
+    renderCell: render,
+  },
+  {
+    field: "endDate",
+    headerName: "Project end",
+    width: 150,
+    renderCell: render,
+  },
+  { field: "country", headerName: "Country", width: 100, renderCell: render },
+  {
+    field: "legalForm",
+    headerName: "Legal form",
+    width: 220,
+    renderCell: render,
+  },
   // { field: "summary", headerName: "Role" },
 ]
 

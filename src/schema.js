@@ -3,35 +3,42 @@ import Chip from "@material-ui/core/Chip"
 import links from "./links"
 
 const SCHEMA = {
-  c: {
+  prc: {
     schema: "Company",
-    label: "Company",
+    label: "Private company",
     path: "beneficiaries",
     getLink: links.getBeneficiaryLink,
     color: "secondary",
   },
-  l: {
+  oth: {
     schema: "LegalEntity",
-    label: "Other entity",
+    label: "Other",
     path: "beneficiaries",
     getLink: links.getBeneficiaryLink,
     color: "secondary",
   },
-  o: {
+  hes: {
     schema: "Organization",
-    label: "Organization",
+    label: "Higher education institution",
     path: "beneficiaries",
     getLink: links.getBeneficiaryLink,
     color: "secondary",
   },
-  p: {
+  rec: {
+    schema: "Organization",
+    label: "Research institution",
+    path: "beneficiaries",
+    getLink: links.getBeneficiaryLink,
+    color: "secondary",
+  },
+  pub: {
     schema: "PublicBody",
     label: "Public institution",
     path: "beneficiaries",
     getLink: links.getBeneficiaryLink,
     color: "secondary",
   },
-  j: {
+  p: {
     schema: "Project",
     label: "Project",
     path: "projects",
@@ -45,7 +52,7 @@ const SCHEMA = {
     getLink: links.getProgrammeLink,
     color: "primary",
   },
-  n: {
+  c: {
     schema: "Country",
     label: "Country",
     path: "countries",
@@ -68,8 +75,8 @@ Object.keys(SCHEMA).map(k => { // eslint-disable-line
 export default SCHEMA
 
 const TopicSchema = SCHEMA.t
-const ProjectSchema = SCHEMA.j
+const ProjectSchema = SCHEMA.p
 const ProgrammeSchema = SCHEMA.r
-const CountrySchema = SCHEMA.n
+const CountrySchema = SCHEMA.c
 
 export { TopicSchema, ProjectSchema, ProgrammeSchema, CountrySchema }
