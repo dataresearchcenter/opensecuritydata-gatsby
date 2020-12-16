@@ -4,6 +4,7 @@ import CardContent from "@material-ui/core/CardContent"
 import Typography from "@material-ui/core/Typography"
 import Amount from "./amount"
 import Date from "./date"
+import Viz from "./viz"
 
 const AmountCard = ({
   title = "Total funding",
@@ -11,14 +12,15 @@ const AmountCard = ({
   total_amount,
   startDate,
   endDate,
-  color
+  color,
+  vizData,
 }) => (
   <Card>
     <CardContent>
       <Typography color="textSecondary" gutterBottom>
         {title}
       </Typography>
-      <Typography variant="h5" color={ color }>
+      <Typography variant="h5" color={color}>
         <Amount value={value || total_amount} />
       </Typography>
       {startDate && endDate && (
@@ -32,6 +34,7 @@ const AmountCard = ({
         technology
         {startDate && endDate && " in the given period."}
       </Typography>
+      {vizData && <Viz {...vizData} />}
     </CardContent>
   </Card>
 )

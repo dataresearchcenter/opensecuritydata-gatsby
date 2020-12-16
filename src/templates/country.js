@@ -8,6 +8,8 @@ import AmountCard from "../components/amountCard"
 import AttributeCard from "../components/attributeCard"
 import Flag from "../components/flag"
 import { CountrySchema } from "../schema"
+import { cast } from "../components/viz"
+import Amount from "../components/amount"
 
 export const countryQuery = graphql`
   query countryQuery($lookup: String!) {
@@ -39,6 +41,17 @@ export default function countryTemplate({
     activity_start: node.startDate,
     activity_end: node.endDate,
   }
+  const vizData = {
+    title: "Funding per programme",
+    data: [...new Set(payments.nodes.map(({ programme }) => programme))]
+      .map(p => ({
+        label: p,
+        value: payments.nodes
+          .filter(({ programme }) => p === programme)
+          .reduce((sum, { amount }) => sum + cast(amount), 0),
+      }))
+      .map(d => ({ ...d, valueLabel: <Amount value={d.value} /> })),
+  }
   return (
     <Layout route={route} title={title}>
       <Flag iso={node.iso} />
@@ -46,7 +59,7 @@ export default function countryTemplate({
         {node.name} {CountrySchema.chip()}
       </Typography>
       <OverviewGrid>
-        <AmountCard color={CountrySchema.color} {...node} />
+        <AmountCard color={CountrySchema.color} vizData={vizData} {...node} />
         <AttributeCard data={attributeData} />
       </OverviewGrid>
       <Typography variant="h4" gutterBottom>

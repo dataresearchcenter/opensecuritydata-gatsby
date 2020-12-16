@@ -8,6 +8,7 @@ import Date from "./date"
 import Country from "./country"
 
 export function renderCell(key, value, linkColor) {
+  if (!value) return value
   if (key === "country") return <Country data={value} color={linkColor} />
   if (key === "legalForm") return SCHEMA[value].chip({ variant: "outlined" })
   if (key.indexOf("amount") > -1) return <Amount value={value} />
@@ -18,7 +19,7 @@ export function renderCell(key, value, linkColor) {
     key.indexOf("end") > -1
   )
     return <Date date={value} />
-  if (value.indexOf("http") > -1)
+  if (value.toString().indexOf("http") > -1)
     return (
       <Link href={value} color={linkColor}>
         {value}
