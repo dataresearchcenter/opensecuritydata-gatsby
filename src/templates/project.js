@@ -13,6 +13,8 @@ import PaymentsTable from "../components/paymentsTable"
 import AmountCard from "../components/amountCard"
 import AttributeCard from "../components/attributeCard"
 import Translated from "../components/translation"
+import { cast } from "../components/viz"
+import Amount from "../components/amount"
 import { ProjectSchema } from "../schema"
 import { getTopicLink } from "../links"
 
@@ -58,6 +60,9 @@ export const projectQuery = graphql`
 `
 
 const useStyles = makeStyles(theme => ({
+  moreCard: {
+    marginTop: theme.spacing(4),
+  },
   topic: {
     marginBottom: theme.spacing(1),
     marginRight: theme.spacing(1),
@@ -109,6 +114,17 @@ export default function ProjectTemplate({
   data: { payments, programme, topics, proof },
 }) {
   const classes = useStyles()
+  const vizData = {
+    title: "Funding per country",
+    data: [...new Set(payments.nodes.map(({ country }) => country))]
+      .map(p => ({
+        label: p.split(" - ")[0].substring(0, 20),
+        value: payments.nodes
+          .filter(({ country }) => p === country)
+          .reduce((sum, { amount }) => sum + cast(amount), 0),
+      }))
+      .map(d => ({ ...d, valueLabel: <Amount value={d.value} /> })),
+  }
   return (
     <Layout route={route} title={title.split("-")[0].trim()}>
       <ProjectTitle {...node} />
@@ -118,8 +134,12 @@ export default function ProjectTemplate({
       >
         <section title="Overview">
           <OverviewGrid>
+            <AmountCard
+              color={ProjectSchema.color}
+              vizData={vizData}
+              {...node}
+            />
             <div>
-              <AmountCard color={ProjectSchema.color} {...node} />
               <AttributeCard
                 hideTitle
                 data={{
@@ -128,8 +148,10 @@ export default function ProjectTemplate({
                   project_end: node.endDate,
                 }}
               />
+              <div className={classes.moreCard}>
+                <ProgrammeCard data={programme} />
+              </div>
             </div>
-            <ProgrammeCard data={programme} />
             <DataCard sourceUrl={node.sourceUrl} {...proof} />
           </OverviewGrid>
           {node.description?.length > 0 && (
