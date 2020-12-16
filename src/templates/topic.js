@@ -61,7 +61,7 @@ export default function ProgrammeTemplate({
   return (
     <Layout route={route} title={title}>
       <Typography variant="h3" gutterBottom>
-        {node.name} {TopicSchema.chip}
+        {node.name} {TopicSchema.chip()}
       </Typography>
       <OverviewGrid>
         <AmountCard color={TopicSchema.color} {...node} />

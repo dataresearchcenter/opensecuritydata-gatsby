@@ -45,6 +45,10 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
             proof
             startDate
             endDate
+            language
+            name_en
+            description_en
+            sourceUrl
           }
         }
       }
@@ -64,6 +68,8 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
             endDate
             startDate
             proof
+            companyGroupId
+            companyGroup
           }
         }
       }

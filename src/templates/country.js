@@ -41,7 +41,7 @@ export default function countryTemplate({
     <Layout route={route} title={title}>
       <Flag iso={node.iso} />
       <Typography variant="h3" gutterBottom>
-        {node.name} {CountrySchema.chip}
+        {node.name} {CountrySchema.chip()}
       </Typography>
       <OverviewGrid>
         <AmountCard color={CountrySchema.color} {...node} />

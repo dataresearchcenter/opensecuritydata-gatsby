@@ -12,6 +12,7 @@ import DataCard from "../components/dataCard"
 import PaymentsTable from "../components/paymentsTable"
 import AmountCard from "../components/amountCard"
 import AttributeCard from "../components/attributeCard"
+import Translated from "../components/translation"
 import { ProjectSchema } from "../schema"
 import { getTopicLink } from "../links"
 
@@ -63,13 +64,23 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-const ProjectTitle = ({ title }) => {
+const ProjectTitle = ({ name, name_en, language }) => {
+  if (!!language) {
+    return (
+      <Typography variant="h3">
+        {name_en}
+        <Translated original={name} language={language} />
+        {ProjectSchema.chip()}
+      </Typography>
+    )
+  }
+  const title = !!language ? name_en : name
   if (title.indexOf(" - ") > 0) {
     const [maintitle, ...subtitle] = title.split(" - ")
     return (
       <>
         <Typography variant="h3">
-          {maintitle} {ProjectSchema.chip}
+          {maintitle} {ProjectSchema.chip()}
         </Typography>
         <Typography variant="h5" gutterBottom>
           {subtitle.join(" - ")}
@@ -79,7 +90,7 @@ const ProjectTitle = ({ title }) => {
   } else {
     return (
       <Typography variant="h3" gutterBottom>
-        {title} {ProjectSchema.chip}
+        {title} {ProjectSchema.chip()}
       </Typography>
     )
   }
@@ -100,7 +111,7 @@ export default function ProjectTemplate({
   const classes = useStyles()
   return (
     <Layout route={route} title={title.split("-")[0].trim()}>
-      <ProjectTitle title={node.name} />
+      <ProjectTitle {...node} />
       <Tabs
         indicatorColor={ProjectSchema.color}
         textColor={ProjectSchema.color}
@@ -119,7 +130,7 @@ export default function ProjectTemplate({
               />
             </div>
             <ProgrammeCard data={programme} />
-            <DataCard sourceUrl="https://cordis.europa.eu/" {...proof} />
+            <DataCard sourceUrl={node.sourceUrl} {...proof} />
           </OverviewGrid>
           {node.description?.length > 0 && (
             <>
@@ -127,7 +138,13 @@ export default function ProjectTemplate({
                 Description
               </Typography>
               <Typography variant="body2" gutterBottom>
-                {node.description}
+                {node.description_en || node.description}
+                {!!node.language && (
+                  <Translated
+                    language={node.language}
+                    original={node.description}
+                  />
+                )}
               </Typography>
             </>
           )}

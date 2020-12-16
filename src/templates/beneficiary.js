@@ -1,5 +1,6 @@
 import React from "react"
 import { graphql } from "gatsby"
+import { makeStyles } from "@material-ui/core/styles"
 import Typography from "@material-ui/core/Typography"
 import Layout from "../components/layout"
 import OverviewGrid from "../components/overviewGrid"
@@ -7,7 +8,14 @@ import PaymentsTable from "../components/paymentsTable"
 import AttributeCard from "../components/attributeCard"
 import AmountCard from "../components/amountCard"
 import DataCard from "../components/dataCard"
+import CompanyGroup from "../components/companyGroup"
 import SCHEMA from "../schema"
+
+const useStyles = makeStyles(theme => ({
+  moreCard: {
+    marginTop: theme.spacing(4),
+  },
+}))
 
 export const beneficiaryQuery = graphql`
   query beneficiaryPayments(
@@ -61,15 +69,21 @@ export default function BeneficiaryTemplate({
     activity_end: node.endDate,
   }
   const schema = SCHEMA[node.legalForm]
+  const classes = useStyles()
   return (
     <Layout route={route} title={title}>
       <Typography variant="h3" gutterBottom>
-        {node.name} {schema.chip}
+        {node.name} {schema.chip()}
       </Typography>
       <OverviewGrid>
-        <AmountCard color={schema.color} {...node} />
+        <div>
+          <AmountCard color={schema.color} {...node} />
+          <div className={classes.moreCard}>
+            {!!node.companyGroup && <CompanyGroup {...node} />}
+          </div>
+        </div>
         <AttributeCard data={tableData} linkColor={schema.color} />
-        <DataCard sourceUrl="https://cordis.europa.eu/" {...proof} />
+        <DataCard {...proof} />
       </OverviewGrid>
       <Typography variant="h4" gutterBottom>
         Funding

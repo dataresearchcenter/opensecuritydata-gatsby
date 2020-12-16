@@ -2,7 +2,6 @@ import React, { useState } from "react"
 import { useStaticQuery, graphql } from "gatsby"
 import { useFlexSearch } from "react-use-flexsearch"
 import { makeStyles } from "@material-ui/core/styles"
-import Chip from "@material-ui/core/Chip"
 import TextField from "@material-ui/core/TextField"
 import InputAdornment from "@material-ui/core/InputAdornment"
 import SearchIcon from "@material-ui/icons/Search"
@@ -31,8 +30,7 @@ const ResultList = ({ items }) => (
       {items.map(({ id, name, schema, key }) => (
         <ListItemLink key={id} to={getLink({ id, name, schema, key })}>
           <ListItemText>
-            <Chip color={SCHEMA[schema].color} label={SCHEMA[schema].label} />{" "}
-            {name}
+            {SCHEMA[schema].chip()} {name}
           </ListItemText>
         </ListItemLink>
       ))}

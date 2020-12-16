@@ -69,7 +69,9 @@ const SCHEMA = {
 }
 
 Object.keys(SCHEMA).map(k => { // eslint-disable-line
-  SCHEMA[k].chip = <Chip color={SCHEMA[k].color} label={SCHEMA[k].label} />
+  SCHEMA[k].chip = ({ ...props } = {}) => (
+    <Chip color={SCHEMA[k].color} label={SCHEMA[k].label} {...props} />
+  )
 })
 
 export default SCHEMA
