@@ -8,7 +8,7 @@ import PaymentsTable from "../components/paymentsTable"
 import AttributeCard from "../components/attributeCard"
 import AmountCard from "../components/amountCard"
 import DataCard from "../components/dataCard"
-import CompanyGroup from "../components/companyGroup"
+import BeneficiaryGroup from "../components/beneficiaryGroup"
 import SCHEMA from "../schema"
 
 const useStyles = makeStyles(theme => ({
@@ -67,6 +67,8 @@ export default function BeneficiaryTemplate({
     contracts: node.payments,
     activity_start: node.startDate,
     activity_end: node.endDate,
+    website: node.website,
+    postal_address: node.address,
   }
   const schema = SCHEMA[node.legalForm]
   const classes = useStyles()
@@ -78,9 +80,11 @@ export default function BeneficiaryTemplate({
       <OverviewGrid>
         <div>
           <AmountCard color={schema.color} {...node} />
-          <div className={classes.moreCard}>
-            {!!node.companyGroup && <CompanyGroup {...node} />}
-          </div>
+          {!!node.beneficiaryGroup && (
+            <div className={classes.moreCard}>
+              <BeneficiaryGroup {...node} />
+            </div>
+          )}
         </div>
         <AttributeCard data={tableData} linkColor={schema.color} />
         <DataCard {...proof} />

@@ -38,6 +38,13 @@ const SCHEMA = {
     getLink: links.getBeneficiaryLink,
     color: "secondary",
   },
+  g: {
+    schema: "LegalEntity",
+    label: "Beneficiary Group",
+    path: "beneficiaries/groups",
+    getLink: links.getBeneficiaryGroupLink,
+    color: "secondary",
+  },
   p: {
     schema: "Project",
     label: "Project",
@@ -80,5 +87,6 @@ const TopicSchema = SCHEMA.t
 const ProjectSchema = SCHEMA.p
 const ProgrammeSchema = SCHEMA.r
 const CountrySchema = SCHEMA.c
+const BeneficiaryGroupSchema = SCHEMA.g
 
-export { TopicSchema, ProjectSchema, ProgrammeSchema, CountrySchema }
+export { TopicSchema, ProjectSchema, ProgrammeSchema, CountrySchema, BeneficiaryGroupSchema }

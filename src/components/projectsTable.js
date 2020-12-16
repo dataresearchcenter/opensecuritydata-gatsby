@@ -1,15 +1,33 @@
 import React from "react"
 import { navigate } from "gatsby"
 import { DataGrid } from "@material-ui/data-grid"
+import { renderCell } from "./tableUtil"
 import { getProjectLink } from "../links"
+
+const render = ({ field, value }) => renderCell(field, value)
 
 const columns = [
   { field: "name", headerName: "Name", width: 400 },
-  { field: "total_amount", headerName: "Total amount", width: 200 },
+  {
+    field: "total_amount",
+    headerName: "Total amount",
+    width: 150,
+    renderCell: render,
+  },
   { field: "beneficiaries", headerName: "Beneficiaries", width: 150 },
   { field: "programme", headerName: "Programme", width: 200 },
-  { field: "startDate", headerName: "Project start", width: 150 },
-  { field: "endDate", headerName: "Project end", width: 150 },
+  {
+    field: "startDate",
+    headerName: "Project start",
+    width: 150,
+    renderCell: render,
+  },
+  {
+    field: "endDate",
+    headerName: "Project end",
+    width: 150,
+    renderCell: render,
+  },
 ]
 
 const ProjectsTable = ({ rows, exclude = [] }) => (

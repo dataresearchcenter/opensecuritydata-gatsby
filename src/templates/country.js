@@ -36,6 +36,8 @@ export default function countryTemplate({
     beneficiaries: node.beneficiaries,
     payments: node.payments,
     projects: node.projects,
+    activity_start: node.startDate,
+    activity_end: node.endDate,
   }
   return (
     <Layout route={route} title={title}>

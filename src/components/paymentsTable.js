@@ -1,8 +1,6 @@
 import React from "react"
-import { navigate } from "gatsby"
 import { DataGrid } from "@material-ui/data-grid"
-import { getProgrammeLink, getProjectLink, getBeneficiaryLink } from "../links"
-import { renderCell } from "./tableUtil"
+import { renderCell, onCellClick } from "./tableUtil"
 
 const render = ({ field, value }) => renderCell(field, value)
 
@@ -33,35 +31,17 @@ const columns = [
   // { field: "summary", headerName: "Role" },
 ]
 
-const PaymentsTable = ({ rows, exclude = [] }) => {
-  const handleClick = ({
-    field,
-    row: { programme, purpose, beneficiary_name },
-  }) => {
-    switch (field) {
-      case "programme":
-        navigate(getProgrammeLink({ name: programme }))
-        break
-      case "purpose":
-        navigate(getProjectLink({ name: purpose }))
-        break
-      default:
-        exclude.indexOf("beneficiary_name") < 0 &&
-          navigate(getBeneficiaryLink({ name: beneficiary_name }))
-    }
-  }
-  return (
-    <DataGrid
-      rows={rows}
-      columns={columns.filter(({ field }) => exclude.indexOf(field) < 0)}
-      pageSize={10}
-      rowsPerPageOptions={[10, 25, 50, 100]}
-      autoHeight
-      disableSelectionOnClick
-      hideFooter={rows.length < 11}
-      onCellClick={handleClick}
-    />
-  )
-}
+const PaymentsTable = ({ rows, exclude = [] }) => (
+  <DataGrid
+    rows={rows}
+    columns={columns.filter(({ field }) => exclude.indexOf(field) < 0)}
+    pageSize={10}
+    rowsPerPageOptions={[10, 25, 50, 100]}
+    autoHeight
+    disableSelectionOnClick
+    hideFooter={rows.length < 11}
+    onCellClick={onCellClick}
+  />
+)
 
 export default PaymentsTable

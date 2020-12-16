@@ -52,6 +52,22 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
           }
         }
       }
+      allBeneficiaryGroupsJson {
+        edges {
+          node {
+            id
+            foreign_id
+            name
+            beneficiaries
+            programmes
+            projects
+            payments
+            total_amount
+            endDate
+            startDate
+          }
+        }
+      }
       allBeneficiariesJson {
         edges {
           node {
@@ -68,8 +84,8 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
             endDate
             startDate
             proof
-            companyGroupId
-            companyGroup
+            beneficiaryGroup
+            beneficiaryGroupId
           }
         }
       }
@@ -169,6 +185,20 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
         countryLookup: node.country,
         proofLookup: node.proof,
         route: `Beneficiaries`,
+        title: node.name,
+      },
+    })
+  })
+
+  // beneficiary groups
+  result.data.allBeneficiaryGroupsJson.edges.forEach(({ node }) => {
+    createPage({
+      path: `/beneficiaries/groups/${slugify(node.name)}`,
+      component: require.resolve(`./src/templates/beneficiaryGroup.js`),
+      context: {
+        node,
+        paymentsLookup: node.foreign_id,
+        route: `Beneficiary groups`,
         title: node.name,
       },
     })

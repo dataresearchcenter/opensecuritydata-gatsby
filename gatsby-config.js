@@ -51,6 +51,11 @@ module.exports = {
                 legalForm
               }
             }
+            beneficiaryGroups: allBeneficiaryGroupsJson {
+              nodes {
+                name
+              }
+            }
             projects: allProjectsJson {
               nodes {
                 name
@@ -79,31 +84,43 @@ module.exports = {
         index: [`name`],
         store: [`id`, `name`, `schema`, `key`],
         normalizer: ({
-          data: { beneficiaries, projects, programmes, countries, topics },
+          data: {
+            beneficiaries,
+            beneficiaryGroups,
+            projects,
+            programmes,
+            countries,
+            topics,
+          },
         }) => [
           ...beneficiaries.nodes.map(({ name, legalForm }, i) => ({
             id: parseInt(`1${i}`),
             name,
             schema: legalForm,
           })),
-          ...projects.nodes.map(({ name }, i) => ({
+          ...beneficiaryGroups.nodes.map(({ name }, i) => ({
             id: parseInt(`2${i}`),
+            name,
+            schema: `g`,
+          })),
+          ...projects.nodes.map(({ name }, i) => ({
+            id: parseInt(`3${i}`),
             name,
             schema: `p`,
           })),
           ...programmes.nodes.map(({ name }, i) => ({
-            id: parseInt(`3${i}`),
+            id: parseInt(`4${i}`),
             name,
             schema: `r`,
           })),
           ...countries.nodes.map(({ name, iso }, i) => ({
-            id: parseInt(`4${i}`),
+            id: parseInt(`5${i}`),
             name,
             schema: `c`,
             key: iso,
           })),
           ...topics.nodes.map(({ name, key }, i) => ({
-            id: parseInt(`5${i}`),
+            id: parseInt(`6${i}`),
             name,
             schema: `t`,
             key,

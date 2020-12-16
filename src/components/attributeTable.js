@@ -10,16 +10,18 @@ const AttributeTable = ({ data, linkColor, ...rest }) => (
   <TableContainer {...rest}>
     <Table aria-label="simple table">
       <TableBody>
-        {Object.keys(data).map(k => (
-          <TableRow key={k}>
-            <TableCell component="th" scope="row">
-              {k.replace("_", " ").replace(/^\w/, k[0].toUpperCase())}
-            </TableCell>
-            <TableCell align="right">
-              {renderCell(k, data[k], linkColor)}
-            </TableCell>
-          </TableRow>
-        ))}
+        {Object.keys(data)
+          .filter(k => data[k] !== "")
+          .map(k => (
+            <TableRow key={k}>
+              <TableCell component="th" scope="row">
+                {k.replace("_", " ").replace(/^\w/, k[0].toUpperCase())}
+              </TableCell>
+              <TableCell align="right">
+                {renderCell(k, data[k], linkColor)}
+              </TableCell>
+            </TableRow>
+          ))}
       </TableBody>
     </Table>
   </TableContainer>

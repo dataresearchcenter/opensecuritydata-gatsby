@@ -28,7 +28,7 @@ const ResultList = ({ items }) => (
   <Paper>
     <List dense>
       {items.map(({ id, name, schema, key }) => (
-        <ListItemLink key={id} to={getLink({ id, name, schema, key })}>
+        <ListItemLink key={id} to={getLink({ name, schema, key })}>
           <ListItemText>
             {SCHEMA[schema].chip()} {name}
           </ListItemText>

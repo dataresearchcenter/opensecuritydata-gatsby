@@ -1,8 +1,7 @@
 import React from "react"
-import slugify from "slugify"
-import { navigate } from "gatsby"
 import { DataGrid } from "@material-ui/data-grid"
-import { renderCell } from "./tableUtil"
+import { getBeneficiaryLink } from "../links"
+import { renderCell, onCellClick } from "./tableUtil"
 
 const render = ({ field, value }) => renderCell(field, value)
 
@@ -45,7 +44,7 @@ const BeneficiariesTable = ({ rows }) => (
     autoHeight
     disableSelectionOnClick
     hideFooter={rows.length < 11}
-    onRowClick={({ row }) => navigate(`/beneficiaries/${slugify(row.name)}`)}
+    onCellClick={data => onCellClick(data, getBeneficiaryLink)}
   />
 )
 

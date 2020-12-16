@@ -11,12 +11,16 @@ const getCountryLink = ({ iso }) => `/countries/${iso}`
 
 const getBeneficiaryLink = ({ name }) => `/beneficiaries/${slugify(name)}`
 
+const getBeneficiaryGroupLink = ({ name }) =>
+  `/beneficiaries/groups/${slugify(name)}`
+
 export default {
   getProgrammeLink,
   getProjectLink,
   getTopicLink,
   getCountryLink,
   getBeneficiaryLink,
+  getBeneficiaryGroupLink,
 }
 
 export {
@@ -25,4 +29,5 @@ export {
   getTopicLink,
   getCountryLink,
   getBeneficiaryLink,
+  getBeneficiaryGroupLink,
 }
