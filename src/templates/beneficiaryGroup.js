@@ -8,6 +8,7 @@ import OverviewGrid from "../components/overviewGrid"
 import PaymentsTable from "../components/paymentsTable"
 import AttributeCard from "../components/attributeCard"
 import AmountCard from "../components/amountCard"
+import Viz from "../components/viz"
 import { BeneficiaryGroupSchema } from "../schema"
 
 export const beneficiaryQuery = graphql`
@@ -55,6 +56,11 @@ export default function BeneficiaryTemplate({
             </Typography>
             is a global group consisting of {node.beneficiaries} sub
             beneficiaries.
+            <Viz
+              use="fundingPerBeneficiary"
+              data={payments.nodes}
+              color={BeneficiaryGroupSchema.color}
+            />
           </CardContent>
         </Card>
         <AttributeCard

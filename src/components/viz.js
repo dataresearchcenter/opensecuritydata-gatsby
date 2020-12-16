@@ -67,6 +67,12 @@ const VISUALIZATIONS = {
       title: "Funding per programme",
     }
   },
+  fundingPerBeneficiary: payments => {
+    return {
+      data: getGroupedData(payments, "beneficiary_name"),
+      title: "Funding per beneficiary",
+    }
+  },
 }
 
 const useStyles = makeStyles(theme => ({
