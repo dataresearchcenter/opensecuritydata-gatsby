@@ -13,8 +13,7 @@ import PaymentsTable from "../components/paymentsTable"
 import AmountCard from "../components/amountCard"
 import AttributeCard from "../components/attributeCard"
 import Translated from "../components/translation"
-import { cast } from "../components/viz"
-import Amount from "../components/amount"
+import Viz from "../components/viz"
 import { ProjectSchema } from "../schema"
 import { getTopicLink } from "../links"
 
@@ -112,17 +111,6 @@ export default function ProjectTemplate({
   data: { payments, programme, topics, proof },
 }) {
   const classes = useStyles()
-  const vizData = {
-    title: "Funding per country",
-    data: [...new Set(payments.nodes.map(({ country }) => country))]
-      .map(p => ({
-        label: p.split(" - ")[0].substring(0, 20),
-        value: payments.nodes
-          .filter(({ country }) => p === country)
-          .reduce((sum, { amount }) => sum + cast(amount), 0),
-      }))
-      .map(d => ({ ...d, valueLabel: <Amount value={d.value} /> })),
-  }
   return (
     <Layout route={route} title={title.split("-")[0].trim()}>
       <ProjectTitle {...node} />
@@ -134,7 +122,7 @@ export default function ProjectTemplate({
           <OverviewGrid>
             <AmountCard
               color={ProjectSchema.color}
-              vizData={vizData}
+              viz={<Viz use="fundingPerCountry" data={payments.nodes} />}
               {...node}
             />
             <div>

@@ -3,7 +3,71 @@ import { makeStyles } from "@material-ui/core/styles"
 import Button from "@material-ui/core/Button"
 import ExpandLessIcon from "@material-ui/icons/ExpandLess"
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore"
+import Card from "@material-ui/core/Card"
+import CardContent from "@material-ui/core/CardContent"
 import Typography from "@material-ui/core/Typography"
+import Amount from "./amount"
+
+const cast = value => (!value || isNaN(value) ? 0 : parseFloat(value))
+
+const sum = (acc, { amount }) => acc + cast(amount)
+
+const addAmountLabel = data => ({
+  ...data,
+  valueLabel: <Amount value={data.value} />,
+})
+
+const getLabel = label =>
+  label.indexOf(" - ") > 0 ? label.split(" - ")[0].substring(0, 20) : label // FIXME topic names
+
+const getGroupedData = (payments, grouper) => {
+  const data = [...new Set(payments.map(d => d[grouper]))]
+    .map(g => ({
+      label: getLabel(g),
+      value: payments.filter(d => g === d[grouper]).reduce(sum, 0),
+    }))
+    .map(addAmountLabel)
+  data.sort((a, b) => b.value - a.value)
+  return data
+}
+
+const VISUALIZATIONS = {
+  fundingPerYear: payments => {
+    const data = [
+      ...new Set(payments.map(({ startDate }) => startDate.substring(0, 4))),
+    ]
+      .map(y => ({
+        label: y,
+        value: payments
+          .filter(({ startDate }) => startDate.indexOf(y) === 0)
+          .reduce(sum, 0),
+      }))
+      .map(addAmountLabel)
+    data.sort((a, b) => b.label - a.label)
+    return {
+      data,
+      title: "Funding per year",
+    }
+  },
+  fundingPerCountry: payments => {
+    return {
+      data: getGroupedData(payments, "country"),
+      title: "Funding per country",
+    }
+  },
+  fundingPerProject: payments => {
+    return {
+      data: getGroupedData(payments, "purpose"),
+      title: "Funding per project",
+    }
+  },
+  fundingPerProgramme: payments => {
+    return {
+      data: getGroupedData(payments, "programme"),
+      title: "Funding per programme",
+    }
+  },
+}
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -62,19 +126,19 @@ const DataRow = ({ label, valueLabel, width, inline, color }) => {
   )
 }
 
-export default ({
-  data,
-  title,
+const Viz = ({
+  use,
+  data: useData,
   inline = false,
   color = "primary",
   expand = false,
 }) => {
+  const { data, title } = VISUALIZATIONS[use](useData)
   const classes = useStyles({ color })
   const [expanded, setExpanded] = React.useState(expand)
   const total = inline
     ? data.reduce((sum, { value }) => sum + value, 0)
     : Math.max(...data.map(({ value }) => value))
-  data.sort((a, b) => b.value - a.value)
   let visibleData = []
   let shouldExpand = false
   if (expanded || data.length < 6) {
@@ -119,7 +183,13 @@ export default ({
   )
 }
 
-export function cast(value) {
-  if (!value || isNaN(value)) return 0
-  return parseFloat(value)
-}
+const VizCard = ({ ...props }) => (
+  <Card>
+    <CardContent>
+      <Viz {...props} />
+    </CardContent>
+  </Card>
+)
+
+export default Viz
+export { VizCard }

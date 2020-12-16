@@ -9,8 +9,7 @@ import ProjectsTable from "../components/projectsTable"
 import PaymentsTable from "../components/paymentsTable"
 import AmountCard from "../components/amountCard"
 import AttributeCard from "../components/attributeCard"
-import { cast } from "../components/viz"
-import Amount from "../components/amount"
+import Viz from "../components/viz"
 import { ProgrammeSchema } from "../schema"
 
 export const programmeQuery = graphql`
@@ -52,24 +51,17 @@ export default function ProgrammeTemplate({
   pageContext: { node, projectsLookup, proofLookup, route, title },
   data: { payments, projects, proof },
 }) {
-  const vizData = {
-    title: "Funding per country",
-    data: [...new Set(payments.nodes.map(({ country }) => country))]
-      .map(p => ({
-        label: p.split(" - ")[0].substring(0, 20),
-        value: payments.nodes
-          .filter(({ country }) => p === country)
-          .reduce((sum, { amount }) => sum + cast(amount), 0),
-      }))
-      .map(d => ({ ...d, valueLabel: <Amount value={d.value} /> })),
-  }
   return (
     <Layout route={route} title={title}>
       <Typography variant="h3" gutterBottom>
         {node.name} {ProgrammeSchema.chip()}
       </Typography>
       <OverviewGrid>
-        <AmountCard color={ProgrammeSchema.color} vizData={vizData} {...node} />
+        <AmountCard
+          color={ProgrammeSchema.color}
+          viz={<Viz use="fundingPerCountry" data={payments.nodes} />}
+          {...node}
+        />
         <ProgrammeCard
           data={{ ...node, proof }}
           showName={false}

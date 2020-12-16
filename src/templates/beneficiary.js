@@ -10,8 +10,7 @@ import AmountCard from "../components/amountCard"
 import DataCard from "../components/dataCard"
 import BeneficiaryGroup from "../components/beneficiaryGroup"
 import SCHEMA from "../schema"
-import { cast } from "../components/viz"
-import Amount from "../components/amount"
+import Viz from "../components/viz"
 
 const useStyles = makeStyles(theme => ({
   moreCard: {
@@ -73,18 +72,6 @@ export default function BeneficiaryTemplate({
     postal_address: node.address,
   }
   const schema = SCHEMA[node.legalForm]
-  const vizData = {
-    color: "secondary",
-    title: "Funding per project",
-    data: [...new Set(payments.nodes.map(({ purpose }) => purpose))]
-      .map(p => ({
-        label: p.split(" - ")[0].substring(0, 20),
-        value: payments.nodes
-          .filter(({ purpose }) => p === purpose)
-          .reduce((sum, { amount }) => sum + cast(amount), 0),
-      }))
-      .map(d => ({ ...d, valueLabel: <Amount value={d.value} /> })),
-  }
   const classes = useStyles()
   return (
     <Layout route={route} title={title}>
@@ -93,7 +80,17 @@ export default function BeneficiaryTemplate({
       </Typography>
       <OverviewGrid>
         <div>
-          <AmountCard color={schema.color} vizData={vizData} {...node} />
+          <AmountCard
+            color={schema.color}
+            viz={
+              <Viz
+                use="fundingPerProject"
+                color="secondary"
+                data={payments.nodes}
+              />
+            }
+            {...node}
+          />
           {!!node.beneficiaryGroup && (
             <div className={classes.moreCard}>
               <BeneficiaryGroup {...node} />
