@@ -70,32 +70,30 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const ProjectTitle = ({ name, name_en, language }) => {
-  if (!!language) {
+  if (language) {
     return (
       <Typography variant="h3">
-        {name_en}
-        <Translated original={name} language={language} />
+        <Translated original={name} translated={name_en} language={language} />
         {ProjectSchema.chip()}
       </Typography>
     )
   }
-  const title = !!language ? name_en : name
-  if (title.indexOf(" - ") > 0) {
-    const [maintitle, ...subtitle] = title.split(" - ")
+  if (name.indexOf(" - ") > 0) {
+    const [mainname, ...subname] = name.split(" - ")
     return (
       <>
         <Typography variant="h3">
-          {maintitle} {ProjectSchema.chip()}
+          {mainname} {ProjectSchema.chip()}
         </Typography>
         <Typography variant="h5" gutterBottom>
-          {subtitle.join(" - ")}
+          {subname.join(" - ")}
         </Typography>
       </>
     )
   } else {
     return (
       <Typography variant="h3" gutterBottom>
-        {title} {ProjectSchema.chip()}
+        {name} {ProjectSchema.chip()}
       </Typography>
     )
   }
@@ -160,12 +158,14 @@ export default function ProjectTemplate({
                 Description
               </Typography>
               <Typography variant="body2" gutterBottom>
-                {node.description_en || node.description}
-                {!!node.language && (
+                {node.language ? (
                   <Translated
                     language={node.language}
+                    translated={node.description_en}
                     original={node.description}
                   />
+                ) : (
+                  node.description
                 )}
               </Typography>
             </>
