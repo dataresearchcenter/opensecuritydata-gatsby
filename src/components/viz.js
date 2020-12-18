@@ -1,4 +1,5 @@
 import React from "react"
+import { navigate } from "gatsby"
 import { makeStyles } from "@material-ui/core/styles"
 import Button from "@material-ui/core/Button"
 import ExpandLessIcon from "@material-ui/icons/ExpandLess"
@@ -6,6 +7,12 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore"
 import Card from "@material-ui/core/Card"
 import CardContent from "@material-ui/core/CardContent"
 import Typography from "@material-ui/core/Typography"
+import {
+  getCountryLink,
+  getProjectLink,
+  getProgrammeLink,
+  getBeneficiaryLink,
+} from "../links"
 import Amount from "./amount"
 
 const cast = value => (!value || isNaN(value) ? 0 : parseFloat(value))
@@ -20,10 +27,11 @@ const addAmountLabel = data => ({
 const getLabel = label =>
   label.indexOf(" - ") > 0 ? label.split(" - ")[0].substring(0, 20) : label // FIXME topic names
 
-const getGroupedData = (payments, grouper) => {
+const getGroupedData = (payments, grouper, getLink) => {
   const data = [...new Set(payments.map(d => d[grouper]))]
     .map(g => ({
       label: getLabel(g),
+      url: getLink(g),
       value: payments.filter(d => g === d[grouper]).reduce(sum, 0),
     }))
     .map(addAmountLabel)
@@ -51,25 +59,31 @@ const VISUALIZATIONS = {
   },
   fundingPerCountry: payments => {
     return {
-      data: getGroupedData(payments, "country"),
+      data: getGroupedData(payments, "country", iso => getCountryLink({ iso })),
       title: "Funding per country",
     }
   },
   fundingPerProject: payments => {
     return {
-      data: getGroupedData(payments, "purpose"),
+      data: getGroupedData(payments, "purpose", name =>
+        getProjectLink({ name })
+      ),
       title: "Funding per project",
     }
   },
   fundingPerProgramme: payments => {
     return {
-      data: getGroupedData(payments, "programme"),
+      data: getGroupedData(payments, "programme", name =>
+        getProgrammeLink({ name })
+      ),
       title: "Funding per programme",
     }
   },
   fundingPerBeneficiary: payments => {
     return {
-      data: getGroupedData(payments, "beneficiary_name"),
+      data: getGroupedData(payments, "beneficiary_name", name =>
+        getBeneficiaryLink({ name })
+      ),
       title: "Funding per beneficiary",
     }
   },
@@ -91,6 +105,11 @@ const useStyles = makeStyles(theme => ({
     width: ({ width }) => `${width}%`,
     backgroundColor: ({ color }) => theme.palette[color].light,
     display: "block",
+    cursor: ({ url }) => (url ? "pointer" : null),
+    "&:hover": {
+      backgroundColor: ({ color, url }) =>
+        url ? theme.palette[color].main : null,
+    },
   },
   label: {
     position: "absolute",
@@ -109,8 +128,8 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-const Bar = ({ width, label, color }) => {
-  const classes = useStyles({ color, width })
+const Bar = ({ width, label, color, url }) => {
+  const classes = useStyles({ color, width, url })
   return (
     <div className={classes.bar}>
       <Typography variant="caption" className={classes.valueLabel}>
@@ -120,14 +139,23 @@ const Bar = ({ width, label, color }) => {
   )
 }
 
-const DataRow = ({ label, valueLabel, width, inline, color }) => {
+const DataRow = ({ label, valueLabel, width, inline, color, url }) => {
   const classes = useStyles({ inline, width, color })
   return (
-    <div className={classes.row}>
+    <div
+      className={classes.row}
+      onClick={() => (url ? navigate(url) : null)}
+      aria-hidden="true"
+    >
       <Typography variant="caption" className={classes.label}>
         {label}
       </Typography>
-      <Bar width={inline ? 100 : width} label={valueLabel} color={color} />
+      <Bar
+        width={inline ? 100 : width}
+        label={valueLabel}
+        color={color}
+        url={url}
+      />
     </div>
   )
 }
