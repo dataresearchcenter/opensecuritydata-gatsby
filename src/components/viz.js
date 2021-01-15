@@ -14,6 +14,7 @@ import {
   getBeneficiaryLink,
 } from "../links"
 import Amount from "./amount"
+import CountryNames from "../data/countryNames.json"
 
 const cast = value => (!value || isNaN(value) ? 0 : parseFloat(value))
 
@@ -24,13 +25,17 @@ const addAmountLabel = data => ({
   valueLabel: <Amount value={data.value} />,
 })
 
-const getLabel = label =>
-  label.indexOf(" - ") > 0 ? label.split(" - ")[0].substring(0, 20) : label // FIXME topic names
+const getLabel = (label, grouper = null) =>
+  grouper === "country"
+    ? CountryNames[label] || label
+    : label.indexOf(" - ") > 0
+    ? label.split(" - ")[0].substring(0, 20)
+    : label // FIXME topic names
 
 const getGroupedData = (payments, grouper, getLink) => {
   const data = [...new Set(payments.map(d => d[grouper]))]
     .map(g => ({
-      label: getLabel(g),
+      label: getLabel(g, grouper),
       url: getLink(g),
       value: payments.filter(d => g === d[grouper]).reduce(sum, 0),
     }))
