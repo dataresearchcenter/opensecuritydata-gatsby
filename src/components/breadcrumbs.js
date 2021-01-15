@@ -2,6 +2,7 @@ import React from "react"
 import Typography from "@material-ui/core/Typography"
 import MUIBreadcrumbs from "@material-ui/core/Breadcrumbs"
 import { Link } from "gatsby-theme-material-ui"
+import CountryNames from "../data/countryNames.json"
 
 const getCrumbs = pathname => {
   pathname = pathname.substring(1).replace(/\/$/, "")
@@ -16,6 +17,8 @@ const getCrumbs = pathname => {
   )
 }
 
+const getLabel = name => CountryNames[name.toLowerCase()] || name
+
 const Breadcrumbs = ({ location: { pathname } }) =>
   pathname.length > 1 && (
     <MUIBreadcrumbs aria-label="breadcrumb" variant="caption">
@@ -29,7 +32,7 @@ const Breadcrumbs = ({ location: { pathname } }) =>
           </Link>
         ) : (
           <Typography key={name} color="textPrimary" variant="caption">
-            {name.length < 100 ? name : `${name.substring(0, 100)}...`}
+            {name.length < 100 ? getLabel(name) : `${name.substring(0, 100)}...`}
           </Typography>
         )
       )}
