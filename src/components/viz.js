@@ -100,84 +100,75 @@ const useStyles = makeStyles(theme => ({
   },
   row: {
     position: "relative",
-    display: ({ inline }) => (inline ? "display-block" : "block"),
+    display: "block",
     paddingBottom: theme.spacing(1),
-    width: ({ inline, width }) => (inline ? `${width}%` : null),
+    height: theme.spacing(5),
+    width: "100%",
+    cursor: ({ url }) => (url ? "pointer" : null),
+    "&:hover .bar": {
+      backgroundColor: ({ color }) => theme.palette[color].main,
+    },
+    "&:hover .label": {
+      color: ({ color }) => theme.palette[color].main,
+    },
+    "&:hover .valueLabel": {
+      color: ({ color }) => theme.palette[color].main,
+    },
   },
   bar: {
-    position: ({ width }) => (width > 50 ? "relative" : null),
-    height: theme.spacing(4),
+    position: "absolute",
+    top: 0,
+    height: theme.spacing(1),
     width: ({ width }) => `${width}%`,
     backgroundColor: ({ color }) => theme.palette[color].light,
     display: "block",
-    cursor: ({ url }) => (url ? "pointer" : null),
-    "&:hover": {
-      backgroundColor: ({ color, url }) =>
-        url ? theme.palette[color].main : null,
-    },
   },
   label: {
     position: "absolute",
     top: theme.spacing(1),
-    left: theme.spacing(1),
-    zIndex: 100,
-    color: "white",
+    left: 0,
+    color: ({ color }) => theme.palette[color].light,
   },
   valueLabel: {
     position: "absolute",
     top: theme.spacing(1),
-    right: ({ width }) => (width > 50 ? theme.spacing(1) : null),
-    left: ({ width }) => (width < 50 ? `${width + 2}%` : null),
-    color: ({ color, width }) =>
-      width > 50 ? "white" : theme.palette[color].light,
+    right: 0,
+    color: ({ color }) => theme.palette[color].light,
   },
 }))
 
 const Bar = ({ width, label, color, url }) => {
   const classes = useStyles({ color, width, url })
-  return (
-    <div className={classes.bar}>
-      <Typography variant="caption" className={classes.valueLabel}>
-        {label}
-      </Typography>
-    </div>
-  )
+  return <div className={`${classes.bar} bar`} />
 }
 
-const DataRow = ({ label, valueLabel, width, inline, color, url }) => {
-  const classes = useStyles({ inline, width, color })
+const DataRow = ({ label, valueLabel, width, color, url }) => {
+  const classes = useStyles({ width, color, url })
   return (
     <div
       className={classes.row}
       onClick={() => (url ? navigate(url) : null)}
       aria-hidden="true"
     >
-      <Typography variant="caption" className={classes.label}>
+      <Typography variant="caption" className={`${classes.label} label`}>
         {label}
       </Typography>
-      <Bar
-        width={inline ? 100 : width}
-        label={valueLabel}
-        color={color}
-        url={url}
-      />
+      <Typography
+        variant="caption"
+        className={`${classes.valueLabel} valueLabel`}
+      >
+        {valueLabel}
+      </Typography>
+      <Bar width={width} color={color} url={url} />
     </div>
   )
 }
 
-const Viz = ({
-  use,
-  data: useData,
-  inline = false,
-  color = "primary",
-  expand = false,
-}) => {
+const Viz = ({ use, data: useData, color = "primary", expand = false }) => {
   const { data, title } = VISUALIZATIONS[use](useData)
   const classes = useStyles({ color })
   const [expanded, setExpanded] = React.useState(expand)
-  const total = inline
-    ? data.reduce((sum, { value }) => sum + value, 0)
-    : Math.max(...data.map(({ value }) => value))
+  const total = Math.max(...data.map(({ value }) => value))
   let visibleData = []
   let shouldExpand = false
   if (expanded || data.length < 6) {
@@ -194,7 +185,7 @@ const Viz = ({
         {title}
       </Typography>
       {visibleData.map((d, i) => (
-        <DataRow key={i} inline={inline} color={color} {...d} />
+        <DataRow key={i} color={color} {...d} />
       ))}
       {shouldExpand && (
         <Button
