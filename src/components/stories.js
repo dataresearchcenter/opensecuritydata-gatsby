@@ -1,0 +1,26 @@
+import React from "react"
+import { makeStyles } from "@material-ui/core/styles"
+import Grid from "@material-ui/core/Grid"
+import Story from "./story"
+
+const useStyles = makeStyles({
+  root: {
+    flexGrow: 1,
+  },
+})
+
+const Stories = ({ stories }) => {
+  const classes = useStyles()
+
+  return (
+    <Grid container className={classes.root} justify="center" spacing={8}>
+      {stories.map(s => (
+        <Grid key={s.url} item xs={12} md={6}>
+          <Story {...s} />
+        </Grid>
+      ))}
+    </Grid>
+  )
+}
+
+export default Stories

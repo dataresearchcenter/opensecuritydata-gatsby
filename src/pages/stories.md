@@ -1,27 +1,20 @@
 ---
 title: Stories
+stories:
+  - title: Brussels considers pan-EU police searches of ID photos
+    abstract: Law enforcement would seek matches with surveillance photos using facial recognition technology.
+    date: 2020-03-11
+    image: https://www.politico.eu/wp-content/uploads/2020/03/Politico-Europe-EU-Police-final-RGBwebcrop-1160x813.jpg
+    url: https://www.politico.eu/article/eu-police-facial-recognition-surveillance-report/
+    publisher: POLITICO
+  - title: "Sci-fi surveillance: Europe's secretive push into biometric technology"
+    abstract: EU science funding is being spent on developing new tools for policing and security. But who decides how far we need to submit to artificial intelligence?
+    date: 2020-12-10
+    image: https://i.guim.co.uk/img/media/aca603398f3c57efbf76f2bd44dcd76532ae2b73/0_0_5000_3000/master/5000.jpg?width=1900&quality=45&auto=format&fit=max&dpr=2&s=19185430d500a79d67be73ab248b3b31
+    url: https://www.theguardian.com/world/2020/dec/10/sci-fi-surveillance-europes-secretive-push-into-biometric-technology
+    publisher: The Guardian
 ---
 
 # Stories
 
-Tenetur sunt deleniti natus est ea officia ea. Fuga id molestiae vitae quia aut
-ab. Quisquam voluptas consequatur quo repellat qui molestiae impedit fuga.
-Possimus delectus perspiciatis molestiae et quia asperiores qui. Vitae qui
-aliquid voluptas tenetur nihil dolorum itaque. Vel deleniti ea sint facere.
-
-Aut beatae tempora officia neque ut quaerat aut cupiditate. Dolor id aut iusto
-beatae possimus accusantium totam. Quo voluptas est delectus dicta unde nobis
-cum. Temporibus voluptate aut est omnis. Et ipsum beatae sunt sint eos
-doloremque molestiae cumque.
-
-Non quia inventore nam. Enim et beatae ut eos amet est porro. Voluptates ex
-laborum velit expedita id totam. Quia aperiam illum omnis illo earum quia harum
-in. Cumque cum suscipit est iste et distinctio.
-
-Et et aut aspernatur dolorem nam. Eum nobis necessitatibus magnam veniam dolor
-quibusdam. Molestiae cum rerum eaque perspiciatis rerum sunt similique in.
-Molestiae doloribus cumque quo. Sit fugit consequatur hic omnis.
-
-Provident magni animi eveniet. Voluptates numquam rerum beatae aspernatur aut
-temporibus. Hic rem consequatur quae omnis repudiandae veniam dolor. Et vel vel
-voluptatibus et.
+Find stories we published so far about the topic.

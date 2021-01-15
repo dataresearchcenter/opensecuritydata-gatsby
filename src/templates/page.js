@@ -1,6 +1,7 @@
 import React from "react"
 import { graphql } from "gatsby"
 import Layout from "../components/layout"
+import Stories from "../components/stories"
 
 export const query = graphql`
   query($slug: String!) {
@@ -8,6 +9,14 @@ export const query = graphql`
       html
       frontmatter {
         title
+        stories {
+          title
+          abstract
+          date
+          image
+          url
+          publisher
+        }
       }
     }
   }
@@ -16,6 +25,7 @@ export const query = graphql`
 const Page = ({ data }) => (
   <Layout title={data.post.frontmatter.title}>
     <div dangerouslySetInnerHTML={{ __html: data.post.html }} />
+    {data.post.frontmatter.stories && <Stories stories={data.post.frontmatter.stories} />}
   </Layout>
 )
 
