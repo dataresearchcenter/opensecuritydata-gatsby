@@ -14,6 +14,7 @@ import {
   getBeneficiaryLink,
 } from "../links"
 import Amount from "./amount"
+import Flag from "./flag"
 import CountryNames from "../data/countryNames.json"
 
 const cast = value => (!value || isNaN(value) ? 0 : parseFloat(value))
@@ -27,7 +28,11 @@ const addAmountLabel = data => ({
 
 const getLabel = (label, grouper = null) =>
   grouper === "country"
-    ? CountryNames[label] || label
+    ? (
+        <>
+          <Flag iso={label} /> {CountryNames[label]}
+        </>
+      ) || label
     : label.indexOf(" - ") > 0
     ? label.split(" - ")[0].substring(0, 20)
     : label // FIXME topic names
