@@ -1,7 +1,7 @@
 import React from "react"
 import { navigate } from "gatsby"
 import { DataGrid } from "@material-ui/data-grid"
-import { renderCell } from "./tableUtil"
+import { renderCell, numericSort } from "./tableUtil"
 import { getProjectLink } from "../links"
 
 const render = ({ field, value }) => renderCell(field, value)
@@ -13,8 +13,14 @@ const columns = [
     headerName: "Total amount",
     width: 150,
     renderCell: render,
+    sortComparator: numericSort,
   },
-  { field: "beneficiaries", headerName: "Beneficiaries", width: 150 },
+  {
+    field: "beneficiaries",
+    headerName: "Beneficiaries",
+    width: 150,
+    sortComparator: numericSort,
+  },
   { field: "programme", headerName: "Programme", width: 200 },
   {
     field: "startDate",

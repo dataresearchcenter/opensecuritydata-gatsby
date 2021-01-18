@@ -3,7 +3,7 @@ import { navigate } from "gatsby"
 import { DataGrid } from "@material-ui/data-grid"
 import { getCountryLink } from "../links"
 import Country from "./country"
-import { renderCell } from "./tableUtil"
+import { renderCell, numericSort } from "./tableUtil"
 
 const columns = [
   {
@@ -17,9 +17,14 @@ const columns = [
     headerName: "Total amount",
     width: 200,
     renderCell: ({ field, value }) => renderCell(field, value),
+    sortComparator: numericSort,
   },
-  { field: "beneficiaries", headerName: "Beneficiaries" },
-  { field: "projects", headerName: "Projects" },
+  {
+    field: "beneficiaries",
+    headerName: "Beneficiaries",
+    sortComparator: numericSort,
+  },
+  { field: "projects", headerName: "Projects", sortComparator: numericSort },
 ]
 
 const CountriesTable = ({ rows }) => (

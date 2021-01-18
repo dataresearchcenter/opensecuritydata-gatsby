@@ -19,7 +19,7 @@ export function renderCell(key, value, linkColor) {
     key.indexOf("end") > -1
   )
     return <Date date={value} />
-  if (value.toString().indexOf("http") > -1)
+  if (value.toString().indexOf("http") === 0)
     return (
       <Link href={value} color={linkColor}>
         {value}
@@ -48,4 +48,8 @@ export function onCellClick({ field, row }, getLink) {
         : row.beneficiary_name &&
           navigate(links.getBeneficiaryLink({ name: row.beneficiary_name }))
   }
+}
+
+export function numericSort(value1, value2) {
+  return parseFloat(value1) - parseFloat(value2)
 }
