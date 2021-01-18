@@ -15,6 +15,4 @@ stories:
     publisher: The Guardian
 ---
 
-# Stories
-
 Find stories we published so far about the topic.
