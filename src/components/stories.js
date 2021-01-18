@@ -14,11 +14,13 @@ const Stories = ({ stories }) => {
 
   return (
     <Grid container className={classes.root} justify="center" spacing={8}>
-      {stories.map(s => (
-        <Grid key={s.url} item xs={12} md={6}>
-          <Story {...s} />
-        </Grid>
-      ))}
+      {stories
+        .sort((a, b) => new Date(b.date) - new Date(a.date))
+        .map(s => (
+          <Grid key={s.url} item xs={12} md={6}>
+            <Story {...s} />
+          </Grid>
+        ))}
     </Grid>
   )
 }

@@ -20,7 +20,7 @@ const useStyles = makeStyles({
 })
 
 const Story = ({ title, abstract, date, image, url, publisher }) => {
-  const dateDisplay = <Date date={date} />
+  const dateDisplay = <Date date={date} format="long" />
   const classes = useStyles()
   return (
     <Card>
