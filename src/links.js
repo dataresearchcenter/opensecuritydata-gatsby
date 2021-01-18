@@ -7,7 +7,7 @@ const getProjectLink = ({ name }) => `/projects/${slugify(name)}`
 
 const getTopicLink = ({ key }) => `/topics/${pathSlugify(key)}`
 
-const getCountryLink = ({ iso }) => `/countries/${iso}`
+const getCountryLink = ({ iso, key }) => `/countries/${iso || key}`
 
 const getBeneficiaryLink = ({ name }) => `/beneficiaries/${slugify(name)}`
 

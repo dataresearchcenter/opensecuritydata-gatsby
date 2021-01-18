@@ -145,7 +145,7 @@ export default function ProjectTemplate({
               <Typography variant="h4" gutterBottom>
                 Description
               </Typography>
-              <Typography variant="body2" gutterBottom>
+              <Typography component="div" variant="body2" gutterBottom>
                 {node.language ? (
                   <Translated
                     language={node.language}

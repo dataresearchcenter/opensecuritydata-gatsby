@@ -1,5 +1,4 @@
 import React, { useState, useRef } from "react"
-import { useStaticQuery, graphql } from "gatsby"
 import { useFlexSearch } from "react-use-flexsearch"
 import { makeStyles } from "@material-ui/core/styles"
 import Typography from "@material-ui/core/Typography"
@@ -27,20 +26,9 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-const ResultList = ({ items }) => {
-  const [cursor, setCursor] = useState(0)
-  const handleKeyDown = e => {
-    if (e.keyCode === 38) {
-      e.preventDefault()
-      setCursor(Math.max(cursor - 1, 0))
-    }
-    if (e.keyCode === 40) {
-      e.preventDefault()
-      setCursor(Math.min(cursor + 1, items.length - 1))
-    }
-  }
+const ResultList = ({ items, cursor }) => {
   return (
-    <Paper onKeyDown={handleKeyDown}>
+    <Paper>
       <List dense>
         {items.map(({ id, name, schema, key }, i) => (
           <ListItemLink
@@ -58,19 +46,10 @@ const ResultList = ({ items }) => {
   )
 }
 
-const SearchResults = ({ query, searchInputRef }) => {
+const SearchResults = ({ index, store, query, searchInputRef, cursor }) => {
   const [showAll, setShowAll] = useState(false)
   const refineSearch = () => setShowAll(false) && searchInputRef.current.focus()
   const classes = useStyles()
-  const { search } = useStaticQuery(graphql`
-    query localSearchQuery {
-      search: localSearchData {
-        index
-        store
-      }
-    }
-  `)
-  const { index, store } = search
   const results = useFlexSearch(query, index, store, { limit: 100 })
   return (
     results.length > 0 && (
@@ -84,6 +63,7 @@ const SearchResults = ({ query, searchInputRef }) => {
         <ResultList
           className={classes.searchResults}
           items={showAll ? results : results.slice(0, 10)}
+          cursor={cursor}
         />
         {!showAll && results.length > 10 && (
           <Button endIcon={<ExpandMoreIcon />} onClick={() => setShowAll(true)}>
@@ -105,15 +85,37 @@ const SearchResults = ({ query, searchInputRef }) => {
   )
 }
 
-const Search = () => {
+const Search = ({ index, store }) => {
   const [query, setQuery] = useState(getLocationParam("q"))
+  const [cursor, setCursor] = useState(-1)
   const handleChange = ({ target }) => setQuery(target.value)
   query?.length > 3 && updateLocationParams({ q: query })
 
   const searchInput = useRef()
 
+  const handleKeyDown = e => {
+    if (e.keyCode === 40) {
+      e.preventDefault()
+      cursor < 0 // initial
+        ? setCursor(0)
+        : // : setCursor(Math.min(cursor + 1, items.length - 1))
+          setCursor(cursor + 1)
+    }
+    if (e.keyCode === 38) {
+      e.preventDefault()
+      if (cursor === 0) {
+        // focus search input
+        // FIXME
+        setCursor(-1)
+        searchInput.current.focus()
+      } else {
+        setCursor(Math.max(cursor - 1, 0))
+      }
+    }
+  }
+
   return (
-    <>
+    <div onKeyDown={handleKeyDown}>
       <TextField
         autoFocus
         id="q"
@@ -133,9 +135,16 @@ const Search = () => {
         }}
       />
       {query?.length > 3 && (
-        <SearchResults query={query} searchInputRef={searchInput} />
+        <SearchResults
+          query={query}
+          searchInputRef={searchInput}
+          cursor={cursor}
+          setCursor={setCursor}
+          index={index}
+          store={store}
+        />
       )}
-    </>
+    </div>
   )
 }
 

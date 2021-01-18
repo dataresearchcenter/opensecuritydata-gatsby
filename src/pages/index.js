@@ -1,10 +1,20 @@
 import React from "react"
+import { graphql } from "gatsby"
 import { makeStyles } from "@material-ui/core/styles"
 import Typography from "@material-ui/core/Typography"
 import Box from "@material-ui/core/Box"
 import Layout from "../components/layout"
 import Search from "../components/search"
 import SimpleBrowser from "../components/simpleBrowser"
+
+export const query = graphql`
+  query localSearchQuery {
+    search: localSearchData {
+      index
+      store
+    }
+  }
+`
 
 const useStyles = makeStyles(theme => ({
   hero: {
@@ -16,7 +26,7 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-const IndexPage = () => {
+const IndexPage = ({ data: { search } }) => {
   const classes = useStyles()
   return (
     <Layout>
@@ -27,13 +37,13 @@ const IndexPage = () => {
         <Typography variant="subtitle1">
           that receive funding from the EU for sourveillance technology
         </Typography>
-        <Search />
+        <Search {...search} />
       </Box>
       <Box className={classes.hero}>
         <Typography variant="h3" className={classes.heroTitle} gutterBottom>
           Browse data directly
         </Typography>
-        <SimpleBrowser />
+        <SimpleBrowser data={search.store} />
       </Box>
     </Layout>
   )

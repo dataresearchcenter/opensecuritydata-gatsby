@@ -4,7 +4,7 @@ import slugify from "slugify"
 import Tabs from "@material-ui/core/Tabs"
 import Tab from "@material-ui/core/Tab"
 import Box from "@material-ui/core/Box"
-import { updateLocationParams, getLocationParam } from "../util"
+import { setHashValue, getHashValue } from "../util"
 
 const a11yProps = index => ({
   id: `databrowser-tab-${index}`,
@@ -31,13 +31,13 @@ const TabPanel = ({ children, value, index }) => (
 const FundingTables = ({ children, ...tabsProps }) => {
   const classes = useStyles()
   const tabs = children.map(({ props }) => slugify(props.title).toLowerCase())
-  const activeTab = getLocationParam("tab")
+  const activeTab = getHashValue("tab")
   const [value, setValue] = React.useState(
     activeTab ? tabs.indexOf(activeTab) : 0
   )
   const handleChange = (event, newValue) => {
     setValue(newValue)
-    updateLocationParams({ tab: tabs[newValue] })
+    setHashValue("tab", tabs[newValue])
   }
   return (
     <div className={classes.root}>

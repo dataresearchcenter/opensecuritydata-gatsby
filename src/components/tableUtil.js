@@ -51,5 +51,8 @@ export function onCellClick({ field, row }, getLink) {
 }
 
 export function numericSort(value1, value2) {
-  return parseFloat(value1) - parseFloat(value2)
+  return (
+    (parseFloat(value1.replace(",", "")) || 0) -
+    (parseFloat(value2.replace(",", "")) || 0)
+  )
 }
