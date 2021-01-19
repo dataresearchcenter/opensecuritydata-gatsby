@@ -19,7 +19,7 @@ import CountryNames from "../data/countryNames.json"
 
 const cast = value => (!value || isNaN(value) ? 0 : parseFloat(value))
 
-const sum = (acc, { amount }) => acc + cast(amount)
+const sum = (acc, data) => acc + cast(data.amount || data.total_amount)  // FIXME
 
 const addAmountLabel = data => ({
   ...data,

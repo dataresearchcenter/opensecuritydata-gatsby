@@ -100,7 +100,8 @@ const DataTable = ({
   const classes = useStyles({ color })
   const ref = useRef()
   const [minHeight, setHeight] = useState()
-  setTimeout(() => setHeight(ref.current?.clientHeight), 100) // FIXME DataGrid height
+  const adjustHeight = () => setTimeout(() => setHeight(ref.current?.clientHeight), 100) // FIXME DataGrid height
+  adjustHeight()  // initial height
 
   filters = columns.filter(({ field }) => filters.indexOf(field) > -1)
   const getFacets = ({ filters, rows }) =>
@@ -172,6 +173,8 @@ const DataTable = ({
           disableSelectionOnClick
           hideFooter={rows.length < 11}
           onCellClick={onCellClick}
+          onPageChange={adjustHeight}
+          sortingOrder={["desc", "asc", null]}
           {...props}
         />
       </Paper>

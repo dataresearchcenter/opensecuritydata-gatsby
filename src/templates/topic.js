@@ -8,6 +8,7 @@ import AttributeCard from "../components/attributeCard"
 import AmountCard from "../components/amountCard"
 import TopicHierarchyCard from "../components/topicHierarchyCard"
 import { TopicSchema } from "../schema"
+import { VizCard } from "../components/viz"
 
 export const topicQuery = graphql`
   query topicContext(
@@ -37,6 +38,8 @@ export const topicQuery = graphql`
         beneficiaries
         total_amount
         payments
+        startDate
+        endDate
       }
     }
   }
@@ -72,11 +75,14 @@ export default function ProgrammeTemplate({
             programmes_count,
           }}
         />
-        <TopicHierarchyCard
-          ancestor={ancestor}
-          descendants={descendants.nodes}
-          root={node.key}
-        />
+        <>
+          <VizCard use="fundingPerYear" data={projects.nodes} />
+          <TopicHierarchyCard
+            ancestor={ancestor}
+            descendants={descendants.nodes}
+            root={node.key}
+          />
+        </>
       </OverviewGrid>
       <Typography variant="h4" component="h2" gutterBottom>
         Projects
