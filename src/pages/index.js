@@ -24,6 +24,9 @@ const useStyles = makeStyles(theme => ({
   heroTitle: {
     fontWeight: "lighter",
   },
+  subTitle: {
+    marginBottom: theme.spacing(2)
+  }
 }))
 
 const IndexPage = ({ data: { search } }) => {
@@ -31,16 +34,16 @@ const IndexPage = ({ data: { search } }) => {
   return (
     <Layout>
       <Box className={classes.hero}>
-        <Typography variant="h3" className={classes.heroTitle} gutterBottom>
+        <Typography variant="h3" component="h1" className={classes.heroTitle} gutterBottom>
           Find companies, organizations or topics
         </Typography>
-        <Typography variant="subtitle1">
+        <Typography variant="subtitle1" className={classes.subTitle}>
           that receive funding from the EU for sourveillance technology
         </Typography>
         <Search {...search} />
       </Box>
       <Box className={classes.hero}>
-        <Typography variant="h3" className={classes.heroTitle} gutterBottom>
+        <Typography variant="h3" component="h2" className={classes.heroTitle} gutterBottom>
           Browse data directly
         </Typography>
         <SimpleBrowser data={search.store} />

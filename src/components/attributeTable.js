@@ -14,10 +14,10 @@ const AttributeTable = ({ data, linkColor, ...rest }) => (
           .filter(k => data[k] !== "")
           .map(k => (
             <TableRow key={k}>
-              <TableCell component="th" scope="row">
+              <TableCell component="th" scope="row" style={{ paddingLeft: 0 }}>
                 {k.replace("_", " ").replace(/^\w/, k[0].toUpperCase())}
               </TableCell>
-              <TableCell align="right">
+              <TableCell align="right" style={{ paddingRight: 0 }}>
                 {renderCell(k, data[k], linkColor)}
               </TableCell>
             </TableRow>

@@ -60,7 +60,7 @@ export default function ProgrammeTemplate({
   } = node
   return (
     <Layout route={route} title={title}>
-      <Typography variant="h3" gutterBottom>
+      <Typography variant="h3" component="h1" gutterBottom>
         {node.name} {TopicSchema.chip()}
       </Typography>
       <OverviewGrid>
@@ -78,7 +78,7 @@ export default function ProgrammeTemplate({
           root={node.key}
         />
       </OverviewGrid>
-      <Typography variant="h4" gutterBottom>
+      <Typography variant="h4" component="h2" gutterBottom>
         Projects
       </Typography>
       <ProjectsTable rows={projects.nodes} />

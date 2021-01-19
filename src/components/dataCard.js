@@ -5,7 +5,7 @@ import Typography from "@material-ui/core/Typography"
 import Button from "@material-ui/core/Button"
 import DataDownload from "./downloadData"
 
-const DataCard = ({ fileName, fileSize, sourceUrl }) => (
+const DataCard = ({ fileName, fileSize, sourceUrl, color = "primary" }) => (
   <Card>
     <CardContent>
       <Typography color="textSecondary" gutterBottom>
@@ -23,7 +23,12 @@ const DataCard = ({ fileName, fileSize, sourceUrl }) => (
         asperiores qui. Vitae qui aliquid voluptas tenetur nihil dolorum itaque.
         Vel deleniti ea sint facere.
       </Typography>
-      <DataDownload fileName={fileName} fileSize={fileSize} size="small" />
+      <DataDownload
+        fileName={fileName}
+        fileSize={fileSize}
+        color={color}
+        size="small"
+      />
     </CardContent>
   </Card>
 )

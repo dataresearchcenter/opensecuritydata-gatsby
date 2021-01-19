@@ -53,7 +53,7 @@ export default function ProgrammeTemplate({
 }) {
   return (
     <Layout route={route} title={title}>
-      <Typography variant="h3" gutterBottom>
+      <Typography variant="h3" component="h1" gutterBottom>
         {node.name} {ProgrammeSchema.chip()}
       </Typography>
       <OverviewGrid>

@@ -24,7 +24,7 @@ function TabPanel(props) {
       {...other}
     >
       {value === index && (
-        <Box p={3}>
+        <Box p={3} style={{ paddingLeft: 0, paddingRight: 0 }}>
           <Typography>
             Tenetur sunt deleniti natus est ea officia ea. Fuga id molestiae
             vitae quia aut ab. Quisquam voluptas consequatur quo repellat qui

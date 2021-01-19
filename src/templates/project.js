@@ -81,7 +81,7 @@ const useStyles = makeStyles(theme => ({
 const ProjectTitle = ({ name, name_en, language }) => {
   if (language) {
     return (
-      <Typography variant="h3">
+      <Typography variant="h3" component="h1">
         <Translated original={name} translated={name_en} language={language} />
         {ProjectSchema.chip()}
       </Typography>
@@ -91,17 +91,17 @@ const ProjectTitle = ({ name, name_en, language }) => {
     const [mainname, ...subname] = name.split(" - ")
     return (
       <>
-        <Typography variant="h3">
+        <Typography variant="h3" component="h1">
           {mainname} {ProjectSchema.chip()}
         </Typography>
-        <Typography variant="h5" gutterBottom>
+        <Typography variant="h5" component="h2" gutterBottom>
           {subname.join(" - ")}
         </Typography>
       </>
     )
   } else {
     return (
-      <Typography variant="h3" gutterBottom>
+      <Typography variant="h3" component="h1" gutterBottom>
         {name} {ProjectSchema.chip()}
       </Typography>
     )
@@ -125,7 +125,9 @@ export default function ProjectTemplate({
     <Layout route={route} title={title.split("-")[0].trim()}>
       <ProjectTitle {...node} />
       <section className={classes.section}>
-        <Typography variant="h4">Overview</Typography>
+        <Typography variant="h4" component="h3" gutterBottom>
+          Overview
+        </Typography>
         <OverviewGrid>
           <AmountCard
             color={ProjectSchema.color}
@@ -134,7 +136,6 @@ export default function ProjectTemplate({
           />
           <div>
             <AttributeCard
-              hideTitle
               data={{
                 beneficiaries: node.beneficiaries,
                 project_start: node.startDate,
@@ -149,7 +150,7 @@ export default function ProjectTemplate({
         </OverviewGrid>
         {node.description?.length > 0 && (
           <>
-            <Typography variant="h5" gutterBottom>
+            <Typography variant="h5" component="h4" gutterBottom>
               Description
             </Typography>
             <Paper className={classes.description}>
@@ -182,7 +183,9 @@ export default function ProjectTemplate({
         </section>
       </section>
       <section className={classes.section}>
-        <Typography variant="h4">Funding</Typography>
+        <Typography variant="h4" component="h3" gutterBottom>
+          Funding
+        </Typography>
         <PaymentsTable
           title="Funding"
           rows={payments.nodes}

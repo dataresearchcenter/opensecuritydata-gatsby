@@ -1,5 +1,6 @@
 import React from "react"
 import { graphql } from "gatsby"
+import { makeStyles } from "@material-ui/core/styles"
 import Card from "@material-ui/core/Card"
 import CardActions from "@material-ui/core/CardActions"
 import CardContent from "@material-ui/core/CardContent"
@@ -19,27 +20,39 @@ export const query = graphql`
   }
 `
 
-const DocumentCard = data => (
-  <Card>
-    <CardContent>
-      <Typography variant="h5" component="h2">
-        {data.fileName}
-      </Typography>
-      <Typography variant="body2" component="p">
-        Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy
-        eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam
-        voluptua. At vero eos et accusam et justo duo dolores et ea rebum.
-      </Typography>
-    </CardContent>
-    <CardActions>
-      <DataDownload {...data} />
-    </CardActions>
-  </Card>
-)
+const useStyles = makeStyles(theme => ({
+  card: {
+    marginBottom: theme.spacing(2),
+  },
+}))
+
+const DocumentCard = data => {
+  const classes = useStyles()
+  return (
+    <Card className={classes.card}>
+      <CardContent>
+        <Typography variant="h5" component="h2">
+          {data.fileName}
+        </Typography>
+        <Typography variant="body1" component="p">
+          Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
+          nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
+          sed diam voluptua. At vero eos et accusam et justo duo dolores et ea
+          rebum.
+        </Typography>
+      </CardContent>
+      <CardActions>
+        <DataDownload color="primary" {...data} />
+      </CardActions>
+    </Card>
+  )
+}
 
 const DownloadPage = ({ data: { documents } }) => (
   <Layout route="Data">
-    <Typography variant="h3">All source data</Typography>
+    <Typography variant="h3" component="h1" gutterBottom>
+      All source data
+    </Typography>
     {documents.nodes.map(d => (
       <DocumentCard key={d.id} {...d} />
     ))}

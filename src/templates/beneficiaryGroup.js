@@ -44,7 +44,7 @@ export default function BeneficiaryTemplate({
   }
   return (
     <Layout route={route} title={title}>
-      <Typography variant="h3" gutterBottom>
+      <Typography variant="h3" component="h1" gutterBottom>
         {node.name} {BeneficiaryGroupSchema.chip()}
       </Typography>
       <OverviewGrid>
@@ -68,10 +68,10 @@ export default function BeneficiaryTemplate({
           linkColor={BeneficiaryGroupSchema.color}
         />
       </OverviewGrid>
-      <Typography variant="h4" gutterBottom>
+      <Typography variant="h4" component="h2" gutterBottom>
         Funding
       </Typography>
-      <PaymentsTable rows={payments.nodes} />
+      <PaymentsTable rows={payments.nodes} color={BeneficiaryGroupSchema.color} />
     </Layout>
   )
 }

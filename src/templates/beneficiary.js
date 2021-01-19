@@ -98,7 +98,7 @@ export default function BeneficiaryTemplate({
           )}
         </div>
         <AttributeCard data={tableData} linkColor={schema.color} />
-        <DataCard {...proof} />
+        <DataCard color="secondary" {...proof} />
       </OverviewGrid>
       <Typography variant="h4" gutterBottom>
         Funding
@@ -106,6 +106,7 @@ export default function BeneficiaryTemplate({
       <PaymentsTable
         rows={payments.nodes}
         exclude={["beneficiary_name", "legalForm", "country"]}
+        color={schema.color}
       />
     </Layout>
   )

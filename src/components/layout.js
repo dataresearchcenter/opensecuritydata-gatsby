@@ -1,7 +1,13 @@
 import React from "react"
 import { useStaticQuery, graphql } from "gatsby"
 import { Location } from "@reach/router"
-import { makeStyles } from "@material-ui/core/styles"
+import {
+  ThemeProvider,
+  createMuiTheme,
+  makeStyles,
+  responsiveFontSizes,
+} from "@material-ui/core/styles"
+import CssBaseline from "@material-ui/core/CssBaseline"
 import Container from "@material-ui/core/Container"
 import AppBar from "@material-ui/core/AppBar"
 import Box from "@material-ui/core/Box"
@@ -10,6 +16,32 @@ import Typography from "@material-ui/core/Typography"
 import HomeIcon from "@material-ui/icons/Home"
 import { Button, IconButton } from "gatsby-theme-material-ui"
 import Breadcrumbs from "./breadcrumbs"
+
+import "../fonts.css"
+
+const theme = responsiveFontSizes(
+  createMuiTheme({
+    spacing: 12,
+    typography: {
+      fontSize: 15,
+      fontFamily: "Work Sans",
+    },
+    shape: {
+      borderRadius: 0,
+    },
+    palette: {
+      background: {
+        default: "#eee"
+      }
+    },
+    shadows: [...new Array(25)].map(() => "none"),
+    props: {
+      MuiButtonBase: {
+        disableRipple: true,
+      },
+    },
+  })
+)
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -46,40 +78,47 @@ export default function Layout({ children, route, title, ...props }) {
   `)
   const classes = useStyles()
   return (
-    <Location>
-      {location => (
-        <section className={classes.root}>
-          <AppBar position="static" color="default" className={classes.appBar}>
-            <Toolbar>
-              <IconButton
-                edge="start"
-                className={classes.menuButton}
-                color="inherit"
-                to="/"
-              >
-                <HomeIcon />
-              </IconButton>
-              <Typography variant="h6" className={classes.title}>
-                {site.siteMetadata.title}
-                {route && <span className={classes.route}> | {route}</span>}
-              </Typography>
-              <Button color="inherit" to="/about">
-                About
-              </Button>
-              <Button color="inherit" to="/stories">
-                Stories
-              </Button>
-              <Button color="inherit" to="/data">
-                Data
-              </Button>
-            </Toolbar>
-          </AppBar>
-          <Container maxWidth="lg">
-            <Breadcrumbs {...location} />
-            <Box className={classes.content}>{children}</Box>
-          </Container>
-        </section>
-      )}
-    </Location>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <Location>
+        {location => (
+          <section className={classes.root}>
+            <AppBar
+              position="static"
+              color="default"
+              className={classes.appBar}
+            >
+              <Toolbar>
+                <IconButton
+                  edge="start"
+                  className={classes.menuButton}
+                  color="inherit"
+                  to="/"
+                >
+                  <HomeIcon />
+                </IconButton>
+                <Typography variant="h6" className={classes.title}>
+                  {site.siteMetadata.title}
+                  {route && <span className={classes.route}> | {route}</span>}
+                </Typography>
+                <Button color="inherit" to="/about">
+                  About
+                </Button>
+                <Button color="inherit" to="/stories">
+                  Stories
+                </Button>
+                <Button color="inherit" to="/data">
+                  Data
+                </Button>
+              </Toolbar>
+            </AppBar>
+            <Container maxWidth="lg">
+              <Breadcrumbs {...location} />
+              <Box className={classes.content}>{children}</Box>
+            </Container>
+          </section>
+        )}
+      </Location>
+    </ThemeProvider>
   )
 }

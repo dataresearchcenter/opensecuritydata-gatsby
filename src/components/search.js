@@ -133,6 +133,7 @@ const Search = ({ index, store }) => {
             </InputAdornment>
           ),
         }}
+        style={{background: "white"}}
       />
       {query?.length > 3 && (
         <SearchResults

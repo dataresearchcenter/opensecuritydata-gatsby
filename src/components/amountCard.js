@@ -1,4 +1,5 @@
 import React from "react"
+import { withTheme } from '@material-ui/core/styles';
 import Card from "@material-ui/core/Card"
 import CardContent from "@material-ui/core/CardContent"
 import Typography from "@material-ui/core/Typography"
@@ -13,6 +14,7 @@ const AmountCard = ({
   endDate,
   color,
   viz,
+  theme
 }) => (
   <Card>
     <CardContent>
@@ -33,9 +35,9 @@ const AmountCard = ({
         technology
         {startDate && endDate && " in the given period."}
       </Typography>
-      {viz && viz}
+      {viz && <div style={{ paddingTop: theme.spacing(2) }}>{viz}</div>}
     </CardContent>
   </Card>
 )
 
-export default AmountCard
+export default withTheme(AmountCard)

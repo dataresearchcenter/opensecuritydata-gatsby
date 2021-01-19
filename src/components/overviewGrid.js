@@ -7,6 +7,11 @@ const useStyles = makeStyles(theme => ({
     flexGrow: 1,
     paddingBottom: theme.spacing(8),
   },
+  grid: {
+    "& > div": {
+      width: "100%",
+    },
+  },
 }))
 
 const OverviewGrid = ({ children }) => {
@@ -14,7 +19,7 @@ const OverviewGrid = ({ children }) => {
   return (
     <Grid container spacing={4} className={classes.root}>
       {children.map((c, i) => (
-        <Grid item md={4} key={i}>
+        <Grid item md={4} key={i} className={classes.root}>
           {c}
         </Grid>
       ))}

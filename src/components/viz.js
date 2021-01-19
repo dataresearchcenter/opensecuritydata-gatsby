@@ -100,14 +100,14 @@ const VISUALIZATIONS = {
 }
 
 const useStyles = makeStyles(theme => ({
-  root: {
-    paddingTop: theme.spacing(2),
+  title: {
+    paddingBottom: theme.spacing(1)
   },
   row: {
     position: "relative",
     display: "block",
     paddingBottom: theme.spacing(1),
-    height: theme.spacing(5),
+    height: theme.spacing(4),
     width: "100%",
     cursor: ({ url }) => (url ? "pointer" : null),
     "&:hover .bar": {
@@ -123,7 +123,7 @@ const useStyles = makeStyles(theme => ({
   bar: {
     position: "absolute",
     top: 0,
-    height: theme.spacing(1),
+    height: theme.spacing(0.8),
     width: ({ width }) => `${width}%`,
     backgroundColor: ({ color }) => theme.palette[color].light,
     display: "block",
@@ -169,7 +169,12 @@ const DataRow = ({ label, valueLabel, width, color, url }) => {
   )
 }
 
-const Viz = ({ use, data: useData, color = "primary", expand = false }) => {
+const Viz = ({
+  use,
+  data: useData,
+  color = "primary",
+  expand = false,
+}) => {
   const { data, title } = VISUALIZATIONS[use](useData)
   const classes = useStyles({ color })
   const [expanded, setExpanded] = React.useState(expand)
@@ -185,8 +190,13 @@ const Viz = ({ use, data: useData, color = "primary", expand = false }) => {
     shouldExpand = true
   }
   return (
-    <div className={classes.root}>
-      <Typography variant="overline" component="p">
+    <div>
+      <Typography
+        color="textSecondary"
+        component="p"
+        className={classes.title}
+        gutterBottom
+      >
         {title}
       </Typography>
       {visibleData.map((d, i) => (

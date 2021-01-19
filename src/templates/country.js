@@ -43,7 +43,7 @@ export default function countryTemplate({
   return (
     <Layout route={route} title={title}>
       <Flag iso={node.iso} />
-      <Typography variant="h3" gutterBottom>
+      <Typography variant="h3" component="h1" gutterBottom>
         {node.name} {CountrySchema.chip()}
       </Typography>
       <OverviewGrid>
@@ -55,7 +55,7 @@ export default function countryTemplate({
         <AttributeCard data={attributeData} />
         <VizCard use="fundingPerYear" data={payments.nodes} />
       </OverviewGrid>
-      <Typography variant="h4" gutterBottom>
+      <Typography variant="h4" component="h2" gutterBottom>
         Funding
       </Typography>
       <PaymentsTable rows={payments.nodes} exclude={["country"]} />

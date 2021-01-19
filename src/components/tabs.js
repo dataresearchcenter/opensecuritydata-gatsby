@@ -24,7 +24,11 @@ const TabPanel = ({ children, value, index }) => (
     id={`databrowser-tabpanel-${index}`}
     aria-labelledby={`simple-tab-${index}`}
   >
-    {value === index && <Box p={3}>{children}</Box>}
+    {value === index && (
+      <Box p={3} style={{ paddingLeft: 0, paddingRight: 0 }}>
+        {children}
+      </Box>
+    )}
   </div>
 )
 

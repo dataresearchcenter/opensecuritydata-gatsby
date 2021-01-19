@@ -10,7 +10,7 @@ const columns = [
   {
     field: "amount",
     headerName: "Amount",
-    width: 100,
+    width: 150,
     sortComparator: numericSort,
     renderCell: render,
   },
@@ -36,10 +36,11 @@ const columns = [
   // { field: "summary", headerName: "Role" },
 ]
 
-const PaymentsTable = ({ rows, exclude = [] }) => (
+const PaymentsTable = ({ rows, exclude = [], ...props }) => (
   <DataTable
     rows={rows}
     columns={columns.filter(({ field }) => exclude.indexOf(field) < 0)}
+    {...props}
   />
 )
 

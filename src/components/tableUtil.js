@@ -1,5 +1,8 @@
 import React, { useState, useRef } from "react"
 import { navigate } from "gatsby"
+import { makeStyles } from "@material-ui/core/styles"
+import Typography from "@material-ui/core/Typography"
+import Paper from "@material-ui/core/Paper"
 import Link from "@material-ui/core/Link"
 import { DataGrid } from "@material-ui/data-grid"
 import SCHEMA from "../schema"
@@ -58,25 +61,59 @@ export function numericSort(value1, value2) {
   )
 }
 
-const DataTable = ({ rows, columns, ...props }) => {
+const useStyles = makeStyles(theme => ({
+  root: {
+    "& .MuiDataGrid-root": {
+      border: "none",
+    },
+    "& .MuiDataGrid-row:hover": {
+      cursor: "pointer",
+    },
+    "& .MuiDataGrid-footer": {
+      backgroundColor: theme.palette.background.default,
+    },
+    "& .MuiDataGrid-columnsContainer": {
+      backgroundColor: ({ color }) => theme.palette[color].light,
+      color: "white",
+      border: "none",
+    },
+    "& .MuiDataGrid-columnSeparator": {
+      display: "none",
+    },
+    "& .MuiDataGrid-sortIcon": {
+      color: "white",
+    },
+  },
+}))
+
+const DataTable = ({ rows, columns, color = "primary", ...props }) => {
+  const classes = useStyles({ color })
   // FIXME DataGrid height
   const ref = useRef()
   const [height, setHeight] = useState()
   setTimeout(() => setHeight(ref.current?.clientHeight), 100)
   return (
-    <div style={{ height }}>
-      <DataGrid
-        ref={ref}
-        rows={rows}
-        columns={columns}
-        pageSize={10}
-        rowsPerPageOptions={[10, 25, 50, 100]}
-        autoHeight
-        disableSelectionOnClick
-        hideFooter={rows.length < 11}
-        onCellClick={onCellClick}
-        {...props}
-      />
+    <div className={classes.root}>
+      {rows.length > 1 && (
+        <Typography color="textSecondary" variant="body2" gutterBottom>
+          Sort this table by clicking on the column headers. Click on a cell to
+          go to a page with more information on that item.
+        </Typography>
+      )}
+      <Paper style={{ height }}>
+        <DataGrid
+          ref={ref}
+          rows={rows}
+          columns={columns}
+          pageSize={10}
+          rowsPerPageOptions={[10, 25, 50, 100]}
+          autoHeight
+          disableSelectionOnClick
+          hideFooter={rows.length < 11}
+          onCellClick={onCellClick}
+          {...props}
+        />
+      </Paper>
     </div>
   )
 }

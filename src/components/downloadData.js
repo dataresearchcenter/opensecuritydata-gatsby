@@ -1,15 +1,17 @@
 import React from "react"
 import filesize from "filesize"
-import Fab from "@material-ui/core/Fab"
 import GetAppIcon from "@material-ui/icons/GetApp"
 import { Button } from "gatsby-theme-material-ui"
 
-const DataDownload = ({ fileName, fileSize, ...props }) =>
+const DataDownload = ({ fileName, fileSize, color = "primary" }) =>
   fileName && fileSize ? (
-    <Fab variant="extended" component={Button} to={`/${fileName}`} {...props}>
-      <GetAppIcon />
+    <Button
+      to={`/${fileName}`}
+      startIcon={<GetAppIcon />}
+      color={color}
+    >
       {fileName} ({filesize(fileSize)})
-    </Fab>
+    </Button>
   ) : null
 
 export default DataDownload
