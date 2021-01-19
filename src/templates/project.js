@@ -1,12 +1,12 @@
 import React from "react"
 import { graphql } from "gatsby"
 import { makeStyles } from "@material-ui/core/styles"
+import Paper from "@material-ui/core/Paper"
 import Chip from "@material-ui/core/Chip"
 import Typography from "@material-ui/core/Typography"
 import { Link } from "gatsby-theme-material-ui"
 import Layout from "../components/layout"
 import OverviewGrid from "../components/overviewGrid"
-import Tabs from "../components/tabs"
 import ProgrammeCard from "../components/programmeCard"
 import DataCard from "../components/dataCard"
 import PaymentsTable from "../components/paymentsTable"
@@ -59,6 +59,16 @@ export const projectQuery = graphql`
 `
 
 const useStyles = makeStyles(theme => ({
+  section: {
+    paddingTop: theme.spacing(2),
+    paddingBottom: theme.spacing(8),
+  },
+  description: {
+    padding: theme.spacing(2),
+  },
+  topics: {
+    marginTop: theme.spacing(4),
+  },
   moreCard: {
     marginTop: theme.spacing(4),
   },
@@ -114,38 +124,36 @@ export default function ProjectTemplate({
   return (
     <Layout route={route} title={title.split("-")[0].trim()}>
       <ProjectTitle {...node} />
-      <Tabs
-        indicatorColor={ProjectSchema.color}
-        textColor={ProjectSchema.color}
-      >
-        <section title="Overview">
-          <OverviewGrid>
-            <AmountCard
-              color={ProjectSchema.color}
-              viz={<Viz use="fundingPerCountry" data={payments.nodes} />}
-              {...node}
+      <section className={classes.section}>
+        <Typography variant="h4">Overview</Typography>
+        <OverviewGrid>
+          <AmountCard
+            color={ProjectSchema.color}
+            viz={<Viz use="fundingPerCountry" data={payments.nodes} />}
+            {...node}
+          />
+          <div>
+            <AttributeCard
+              hideTitle
+              data={{
+                beneficiaries: node.beneficiaries,
+                project_start: node.startDate,
+                project_end: node.endDate,
+              }}
             />
-            <div>
-              <AttributeCard
-                hideTitle
-                data={{
-                  beneficiaries: node.beneficiaries,
-                  project_start: node.startDate,
-                  project_end: node.endDate,
-                }}
-              />
-              <div className={classes.moreCard}>
-                <ProgrammeCard data={programme} />
-              </div>
+            <div className={classes.moreCard}>
+              <ProgrammeCard data={programme} />
             </div>
-            <DataCard sourceUrl={node.sourceUrl} {...proof} />
-          </OverviewGrid>
-          {node.description?.length > 0 && (
-            <>
-              <Typography variant="h4" gutterBottom>
-                Description
-              </Typography>
-              <Typography component="div" variant="body2" gutterBottom>
+          </div>
+          <DataCard sourceUrl={node.sourceUrl} {...proof} />
+        </OverviewGrid>
+        {node.description?.length > 0 && (
+          <>
+            <Typography variant="h5" gutterBottom>
+              Description
+            </Typography>
+            <Paper className={classes.description}>
+              <Typography component="div" variant="body1">
                 {node.language ? (
                   <Translated
                     language={node.language}
@@ -156,8 +164,10 @@ export default function ProjectTemplate({
                   node.description
                 )}
               </Typography>
-            </>
-          )}
+            </Paper>
+          </>
+        )}
+        <section className={classes.topics}>
           {topics.nodes.map(({ name, key }) => (
             <Chip
               variant="outlined"
@@ -170,12 +180,15 @@ export default function ProjectTemplate({
             />
           ))}
         </section>
+      </section>
+      <section className={classes.section}>
+        <Typography variant="h4">Funding</Typography>
         <PaymentsTable
           title="Funding"
           rows={payments.nodes}
           exclude={["programme", "purpose"]}
         />
-      </Tabs>
+      </section>
     </Layout>
   )
 }

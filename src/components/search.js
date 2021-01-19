@@ -115,7 +115,7 @@ const Search = ({ index, store }) => {
   }
 
   return (
-    <div onKeyDown={handleKeyDown}>
+    <div onKeyDown={handleKeyDown} role="search">
       <TextField
         autoFocus
         id="q"

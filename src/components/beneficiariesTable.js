@@ -1,7 +1,6 @@
 import React from "react"
-import { DataGrid } from "@material-ui/data-grid"
 import { getBeneficiaryLink } from "../links"
-import { renderCell, onCellClick, numericSort } from "./tableUtil"
+import DataTable, { renderCell, onCellClick, numericSort } from "./tableUtil"
 
 const render = ({ field, value }) => renderCell(field, value)
 
@@ -12,13 +11,13 @@ const columns = [
     headerName: "Total amount",
     width: 150,
     renderCell: render,
-    sortComparator: numericSort
+    sortComparator: numericSort,
   },
   {
     field: "projects",
     headerName: "Projects",
     width: 100,
-    sortComparator: numericSort
+    sortComparator: numericSort,
   },
   {
     field: "startDate",
@@ -42,14 +41,9 @@ const columns = [
 ]
 
 const BeneficiariesTable = ({ rows }) => (
-  <DataGrid
+  <DataTable
     rows={rows}
     columns={columns}
-    pageSize={10}
-    rowsPerPageOptions={[10, 25, 50, 100]}
-    autoHeight
-    disableSelectionOnClick
-    hideFooter={rows.length < 11}
     onCellClick={data => onCellClick(data, getBeneficiaryLink)}
   />
 )

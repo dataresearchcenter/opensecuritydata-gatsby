@@ -1,6 +1,7 @@
-import React from "react"
+import React, { useState, useRef } from "react"
 import { navigate } from "gatsby"
 import Link from "@material-ui/core/Link"
+import { DataGrid } from "@material-ui/data-grid"
 import SCHEMA from "../schema"
 import links from "../links"
 import Amount from "./amount"
@@ -56,3 +57,28 @@ export function numericSort(value1, value2) {
     (parseFloat(value2.replace(",", "")) || 0)
   )
 }
+
+const DataTable = ({ rows, columns, ...props }) => {
+  // FIXME DataGrid height
+  const ref = useRef()
+  const [height, setHeight] = useState()
+  setTimeout(() => setHeight(ref.current?.clientHeight), 100)
+  return (
+    <div style={{ height }}>
+      <DataGrid
+        ref={ref}
+        rows={rows}
+        columns={columns}
+        pageSize={10}
+        rowsPerPageOptions={[10, 25, 50, 100]}
+        autoHeight
+        disableSelectionOnClick
+        hideFooter={rows.length < 11}
+        onCellClick={onCellClick}
+        {...props}
+      />
+    </div>
+  )
+}
+
+export default DataTable

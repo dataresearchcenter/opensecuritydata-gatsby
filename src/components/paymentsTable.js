@@ -1,6 +1,5 @@
 import React from "react"
-import { DataGrid } from "@material-ui/data-grid"
-import { renderCell, onCellClick, numericSort } from "./tableUtil"
+import DataTable, { renderCell, numericSort } from "./tableUtil"
 
 const render = ({ field, value }) => renderCell(field, value)
 
@@ -38,15 +37,9 @@ const columns = [
 ]
 
 const PaymentsTable = ({ rows, exclude = [] }) => (
-  <DataGrid
+  <DataTable
     rows={rows}
     columns={columns.filter(({ field }) => exclude.indexOf(field) < 0)}
-    pageSize={10}
-    rowsPerPageOptions={[10, 25, 50, 100]}
-    autoHeight
-    disableSelectionOnClick
-    hideFooter={rows.length < 11}
-    onCellClick={onCellClick}
   />
 )
 

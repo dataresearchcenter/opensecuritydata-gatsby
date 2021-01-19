@@ -1,9 +1,8 @@
 import React from "react"
 import { navigate } from "gatsby"
-import { DataGrid } from "@material-ui/data-grid"
 import { getCountryLink } from "../links"
 import Country from "./country"
-import { renderCell, numericSort } from "./tableUtil"
+import DataTable, { renderCell, numericSort } from "./tableUtil"
 
 const columns = [
   {
@@ -28,14 +27,9 @@ const columns = [
 ]
 
 const CountriesTable = ({ rows }) => (
-  <DataGrid
+  <DataTable
     rows={rows}
     columns={columns}
-    pageSize={10}
-    rowsPerPageOptions={[10, 25, 50, 100]}
-    autoHeight
-    disableSelectionOnClick
-    hideFooter={rows.length < 11}
     onRowClick={({ row }) => navigate(getCountryLink(row))}
   />
 )
