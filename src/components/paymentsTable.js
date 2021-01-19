@@ -40,6 +40,7 @@ const PaymentsTable = ({ rows, exclude = [], ...props }) => (
   <DataTable
     rows={rows}
     columns={columns.filter(({ field }) => exclude.indexOf(field) < 0)}
+    filters={["programme", "country", "legalForm"]}
     {...props}
   />
 )

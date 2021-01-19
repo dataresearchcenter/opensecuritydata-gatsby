@@ -10,6 +10,7 @@ import links from "../links"
 import Amount from "./amount"
 import Date from "./date"
 import Country from "./country"
+import TableFilters from "./tableFilters"
 
 export function renderCell(key, value, linkColor) {
   if (!value) return value
@@ -83,15 +84,63 @@ const useStyles = makeStyles(theme => ({
     "& .MuiDataGrid-sortIcon": {
       color: "white",
     },
+    "& .data-container": {
+      backgroundColor: "white",
+    },
   },
 }))
 
-const DataTable = ({ rows, columns, color = "primary", ...props }) => {
+const DataTable = ({
+  rows,
+  columns,
+  color = "primary",
+  filters = [],
+  ...props
+}) => {
   const classes = useStyles({ color })
-  // FIXME DataGrid height
   const ref = useRef()
-  const [height, setHeight] = useState()
-  setTimeout(() => setHeight(ref.current?.clientHeight), 100)
+  const [minHeight, setHeight] = useState()
+  setTimeout(() => setHeight(ref.current?.clientHeight), 100) // FIXME DataGrid height
+
+  filters = columns.filter(({ field }) => filters.indexOf(field) > -1)
+  const getFacets = ({ filters, rows }) =>
+    filters.map(f => ({
+      ...f,
+      items: [...new Set(rows.map(r => r[f.field]))],
+    }))
+  const facets = getFacets({ filters, rows })
+  const initialState = {
+    filteredRows: rows,
+    activeFilters: {},
+    availableFacets: facets,
+  }
+  const filterRows = activeFilters => {
+    let filteredRows = rows
+    for (const [field, value] of Object.entries(activeFilters)) {
+      filteredRows = filteredRows.filter(r => r[field] === value)
+    }
+    return filteredRows
+  }
+  const [state, setState] = useState(initialState)
+  const resetFilters = () => setState(initialState)
+  const applyFilter = ({ field, value }) => {
+    let activeFilters = {}
+    if (value === "") {
+      const keys = Object.keys(state.activeFilters).filter(k => k !== field)
+      activeFilters = keys.reduce(
+        (o, k) => ({ ...o, [k]: state.activeFilters[k] }),
+        {}
+      )
+    } else {
+      activeFilters = { ...state.activeFilters, [field]: value }
+    }
+    const filteredRows = filterRows(activeFilters)
+    const availableFacets = getFacets({ filters, rows: filteredRows })
+    setState({ activeFilters, filteredRows, availableFacets })
+  }
+
+  const { filteredRows, activeFilters, availableFacets } = state
+
   return (
     <div className={classes.root}>
       {rows.length > 1 && (
@@ -100,10 +149,22 @@ const DataTable = ({ rows, columns, color = "primary", ...props }) => {
           go to a page with more information on that item.
         </Typography>
       )}
-      <Paper style={{ height }}>
+      {rows.length > 1 && filters.length > 0 && (
+        <TableFilters
+          facets={facets}
+          availableFacets={availableFacets.reduce(
+            (o, f) => ({ ...o, [f.field]: f.items }),
+            {}
+          )}
+          applyFilter={applyFilter}
+          activeFilters={activeFilters}
+          resetFilters={resetFilters}
+        />
+      )}
+      <Paper style={{ minHeight }}>
         <DataGrid
           ref={ref}
-          rows={rows}
+          rows={filteredRows}
           columns={columns}
           pageSize={10}
           rowsPerPageOptions={[10, 25, 50, 100]}

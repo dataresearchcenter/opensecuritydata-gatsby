@@ -44,6 +44,7 @@ const BeneficiariesTable = ({ rows }) => (
   <DataTable
     rows={rows}
     columns={columns}
+    filters={["country", "legalForm"]}
     onCellClick={data => onCellClick(data, getBeneficiaryLink)}
   />
 )

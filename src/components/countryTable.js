@@ -21,9 +21,15 @@ const columns = [
   {
     field: "beneficiaries",
     headerName: "Beneficiaries",
+    width: 200,
     sortComparator: numericSort,
   },
-  { field: "projects", headerName: "Projects", sortComparator: numericSort },
+  {
+    field: "projects",
+    headerName: "Projects",
+    width: 200,
+    sortComparator: numericSort,
+  },
 ]
 
 const CountriesTable = ({ rows }) => (
