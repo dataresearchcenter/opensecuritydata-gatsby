@@ -1,6 +1,8 @@
 ---
 title: About
 ---
+**Hello from netlify cms!**
+
 Tenetur sunt deleniti natus est ea officia ea. Fuga id molestiae vitae quia aut
 ab. Quisquam voluptas consequatur quo repellat qui molestiae impedit fuga.
 Possimus delectus perspiciatis molestiae et quia asperiores qui. Vitae qui
