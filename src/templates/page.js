@@ -24,10 +24,15 @@ export const query = graphql`
 `
 
 const Page = ({ data }) => (
-  <Layout title={data.post.frontmatter.title}>
+  <Layout
+    route={data.post.frontmatter.title}
+    title={data.post.frontmatter.title}
+  >
     <Typography variant="h3">{data.post.frontmatter.title}</Typography>
     <div dangerouslySetInnerHTML={{ __html: data.post.html }} />
-    {data.post.frontmatter.stories && <Stories stories={data.post.frontmatter.stories} />}
+    {data.post.frontmatter.stories && (
+      <Stories stories={data.post.frontmatter.stories} />
+    )}
   </Layout>
 )
 

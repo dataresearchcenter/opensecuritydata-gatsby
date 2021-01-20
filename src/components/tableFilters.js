@@ -1,5 +1,6 @@
 import React from "react"
-import { makeStyles } from "@material-ui/core/styles"
+import { makeStyles, useTheme } from "@material-ui/core/styles"
+import useMediaQuery from "@material-ui/core/useMediaQuery"
 import InputLabel from "@material-ui/core/InputLabel"
 import MenuItem from "@material-ui/core/MenuItem"
 import FormControl from "@material-ui/core/FormControl"
@@ -10,39 +11,47 @@ import Flag from "./flag"
 import CountryNames from "../data/countryNames.json"
 import SCHEMA from "../schema"
 
-const Filter = ({ label, items, value, applyFilter }) => (
-  <FormControl variant="outlined">
-    <InputLabel id={`label-${label}`}>Filter: {label}</InputLabel>
-    <Select
-      style={{ minWidth: 200 }}
-      autoWidth
-      labelId={`label-${label}`}
-      id={`select-${label}`}
-      label={label}
-      value={value}
-      onChange={({ target: { value } }) => applyFilter(value)}
-    >
-      <MenuItem value="">
-        <em>all</em>
-      </MenuItem>
-      {items.map(({ label, value, disabled }) => (
-        <MenuItem key={value} value={value} disabled={disabled}>
-          {label}
-        </MenuItem>
-      ))}
-    </Select>
-  </FormControl>
-)
-
 const useStyles = makeStyles(theme => ({
   root: {
     paddingTop: theme.spacing(1),
     paddingBottom: theme.spacing(1),
   },
   resetBtn: {
-    height: 56
-  }
+    height: 56,
+  },
+  control: {
+    width: ({ isMobile }) => (isMobile ? "101%" : "auto"),
+    minWidth: ({ isMobile }) => (isMobile ? null : 200),
+  },
 }))
+
+const Filter = ({ label, items, value, applyFilter }) => {
+  const theme = useTheme()
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"))
+  const classes = useStyles({ isMobile })
+  return (
+    <FormControl className={classes.control} variant="outlined">
+      <InputLabel id={`label-${label}`}>Filter: {label}</InputLabel>
+      <Select
+        autoWidth
+        labelId={`label-${label}`}
+        id={`select-${label}`}
+        label={label}
+        value={value}
+        onChange={({ target: { value } }) => applyFilter(value)}
+      >
+        <MenuItem value="">
+          <em>all</em>
+        </MenuItem>
+        {items.map(({ label, value, disabled }) => (
+          <MenuItem key={value} value={value} disabled={disabled}>
+            {label}
+          </MenuItem>
+        ))}
+      </Select>
+    </FormControl>
+  )
+}
 
 const TableFilters = ({
   facets,
