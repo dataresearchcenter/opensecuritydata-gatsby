@@ -64,8 +64,11 @@ const useStyles = makeStyles(theme => ({
   },
   content: {
     paddingTop: ({ isMobile }) =>
-      isMobile ? theme.spacing(8) : theme.spacing(12),
+      isMobile ? theme.spacing(10) : theme.spacing(12),
     paddingBottom: theme.spacing(6),
+  },
+  bcmbs: {
+    paddingBottom: theme.spacing(4),
   },
 }))
 
@@ -181,8 +184,14 @@ export default function Layout({ children, route, title, ...props }) {
               </AppBar>
             </HideOnScroll>
             <Container maxWidth="lg">
-              <Breadcrumbs {...location} />
-              <Box className={classes.content}>{children}</Box>
+              <Box className={classes.content}>
+                {!isMobile && (
+                  <div className={classes.bcmbs}>
+                    <Breadcrumbs {...location} />
+                  </div>
+                )}
+                {children}
+              </Box>
             </Container>
           </section>
         )}

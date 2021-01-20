@@ -8,6 +8,7 @@ const getCrumbs = pathname => {
   pathname = pathname.substring(1).replace(/\/$/, "")
   if (!pathname) return []
   const paths = pathname.split("/")
+  console.log(paths)
   return (
     paths.length > 0 &&
     paths.map((p, i) => ({
