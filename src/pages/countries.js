@@ -13,7 +13,7 @@ export const query = graphql`
         name
         beneficiaries
         projects
-        total_amount
+        amount
       }
     }
   }
@@ -21,8 +21,10 @@ export const query = graphql`
 
 const CountriesPage = ({ data: { countries } }) => (
   <Layout route="Countries">
-    <Typography variant="h3" gutterBottom>All countries</Typography>
-    <CountriesTable rows={countries.nodes} />
+    <Typography variant="h3" gutterBottom>
+      All countries
+    </Typography>
+    <CountriesTable rows={countries.nodes} pageSize={25} />
   </Layout>
 )
 

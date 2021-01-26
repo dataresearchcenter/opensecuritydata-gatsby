@@ -15,13 +15,14 @@ import AttributeCard from "../components/attributeCard"
 import Translated from "../components/translation"
 import Viz from "../components/viz"
 import { ProjectSchema } from "../schema"
-import { getTopicLink } from "../links"
+import { getTopicLink, getEuroSciVocLink } from "../links"
 
-export const projectQuery = graphql`
+export const query = graphql`
   query projectQuery(
     $projectLookup: String!
     $programmeLookup: String!
-    $topicsLookup: [String!]
+    $topicLookup: String!
+    $euroscivocLookup: [String!]
     $proofLookup: String!
   ) {
     payments: allPaymentsJson(filter: { purpose: { eq: $projectLookup } }) {
@@ -31,27 +32,27 @@ export const projectQuery = graphql`
         amount
         startDate
         endDate
-        summary
         legalForm
         country
       }
     }
     programme: programmesJson(name: { eq: $programmeLookup }) {
-      id
       name
       projects
       beneficiaries
       payments
-      total_amount
+      amount
     }
-    topics: allTopicsJson(filter: { key: { in: $topicsLookup } }) {
+    euroscivoc: allEuroscivocJson(filter: { key: { in: $euroscivocLookup } }) {
       nodes {
         key
         name
       }
     }
+    topic: topicsJson(name: { eq: $topicLookup }) {
+      name
+    }
     proof: documentsJson(id: { eq: $proofLookup }) {
-      id
       fileName
       fileSize
     }
@@ -66,13 +67,13 @@ const useStyles = makeStyles(theme => ({
   description: {
     padding: theme.spacing(2),
   },
-  topics: {
-    marginTop: theme.spacing(4),
-  },
   moreCard: {
     marginTop: theme.spacing(4),
   },
-  topic: {
+  euroscivoc: {
+    marginTop: theme.spacing(4),
+  },
+  euroscivocChip: {
     marginBottom: theme.spacing(1),
     marginRight: theme.spacing(1),
   },
@@ -113,12 +114,13 @@ export default function ProjectTemplate({
     node,
     projectLookup,
     programmeLookup,
-    topicsLookup,
+    topicLookup,
+    euroscivocLookup,
     proofLookup,
     route,
     title,
   },
-  data: { payments, programme, topics, proof },
+  data: { payments, programme, topic, proof, euroscivoc },
 }) {
   const classes = useStyles()
   return (
@@ -168,19 +170,39 @@ export default function ProjectTemplate({
             </Paper>
           </>
         )}
-        <section className={classes.topics}>
-          {topics.nodes.map(({ name, key }) => (
+        {topic && (
+          <>
+            <Typography variant="h5" component="h4" gutterBottom>
+              Topic
+            </Typography>
             <Chip
-              variant="outlined"
-              className={classes.topic}
-              key={key}
-              label={name}
+              className={classes.euroscivocChip}
+              color="primary"
+              label={topic.name}
               component={Link}
-              to={getTopicLink({ key })}
+              to={getTopicLink(topic)}
               clickable
             />
-          ))}
-        </section>
+          </>
+        )}
+        {euroscivoc.nodes.length > 1 && (
+          <section className={classes.euroscivoc}>
+            <Typography variant="h5" component="h4" gutterBottom>
+              EuroSciVoc hierarchy
+            </Typography>
+            {euroscivoc.nodes.map(({ name, key }) => (
+              <Chip
+                variant="outlined"
+                className={classes.euroscivocChip}
+                key={key}
+                label={name}
+                component={Link}
+                to={getEuroSciVocLink({ key })}
+                clickable
+              />
+            ))}
+          </section>
+        )}
       </section>
       <section className={classes.section}>
         <Typography variant="h4" component="h3" gutterBottom>

@@ -8,7 +8,7 @@ const render = ({ field, value }) => renderCell(field, value)
 const columns = [
   { field: "name", headerName: "Name", width: 400 },
   {
-    field: "total_amount",
+    field: "amount",
     headerName: "Total amount",
     width: 150,
     renderCell: render,

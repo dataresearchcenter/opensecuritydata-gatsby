@@ -38,6 +38,13 @@ const SCHEMA = {
     getLink: links.getBeneficiaryLink,
     color: "secondary",
   },
+  country: {
+    schema: "PublicBody",
+    label: "Country aggregated",
+    path: "beneficiaries",
+    getLink: links.getBeneficiaryLink,
+    color: "secondary",
+  },
   g: {
     schema: "LegalEntity",
     label: "Beneficiary Group",
@@ -73,6 +80,13 @@ const SCHEMA = {
     getLink: links.getTopicLink,
     color: "primary",
   },
+  e: {
+    schema: "EuroSciVoc",
+    label: "EuroSciVoc",
+    path: "euroscivoc",
+    getLink: links.getEuroSciVocLink,
+    color: "primary",
+  },
 }
 
 Object.keys(SCHEMA).map(k => { // eslint-disable-line
@@ -84,9 +98,10 @@ Object.keys(SCHEMA).map(k => { // eslint-disable-line
 export default SCHEMA
 
 const TopicSchema = SCHEMA.t
+const EuroSciVocSchema = SCHEMA.e
 const ProjectSchema = SCHEMA.p
 const ProgrammeSchema = SCHEMA.r
 const CountrySchema = SCHEMA.c
 const BeneficiaryGroupSchema = SCHEMA.g
 
-export { TopicSchema, ProjectSchema, ProgrammeSchema, CountrySchema, BeneficiaryGroupSchema }
+export { EuroSciVocSchema, TopicSchema, ProjectSchema, ProgrammeSchema, CountrySchema, BeneficiaryGroupSchema }

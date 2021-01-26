@@ -11,7 +11,7 @@ import AmountCard from "../components/amountCard"
 import Viz from "../components/viz"
 import { BeneficiaryGroupSchema } from "../schema"
 
-export const beneficiaryQuery = graphql`
+export const query = graphql`
   query beneficiaryGroupPayments($paymentsLookup: String!) {
     payments: allPaymentsJson(
       filter: { beneficiary_parent: { eq: $paymentsLookup } }
@@ -22,7 +22,6 @@ export const beneficiaryQuery = graphql`
         programme
         purpose
         amount
-        summary
         startDate
         endDate
         legalForm

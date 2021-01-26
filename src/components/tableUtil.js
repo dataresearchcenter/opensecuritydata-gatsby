@@ -56,10 +56,7 @@ export function onCellClick({ field, row }, getLink) {
 }
 
 export function numericSort(value1, value2) {
-  return (
-    (parseFloat(value1.replace(",", "")) || 0) -
-    (parseFloat(value2.replace(",", "")) || 0)
-  )
+  return value1 - value2
 }
 
 const useStyles = makeStyles(theme => ({
@@ -95,13 +92,15 @@ const DataTable = ({
   columns,
   color = "primary",
   filters = [],
+  pageSize = 10,
   ...props
 }) => {
   const classes = useStyles({ color })
   const ref = useRef()
   const [minHeight, setHeight] = useState()
-  const adjustHeight = () => setTimeout(() => setHeight(ref.current?.clientHeight), 100) // FIXME DataGrid height
-  adjustHeight()  // initial height
+  const adjustHeight = () =>
+    setTimeout(() => setHeight(ref.current?.clientHeight), 100) // FIXME DataGrid height
+  adjustHeight() // initial height
 
   filters = columns.filter(({ field }) => filters.indexOf(field) > -1)
   const getFacets = ({ filters, rows }) =>
@@ -167,7 +166,7 @@ const DataTable = ({
           ref={ref}
           rows={filteredRows}
           columns={columns}
-          pageSize={10}
+          pageSize={pageSize}
           rowsPerPageOptions={[10, 25, 50, 100]}
           autoHeight
           disableSelectionOnClick

@@ -1,3 +1,1 @@
-[
-{"id":"1","foreign_id":"37f0bc9a60a8a77716f0efd2f39a50ffb179bc6f.fa898b255f5b8dad4b270160d61c3fe447f0d957","name":"THALES","beneficiaries":"23","total_amount":"70179838.63","payments":"140","projects":"80","programmes":"30","startDate":"2008-03-01 00:00:00.000000","endDate":"2023-08-31 00:00:00.000000"}
-]
+[{"id": true, "foreign_id": "ae28ca7f187a2c2c59b09986763f650c4d407b91.810dfc4819f3a9cb326c2c62998a8f5b16d09d5d", "name": "THALES", "beneficiaries": 23.0, "amount": 36971942.49, "payments": 80.0, "projects": 80.0, "programmes": 30.0, "startDate": "2008-03-01", "endDate": "2023-08-31"}]

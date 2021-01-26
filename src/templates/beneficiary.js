@@ -18,7 +18,7 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-export const beneficiaryQuery = graphql`
+export const query = graphql`
   query beneficiaryPayments(
     $paymentsLookup: String!
     $countryLookup: String!
@@ -32,7 +32,6 @@ export const beneficiaryQuery = graphql`
         programme
         purpose
         amount
-        summary
         startDate
         endDate
         legalForm

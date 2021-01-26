@@ -9,7 +9,7 @@ import DataDownload from "./downloadData"
 import { getProgrammeLink } from "../links"
 
 const ProgrammeCard = ({
-  data: { id, name, projects, beneficiaries, total_amount, proof },
+  data: { id, name, projects, beneficiaries, amount, proof },
   showHeader = true,
   showName = true,
   showLink = true,
@@ -31,7 +31,7 @@ const ProgrammeCard = ({
       {showData && (
         <>
           <Typography color="textSecondary">
-            Total budget: <Amount value={total_amount} />
+            Total budget: <Amount value={amount} />
           </Typography>
           <Typography color="textSecondary">{`Projects: ${projects}`}</Typography>
           <Typography color="textSecondary">

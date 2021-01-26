@@ -10,7 +10,7 @@ export const query = graphql`
         name
         projects
         beneficiaries
-        total_amount
+        amount
         id
       }
     }

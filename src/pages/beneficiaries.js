@@ -14,7 +14,7 @@ export const query = graphql`
         country
         programmes
         payments
-        total_amount
+        amount
         projects
         startDate
         endDate
@@ -25,8 +25,10 @@ export const query = graphql`
 
 const BeneficiariesPage = ({ data }) => (
   <Layout route="Beneficiaries">
-    <Typography variant="h3" gutterBottom>All beneficiaries</Typography>
-    <BeneficiariesTable rows={data.allBeneficiariesJson.nodes} />
+    <Typography variant="h3" gutterBottom>
+      All beneficiaries
+    </Typography>
+    <BeneficiariesTable rows={data.allBeneficiariesJson.nodes} pageSize={25} />
   </Layout>
 )
 

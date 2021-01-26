@@ -21,7 +21,7 @@ export const programmeQuery = graphql`
         programme
         beneficiaries
         payments
-        total_amount
+        amount
         startDate
         endDate
       }
@@ -51,6 +51,7 @@ export default function ProgrammeTemplate({
   pageContext: { node, projectsLookup, proofLookup, route, title },
   data: { payments, projects, proof },
 }) {
+  const isf = node.name === "Internal Security Fund"
   return (
     <Layout route={route} title={title}>
       <Typography variant="h3" component="h1" gutterBottom>
@@ -90,7 +91,12 @@ export default function ProgrammeTemplate({
         <PaymentsTable
           title="Beneficiaries"
           rows={payments.nodes}
-          exclude={["programme", "startDate", "endDate"]}
+          exclude={[
+            "programme",
+            "startDate",
+            "endDate",
+            isf ? "legalForm" : null,
+          ]}
         />
       </Tabs>
     </Layout>

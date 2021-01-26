@@ -10,7 +10,7 @@ import Flag from "../components/flag"
 import { CountrySchema } from "../schema"
 import Viz, { VizCard } from "../components/viz"
 
-export const countryQuery = graphql`
+export const query = graphql`
   query countryQuery($lookup: String!) {
     payments: allPaymentsJson(filter: { country: { eq: $lookup } }) {
       nodes {
@@ -19,7 +19,6 @@ export const countryQuery = graphql`
         amount
         startDate
         endDate
-        summary
         purpose
         programme
         legalForm

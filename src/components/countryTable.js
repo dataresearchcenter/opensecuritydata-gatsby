@@ -12,7 +12,7 @@ const columns = [
     renderCell: ({ row }) => <Country {...row} />,
   },
   {
-    field: "total_amount",
+    field: "amount",
     headerName: "Total amount",
     width: 200,
     renderCell: ({ field, value }) => renderCell(field, value),
@@ -32,11 +32,12 @@ const columns = [
   },
 ]
 
-const CountriesTable = ({ rows }) => (
+const CountriesTable = ({ rows, ...props }) => (
   <DataTable
     rows={rows}
     columns={columns}
     onRowClick={({ row }) => navigate(getCountryLink(row))}
+    {...props}
   />
 )
 

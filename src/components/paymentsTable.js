@@ -33,14 +33,14 @@ const columns = [
     width: 220,
     renderCell: render,
   },
-  // { field: "summary", headerName: "Role" },
+  { field: "role", headerName: "Role" },
 ]
 
 const PaymentsTable = ({ rows, exclude = [], ...props }) => (
   <DataTable
     rows={rows}
     columns={columns.filter(({ field }) => exclude.indexOf(field) < 0)}
-    filters={["programme", "country", "legalForm"]}
+    filters={["programme", "country", "legalForm", "role"]}
     {...props}
   />
 )

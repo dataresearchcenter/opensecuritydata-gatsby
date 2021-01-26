@@ -19,7 +19,7 @@ import CountryNames from "../data/countryNames.json"
 
 const cast = value => (!value || isNaN(value) ? 0 : parseFloat(value))
 
-const sum = (acc, data) => acc + cast(data.amount || data.total_amount)  // FIXME
+const sum = (acc, data) => acc + cast(data.amount)
 
 const addAmountLabel = data => ({
   ...data,
@@ -51,6 +51,7 @@ const getGroupedData = (payments, grouper, getLink) => {
 
 const VISUALIZATIONS = {
   fundingPerYear: payments => {
+    payments = payments.filter(({ startDate }) => !!startDate)
     const data = [
       ...new Set(payments.map(({ startDate }) => startDate.substring(0, 4))),
     ]

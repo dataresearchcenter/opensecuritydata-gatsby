@@ -20,7 +20,7 @@ const useStyles = makeStyles(theme => ({
     height: 56,
   },
   control: {
-    width: ({ isMobile }) => (isMobile ? "101%" : "auto"),
+    width: ({ isMobile }) => (isMobile ? "100%" : "auto"),
     minWidth: ({ isMobile }) => (isMobile ? null : 200),
   },
 }))
@@ -60,27 +60,31 @@ const TableFilters = ({
   activeFilters,
   resetFilters,
 }) => {
-  facets = facets.map(f => {
-    let items = f.items.map(i => ({
-      label: i.toUpperCase(),
-      value: i,
-      disabled: availableFacets[f.field].indexOf(i) < 0,
-    }))
-    if (f.field === "country") {
-      items = items.map(i => ({
-        ...i,
-        label: (
-          <>
-            <Flag iso={i.value} />
-            {CountryNames[i.value]}
-          </>
-        ),
-      }))
-    } else if (f.field === "legalForm") {
-      items = items.map(i => ({ ...i, label: SCHEMA[i.value].label }))
-    }
-    return { ...f, items }
-  })
+  facets = facets
+    .filter(({ items }) => items.length > 1)
+    .map(f => {
+      let items = f.items
+        .filter(i => !!i)
+        .map(i => ({
+          label: i.toUpperCase(),
+          value: i,
+          disabled: availableFacets[f.field].indexOf(i) < 0,
+        }))
+      if (f.field === "country") {
+        items = items.map(i => ({
+          ...i,
+          label: (
+            <>
+              <Flag iso={i.value} />
+              {CountryNames[i.value]}
+            </>
+          ),
+        }))
+      } else if (f.field === "legalForm") {
+        items = items.map(i => ({ ...i, label: SCHEMA[i.value].label }))
+      }
+      return { ...f, items }
+    })
   const classes = useStyles()
   return (
     <div className={classes.root}>

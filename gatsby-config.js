@@ -75,6 +75,11 @@ module.exports = {
             }
             topics: allTopicsJson {
               nodes {
+                name
+              }
+            }
+            euroscivoc: allEuroscivocJson {
+              nodes {
                 key
                 name
               }
@@ -92,6 +97,7 @@ module.exports = {
             programmes,
             countries,
             topics,
+            euroscivoc,
           },
         }) => [
           ...beneficiaries.nodes.map(({ name, legalForm }, i) => ({
@@ -124,6 +130,11 @@ module.exports = {
             id: parseInt(`6${i}`),
             name,
             schema: `t`,
+          })),
+          ...euroscivoc.nodes.map(({ name, key }, i) => ({
+            id: parseInt(`7${i}`),
+            name,
+            schema: `e`,
             key,
           })),
         ],

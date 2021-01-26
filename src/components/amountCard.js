@@ -9,7 +9,7 @@ import Date from "./date"
 const AmountCard = ({
   title = "Total funding",
   value,
-  total_amount,
+  amount,
   startDate,
   endDate,
   color,
@@ -22,7 +22,7 @@ const AmountCard = ({
         {title}
       </Typography>
       <Typography variant="h5" color={color}>
-        <Amount value={value || total_amount} />
+        <Amount value={value || amount} />
       </Typography>
       {startDate && endDate && (
         <Typography color="textSecondary">

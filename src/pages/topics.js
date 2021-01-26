@@ -1,16 +1,18 @@
 import React from "react"
 import { graphql } from "gatsby"
+import Typography from "@material-ui/core/Typography"
 import Layout from "../components/layout"
-import TopicTree from "../components/topicTree"
+import TopicsTable from "../components/topicTable"
 
 export const query = graphql`
-  query TopicsQuery {
+  query topicsQuery {
     topics: allTopicsJson {
       nodes {
-        key
+        id
         name
-        descendants
-        ancestor
+        beneficiaries
+        projects
+        amount
       }
     }
   }
@@ -18,8 +20,8 @@ export const query = graphql`
 
 const TopicsPage = ({ data: { topics } }) => (
   <Layout route="Topics">
-    <h1>Topics</h1>
-    <TopicTree topics={topics.nodes} />
+    <Typography variant="h3" gutterBottom>All topics</Typography>
+    <TopicsTable rows={topics.nodes} pageSize={25} />
   </Layout>
 )
 

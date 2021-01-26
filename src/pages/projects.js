@@ -12,7 +12,7 @@ export const query = graphql`
         name
         programme
         beneficiaries
-        total_amount
+        amount
         payments
       }
     }

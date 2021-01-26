@@ -25,7 +25,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
             name
             projects
             beneficiaries
-            total_amount
+            amount
             proof
             startDate
             endDate
@@ -37,18 +37,16 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
           node {
             id
             name
-            summary
             description
             programme
             beneficiaries
-            total_amount
+            amount
             proof
             startDate
             endDate
-            language
-            name_en
-            description_en
             sourceUrl
+            topicName
+            euroscivoc
           }
         }
       }
@@ -62,7 +60,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
             programmes
             projects
             payments
-            total_amount
+            amount
             endDate
             startDate
           }
@@ -80,7 +78,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
             programmes
             projects
             payments
-            total_amount
+            amount
             endDate
             startDate
             proof
@@ -98,13 +96,13 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
             projects
             beneficiaries
             payments
-            total_amount
+            amount
             startDate
             endDate
           }
         }
       }
-      allTopicsJson {
+      allEuroscivocJson {
         edges {
           node {
             ancestor
@@ -115,7 +113,22 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
             beneficiaries
             projects
             programmes
-            total_amount
+            amount
+            startDate
+            endDate
+          }
+        }
+      }
+      allTopicsJson {
+        edges {
+          node {
+            name
+            code
+            payments
+            beneficiaries
+            projects
+            programmes
+            amount
             startDate
             endDate
           }
@@ -162,11 +175,10 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
         node,
         projectLookup: node.name,
         programmeLookup: node.programme,
-        topicsLookup: (node.summary || "")
-          .split("---\nTopics:\n")
-          .pop()
-          .split(";")
-          .map(t => t.substring(1)),
+        topicLookup: node.topicName || "",
+        euroscivocLookup: (JSON.parse(node.euroscivoc) || []).map(i =>
+          i.substring(1)
+        ),
         proofLookup: node.proof,
         route: `Projects`,
         title: node.name,
@@ -220,21 +232,35 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
   })
 
   // topics
+  result.data.allTopicsJson.edges.forEach(({ node }) => {
+    createPage({
+      path: `/topics/${slugify(node.name)}`,
+      component: require.resolve(`./src/templates/topic.js`),
+      context: {
+        node,
+        lookup: node.name,
+        route: `Topics`,
+        title: node.name,
+      },
+    })
+  })
+
+  // euroscivoc
   const pathSlugify = path =>
     path
       .split("/")
       .map(p => slugify(p))
       .join("/")
-  result.data.allTopicsJson.edges.forEach(({ node }) => {
+  result.data.allEuroscivocJson.edges.forEach(({ node }) => {
     createPage({
-      path: `/topics/${pathSlugify(node.key)}`,
-      component: require.resolve(`./src/templates/topic.js`),
+      path: `/euroscivoc/${pathSlugify(node.key)}`,
+      component: require.resolve(`./src/templates/euroscivoc.js`),
       context: {
         node,
         ancestorLookup: node.ancestor || "",
         descendantsLookup: `/^${node.key}/`,
         projectsLookup: `/${node.key.replace("/", "\\/")}/`,
-        route: `Topics`,
+        route: `EuroSciVoc`,
         title: node.name,
       },
     })
