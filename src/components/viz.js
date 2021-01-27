@@ -27,18 +27,19 @@ const addAmountLabel = data => ({
 })
 
 const getLabel = (label, grouper = null) =>
-  grouper === "country"
-    ? (
-        <>
-          <Flag iso={label} /> {CountryNames[label]}
-        </>
-      ) || label
-    : label.indexOf(" - ") > 0
-    ? label.split(" - ")[0].substring(0, 20)
-    : label // FIXME topic names
+  grouper === "country" ? (
+    <>
+      <Flag iso={label} /> {CountryNames[label]}
+    </>
+  ) : label.indexOf(" - ") > 0 ? (
+    label.split(" - ")[0].substring(0, 20)
+  ) : (
+    label
+  ) // FIXME topic names
 
 const getGroupedData = (payments, grouper, getLink) => {
   const data = [...new Set(payments.map(d => d[grouper]))]
+    .filter(g => !!g)
     .map(g => ({
       label: getLabel(g, grouper),
       url: getLink(g),
@@ -92,7 +93,7 @@ const VISUALIZATIONS = {
   },
   fundingPerBeneficiary: payments => {
     return {
-      data: getGroupedData(payments, "beneficiary_name", name =>
+      data: getGroupedData(payments, "beneficiaryName", name =>
         getBeneficiaryLink({ name })
       ),
       title: "Funding per beneficiary",
@@ -102,7 +103,7 @@ const VISUALIZATIONS = {
 
 const useStyles = makeStyles(theme => ({
   title: {
-    paddingBottom: theme.spacing(1)
+    paddingBottom: theme.spacing(1),
   },
   row: {
     position: "relative",
@@ -170,12 +171,7 @@ const DataRow = ({ label, valueLabel, width, color, url }) => {
   )
 }
 
-const Viz = ({
-  use,
-  data: useData,
-  color = "primary",
-  expand = false,
-}) => {
+const Viz = ({ use, data: useData, color = "primary", expand = false }) => {
   const { data, title } = VISUALIZATIONS[use](useData)
   const classes = useStyles({ color })
   const [expanded, setExpanded] = React.useState(expand)

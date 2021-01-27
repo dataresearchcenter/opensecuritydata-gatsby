@@ -25,7 +25,7 @@ export const query = graphql`
     $proofLookup: String!
   ) {
     payments: allPaymentsJson(
-      filter: { beneficiary_id: { eq: $paymentsLookup } }
+      filter: { beneficiaryId: { eq: $paymentsLookup } }
     ) {
       nodes {
         id
@@ -104,7 +104,7 @@ export default function BeneficiaryTemplate({
       </Typography>
       <PaymentsTable
         rows={payments.nodes}
-        exclude={["beneficiary_name", "legalForm", "country"]}
+        exclude={["beneficiaryName", "legalForm", "country"]}
         color={schema.color}
       />
     </Layout>

@@ -28,7 +28,8 @@ export const query = graphql`
     payments: allPaymentsJson(filter: { purpose: { eq: $projectLookup } }) {
       nodes {
         id
-        beneficiary_name
+        beneficiaryName
+        notes
         amount
         startDate
         endDate
@@ -123,6 +124,7 @@ export default function ProjectTemplate({
   data: { payments, programme, topic, proof, euroscivoc },
 }) {
   const classes = useStyles()
+  const isf = programme.name === "Internal Security Fund"
   return (
     <Layout route={route} title={title.split("-")[0].trim()}>
       <ProjectTitle {...node} />
@@ -211,7 +213,7 @@ export default function ProjectTemplate({
         <PaymentsTable
           title="Funding"
           rows={payments.nodes}
-          exclude={["programme", "purpose"]}
+          exclude={["programme", "purpose", isf ? "legalForm" : null]}
         />
       </section>
     </Layout>

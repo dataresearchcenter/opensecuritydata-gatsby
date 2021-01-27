@@ -15,7 +15,8 @@ export const query = graphql`
     payments: allPaymentsJson(filter: { country: { eq: $lookup } }) {
       nodes {
         id
-        beneficiary_name
+        beneficiaryName
+        notes
         amount
         startDate
         endDate

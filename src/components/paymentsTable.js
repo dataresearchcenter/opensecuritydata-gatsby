@@ -1,10 +1,19 @@
 import React from "react"
-import DataTable, { renderCell, numericSort } from "./tableUtil"
+import DataTable, {
+  renderBeneficiary,
+  renderCell,
+  numericSort,
+} from "./tableUtil"
 
 const render = ({ field, value }) => renderCell(field, value)
 
 const columns = [
-  { field: "beneficiary_name", headerName: "Beneficiary", width: 400 },
+  {
+    field: "beneficiaryName",
+    headerName: "Beneficiary",
+    width: 400,
+    renderCell: renderBeneficiary,
+  },
   { field: "programme", headerName: "Programme", width: 200 },
   { field: "purpose", headerName: "Project", width: 300 },
   {

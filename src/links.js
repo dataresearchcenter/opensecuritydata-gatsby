@@ -1,5 +1,10 @@
-import slugify from "slugify"
+import _slugify from "slugify"
 import { pathSlugify } from "./util"
+
+const slugify = value =>
+  value.length < 100
+    ? _slugify(value)
+    : `${_slugify(value).slice(0, 100)}--${value.length}`
 
 const getProgrammeLink = ({ name }) => `/programmes/${slugify(name)}`
 

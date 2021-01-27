@@ -4,6 +4,8 @@ import { makeStyles } from "@material-ui/core/styles"
 import Typography from "@material-ui/core/Typography"
 import Paper from "@material-ui/core/Paper"
 import Link from "@material-ui/core/Link"
+import Tooltip from "@material-ui/core/Tooltip"
+import HelpOutlineIcon from "@material-ui/icons/HelpOutline"
 import { DataGrid } from "@material-ui/data-grid"
 import SCHEMA from "../schema"
 import links from "../links"
@@ -33,6 +35,18 @@ export function renderCell(key, value, linkColor) {
   return value
 }
 
+export function renderBeneficiary({ value, row }) {
+  return row.notes ? (
+    <Tooltip title={row.notes}>
+      <span>
+        <em>{value}</em> <HelpOutlineIcon fontSize="small" color="action" />
+      </span>
+    </Tooltip>
+  ) : (
+    value
+  )
+}
+
 export function onCellClick({ field, row }, getLink) {
   switch (field) {
     case "programme":
@@ -44,14 +58,14 @@ export function onCellClick({ field, row }, getLink) {
     case "country":
       navigate(links.getCountryLink({ iso: row.country }))
       break
-    case "beneficiary_name":
-      navigate(links.getBeneficiaryLink({ name: row.beneficiary_name }))
+    case "beneficiaryName":
+      navigate(links.getBeneficiaryLink({ name: row.beneficiaryName }))
       break
     default:
       getLink
         ? navigate(getLink(row))
-        : row.beneficiary_name &&
-          navigate(links.getBeneficiaryLink({ name: row.beneficiary_name }))
+        : row.beneficiaryName &&
+          navigate(links.getBeneficiaryLink({ name: row.beneficiaryName }))
   }
 }
 

@@ -1,11 +1,21 @@
 import React from "react"
 import { getBeneficiaryLink } from "../links"
-import DataTable, { renderCell, onCellClick, numericSort } from "./tableUtil"
+import DataTable, {
+  renderBeneficiary,
+  renderCell,
+  onCellClick,
+  numericSort,
+} from "./tableUtil"
 
 const render = ({ field, value }) => renderCell(field, value)
 
 const columns = [
-  { field: "name", headerName: "Name", width: 400 },
+  {
+    field: "name",
+    headerName: "Name",
+    width: 400,
+    renderCell: renderBeneficiary,
+  },
   {
     field: "amount",
     headerName: "Total amount",

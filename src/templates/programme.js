@@ -29,7 +29,8 @@ export const programmeQuery = graphql`
     payments: allPaymentsJson(filter: { programme: { eq: $projectsLookup } }) {
       nodes {
         id
-        beneficiary_name
+        beneficiaryName
+        notes
         purpose
         programme
         amount

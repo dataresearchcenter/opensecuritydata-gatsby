@@ -1,6 +1,11 @@
-const slugify = require(`slugify`)
+const _slugify = require(`slugify`)
 const path = require(`path`)
 const { createFilePath } = require(`gatsby-source-filesystem`)
+
+const slugify = value =>
+  value.length < 100
+    ? _slugify(value)
+    : `${_slugify(value).slice(0, 100)}--${value.length}`
 
 exports.onCreateNode = ({ node, getNode, actions }) => {
   const { createNodeField } = actions
@@ -84,6 +89,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
             proof
             beneficiaryGroup
             beneficiaryGroupId
+            notes
           }
         }
       }

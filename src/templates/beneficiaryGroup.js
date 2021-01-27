@@ -18,7 +18,8 @@ export const query = graphql`
     ) {
       nodes {
         id
-        beneficiary_name
+        beneficiaryName
+        notes
         programme
         purpose
         amount
