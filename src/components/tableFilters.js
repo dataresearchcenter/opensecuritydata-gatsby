@@ -65,6 +65,7 @@ const TableFilters = ({
     .map(f => {
       let items = f.items
         .filter(i => !!i)
+        .sort()
         .map(i => ({
           label: i.toUpperCase(),
           value: i,
