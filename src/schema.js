@@ -38,6 +38,13 @@ const SCHEMA = {
     getLink: links.getBeneficiaryLink,
     color: "secondary",
   },
+  ukn: {
+    schema: "LegalEntity",
+    label: "Unknown",
+    path: "beneficiaries",
+    getLink: links.getBeneficiaryLink,
+    color: "secondary",
+  },
   country: {
     schema: "PublicBody",
     label: "Country aggregated",
@@ -91,7 +98,11 @@ const SCHEMA = {
 
 Object.keys(SCHEMA).map(k => { // eslint-disable-line
   SCHEMA[k].chip = ({ ...props } = {}) => (
-    <Chip color={SCHEMA[k].color} label={SCHEMA[k].label} {...props} />
+    <Chip
+      color={k === "ukn" ? "" : SCHEMA[k].color}
+      label={SCHEMA[k].label}
+      {...props}
+    />
   )
 })
 
@@ -104,4 +115,11 @@ const ProgrammeSchema = SCHEMA.r
 const CountrySchema = SCHEMA.c
 const BeneficiaryGroupSchema = SCHEMA.g
 
-export { EuroSciVocSchema, TopicSchema, ProjectSchema, ProgrammeSchema, CountrySchema, BeneficiaryGroupSchema }
+export {
+  EuroSciVocSchema,
+  TopicSchema,
+  ProjectSchema,
+  ProgrammeSchema,
+  CountrySchema,
+  BeneficiaryGroupSchema,
+}
