@@ -18,6 +18,9 @@ const getLink = ({ id, name, schema, key }) =>
   SCHEMA[schema].getLink({ name, key, iso: key })
 
 const useStyles = makeStyles(theme => ({
+  root: {
+    position: ({ asPopover }) => (asPopover ? "absolute" : "relative"),
+  },
   searchResults: {
     position: "absolute",
   },
@@ -29,60 +32,87 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-const ResultList = ({ items, cursor }) => {
-  return (
-    <Paper>
-      <List dense>
-        {items.map(({ id, name, schema, key }, i) => (
-          <ListItemLink
-            key={id}
-            to={getLink({ name, schema, key })}
-            autoFocus={i === cursor}
-          >
-            <ListItemText>
-              {SCHEMA[schema].chip()} {name}
-            </ListItemText>
-          </ListItemLink>
-        ))}
-      </List>
-    </Paper>
+const TextItem = ({ name, schema, asPopover }) =>
+  asPopover ? (
+    <ListItemText primary={name} secondary={SCHEMA[schema].label} />
+  ) : (
+    <ListItemText>
+      {SCHEMA[schema].chip()} {name}
+    </ListItemText>
   )
-}
 
-const SearchResults = ({ index, store, query, searchInputRef, cursor }) => {
+const ResultList = ({ items, cursor, asPopover }) => (
+  <Paper>
+    <List dense>
+      {items.map(({ id, name, schema, key }, i) => (
+        <ListItemLink
+          divider
+          key={id}
+          to={getLink({ name, schema, key })}
+          autoFocus={i === cursor}
+        >
+          <TextItem name={name} schema={schema} asPopover={asPopover} />{" "}
+        </ListItemLink>
+      ))}
+    </List>
+  </Paper>
+)
+
+const SearchResults = ({
+  index,
+  store,
+  query,
+  searchInputRef,
+  cursor,
+  asPopover,
+}) => {
   const [showAll, setShowAll] = useState(false)
-  const refineSearch = () => setShowAll(false) && searchInputRef.current.focus()
-  const classes = useStyles()
-  const results = useFlexSearch(query, index, store, { limit: 100 })
+  const refineSearch = () =>
+    setShowAll(false) && searchInputRef?.current.focus()
+  const classes = useStyles({ asPopover })
+  const isMain = !asPopover
+  const limit = isMain ? 100 : 20
+  const results = useFlexSearch(query, index, store, { limit })
+  const refineMsg =
+    "Please refine your search phrase to get more precise results."
+
   return results.length > 0 ? (
-    <>
-      <Paper className={classes.searchHint}>
-        <Typography variant="caption">
-          You can use your arrow keys to navigate between results. Press your
-          enter key to go to an item.
-        </Typography>
-      </Paper>
+    <div className={classes.root}>
+      {isMain && (
+        <Paper className={classes.searchHint}>
+          <Typography variant="caption">
+            You can use your arrow keys to navigate between results. Press your
+            enter key to go to an item.
+          </Typography>
+        </Paper>
+      )}
       <ResultList
         className={classes.searchResults}
         items={showAll ? results : results.slice(0, 10)}
         cursor={cursor}
+        asPopover={asPopover}
       />
       {!showAll && results.length > 10 && (
         <Button endIcon={<ExpandMoreIcon />} onClick={() => setShowAll(true)}>
           Show more...
         </Button>
       )}
-      {showAll && results.length === 100 && (
+      {showAll && results.length === limit && (
         <Paper className={classes.searchHint}>
           <Typography>
-            Your search for <strong>{query}</strong> has 100 or more results.
-            <Button color="secondary" component="a" onClick={refineSearch}>
-              Please refine your search phrase to get more precise results.
-            </Button>
+            Your search for <strong>{query}</strong> has {limit} or more
+            results.
+            {isMain ? (
+              <Button color="secondary" component="a" onClick={refineSearch}>
+                {refineMsg}
+              </Button>
+            ) : (
+              <em> {refineMsg}</em>
+            )}
           </Typography>
         </Paper>
       )}
-    </>
+    </div>
   ) : (
     <Paper className={classes.searchHint}>
       <Typography>
@@ -159,3 +189,4 @@ const Search = ({ index, store }) => {
 }
 
 export default Search
+export { SearchResults }

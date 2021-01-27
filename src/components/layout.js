@@ -22,6 +22,7 @@ import HomeIcon from "@material-ui/icons/Home"
 import MenuIcon from "@material-ui/icons/Menu"
 import { Button, IconButton } from "gatsby-theme-material-ui"
 import Breadcrumbs from "./breadcrumbs"
+import SearchBar from "./searchBar"
 
 import "../fonts.css"
 
@@ -148,6 +149,7 @@ export default function Layout({ children, route, title, ...props }) {
     }
   `)
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"))
+  const showSearchBar = !props.hideSearchBar
   const classes = useStyles({ isMobile })
   return (
     <ThemeProvider theme={theme}>
@@ -179,6 +181,7 @@ export default function Layout({ children, route, title, ...props }) {
                       </span>
                     )}
                   </Typography>
+                  {showSearchBar && <SearchBar />}
                   {isMobile ? <MobileMenu /> : <DesktopMenu />}
                 </Toolbar>
               </AppBar>

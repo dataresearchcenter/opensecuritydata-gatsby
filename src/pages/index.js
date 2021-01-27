@@ -32,7 +32,7 @@ const useStyles = makeStyles(theme => ({
 const IndexPage = ({ data: { search } }) => {
   const classes = useStyles()
   return (
-    <Layout>
+    <Layout hideSearchBar>
       <Box className={classes.hero}>
         <Typography variant="h3" component="h1" className={classes.heroTitle} gutterBottom>
           Find companies, organizations or topics
