@@ -24,6 +24,9 @@ const useStyles = makeStyles(theme => ({
   linkItem: {
     textTransform: null,
   },
+  searchHint: {
+    padding: theme.spacing(1),
+  },
 }))
 
 const ResultList = ({ items, cursor }) => {
@@ -51,37 +54,43 @@ const SearchResults = ({ index, store, query, searchInputRef, cursor }) => {
   const refineSearch = () => setShowAll(false) && searchInputRef.current.focus()
   const classes = useStyles()
   const results = useFlexSearch(query, index, store, { limit: 100 })
-  return (
-    results.length > 0 && (
-      <>
-        <Paper>
-          <Typography variant="caption">
-            You can use your arrow keys to navigate between results. Press your
-            enter key to go to an item.
+  return results.length > 0 ? (
+    <>
+      <Paper className={classes.searchHint}>
+        <Typography variant="caption">
+          You can use your arrow keys to navigate between results. Press your
+          enter key to go to an item.
+        </Typography>
+      </Paper>
+      <ResultList
+        className={classes.searchResults}
+        items={showAll ? results : results.slice(0, 10)}
+        cursor={cursor}
+      />
+      {!showAll && results.length > 10 && (
+        <Button endIcon={<ExpandMoreIcon />} onClick={() => setShowAll(true)}>
+          Show more...
+        </Button>
+      )}
+      {showAll && results.length === 100 && (
+        <Paper className={classes.searchHint}>
+          <Typography>
+            Your search for <strong>{query}</strong> has 100 or more results.
+            <Button color="secondary" component="a" onClick={refineSearch}>
+              Please refine your search phrase to get more precise results.
+            </Button>
           </Typography>
         </Paper>
-        <ResultList
-          className={classes.searchResults}
-          items={showAll ? results : results.slice(0, 10)}
-          cursor={cursor}
-        />
-        {!showAll && results.length > 10 && (
-          <Button endIcon={<ExpandMoreIcon />} onClick={() => setShowAll(true)}>
-            Show more...
-          </Button>
-        )}
-        {showAll && results.length === 100 && (
-          <Paper>
-            <Typography paragraph={true}>
-              Your search for <strong>{query}</strong> has 100 or more results.
-              <Button color="secondary" component="a" onClick={refineSearch}>
-                Please refine your search phrase to get more precise results.
-              </Button>
-            </Typography>
-          </Paper>
-        )}
-      </>
-    )
+      )}
+    </>
+  ) : (
+    <Paper className={classes.searchHint}>
+      <Typography>
+        Your search for <strong>{query}</strong> has now results. Please try
+        another search phrase or select an item from the lists below to get
+        started.
+      </Typography>
+    </Paper>
   )
 }
 
@@ -133,7 +142,7 @@ const Search = ({ index, store }) => {
             </InputAdornment>
           ),
         }}
-        style={{background: "white"}}
+        style={{ background: "white" }}
       />
       {query?.length > 3 && (
         <SearchResults
