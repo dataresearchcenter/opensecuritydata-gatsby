@@ -174,6 +174,10 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
 
   // projects
   result.data.allProjectsJson.edges.forEach(({ node }) => {
+    const translationsLookup = [node.name]
+    if (!!node.description) {
+      translationsLookup.push(node.description)
+    }
     createPage({
       path: `/projects/${slugify(node.name)}`,
       component: require.resolve(`./src/templates/project.js`),
@@ -186,6 +190,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
           i.substring(1)
         ),
         proofLookup: node.proof,
+        translationsLookup,
         route: `Projects`,
         title: node.name,
       },
@@ -202,6 +207,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
         paymentsLookup: node.id,
         countryLookup: node.country,
         proofLookup: node.proof,
+        translationLookup: node.name,
         route: `Beneficiaries`,
         title: node.name,
       },

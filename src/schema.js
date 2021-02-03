@@ -99,7 +99,7 @@ const SCHEMA = {
 Object.keys(SCHEMA).map(k => { // eslint-disable-line
   SCHEMA[k].chip = ({ ...props } = {}) => (
     <Chip
-      color={k === "ukn" ? "" : SCHEMA[k].color}
+      color={k === "ukn" ? "default" : SCHEMA[k].color}
       label={SCHEMA[k].label}
       {...props}
     />

@@ -24,6 +24,7 @@ export const query = graphql`
     $topicLookup: String!
     $euroscivocLookup: [String!]
     $proofLookup: String!
+    $translationsLookup: [String!]
   ) {
     payments: allPaymentsJson(filter: { purpose: { eq: $projectLookup } }) {
       nodes {
@@ -57,6 +58,15 @@ export const query = graphql`
       fileName
       fileSize
     }
+    translations: allTranslationsJson(
+      filter: { key: { in: $translationsLookup } }
+    ) {
+      nodes {
+        language
+        key
+        value
+      }
+    }
   }
 `
 
@@ -80,11 +90,11 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-const ProjectTitle = ({ name, name_en, language }) => {
-  if (language) {
+const ProjectTitle = ({ name, translations }) => {
+  if (!!translations) {
     return (
       <Typography variant="h3" component="h1">
-        <Translated original={name} translated={name_en} language={language} />
+        <Translated original={name} translations={translations} />
         {ProjectSchema.chip()}
       </Typography>
     )
@@ -118,16 +128,17 @@ export default function ProjectTemplate({
     topicLookup,
     euroscivocLookup,
     proofLookup,
+    translationsLookup,
     route,
     title,
   },
-  data: { payments, programme, topic, proof, euroscivoc },
+  data: { payments, programme, topic, proof, euroscivoc, translations },
 }) {
   const classes = useStyles()
   const isf = programme.name === "Internal Security Fund"
   return (
     <Layout route={route} title={title.split("-")[0].trim()}>
-      <ProjectTitle {...node} />
+      <ProjectTitle name={node.name} translations={translations.nodes} />
       <section className={classes.section}>
         <Typography variant="h4" component="h3" gutterBottom>
           Overview
@@ -159,11 +170,10 @@ export default function ProjectTemplate({
             </Typography>
             <Paper className={classes.description}>
               <Typography component="div" variant="body1">
-                {node.language ? (
+                {translations.nodes ? (
                   <Translated
-                    language={node.language}
-                    translated={node.description_en}
                     original={node.description}
+                    translations={translations.nodes}
                   />
                 ) : (
                   node.description

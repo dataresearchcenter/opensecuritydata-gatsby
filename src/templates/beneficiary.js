@@ -9,6 +9,7 @@ import AttributeCard from "../components/attributeCard"
 import AmountCard from "../components/amountCard"
 import DataCard from "../components/dataCard"
 import BeneficiaryGroup from "../components/beneficiaryGroup"
+import Translated from "../components/translation"
 import SCHEMA from "../schema"
 import Viz from "../components/viz"
 
@@ -23,6 +24,7 @@ export const query = graphql`
     $paymentsLookup: String!
     $countryLookup: String!
     $proofLookup: String!
+    $translationLookup: String!
   ) {
     payments: allPaymentsJson(
       filter: { beneficiaryId: { eq: $paymentsLookup } }
@@ -47,6 +49,11 @@ export const query = graphql`
       fileName
       fileSize
     }
+    translation: translationsJson(key: { eq: $translationLookup }) {
+      language
+      key
+      value
+    }
   }
 `
 
@@ -56,10 +63,11 @@ export default function BeneficiaryTemplate({
     paymentsLookup,
     countryLookup,
     proofLookup,
+    translationLookup,
     route,
     title,
   },
-  data: { payments, country, proof },
+  data: { payments, country, proof, translation },
 }) {
   const tableData = {
     country,
@@ -75,7 +83,12 @@ export default function BeneficiaryTemplate({
   return (
     <Layout route={route} title={title}>
       <Typography variant="h3" gutterBottom>
-        {node.name} {schema.chip()}
+        {!!translation ? (
+          <Translated original={node.name} translations={[translation]} />
+        ) : (
+          node.name
+        )}
+        {schema.chip()}
       </Typography>
       <OverviewGrid>
         <div>
