@@ -23,7 +23,7 @@ const sum = (acc, data) => acc + cast(data.amount)
 
 const addAmountLabel = data => ({
   ...data,
-  valueLabel: <Amount value={data.value} />,
+  valueLabel: <Amount value={data.value} abbrev />,
 })
 
 const getLabel = (label, grouper = null) =>
@@ -32,10 +32,10 @@ const getLabel = (label, grouper = null) =>
       <Flag iso={label} /> {CountryNames[label]}
     </>
   ) : label.indexOf(" - ") > 0 ? (
-    label.split(" - ")[0].substring(0, 20)
+    label.split(" - ")[0]
   ) : (
     label
-  ) // FIXME topic names
+  )
 
 const getGroupedData = (payments, grouper, getLink) => {
   const data = [...new Set(payments.map(d => d[grouper]))]
@@ -135,6 +135,10 @@ const useStyles = makeStyles(theme => ({
     top: theme.spacing(1),
     left: 0,
     color: ({ color }) => theme.palette[color].light,
+    width: "80%",
+    whiteSpace: "nowrap",
+    overflow: "hidden",
+    textOverflow: "ellipsis",
   },
   valueLabel: {
     position: "absolute",
@@ -156,6 +160,7 @@ const DataRow = ({ label, valueLabel, width, color, url }) => {
       className={classes.row}
       onClick={() => (url ? navigate(url) : null)}
       aria-hidden="true"
+      title={label}
     >
       <Typography variant="caption" className={`${classes.label} label`}>
         {label}
