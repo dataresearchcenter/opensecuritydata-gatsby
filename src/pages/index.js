@@ -38,7 +38,7 @@ const IndexPage = ({ data: { search } }) => {
           Find companies, organizations or topics
         </Typography>
         <Typography variant="subtitle1" className={classes.subTitle}>
-          that receive funding from the EU for surveillance technology
+          that receive funding from the EU for security research and developement
         </Typography>
         <Search {...search} />
       </Box>

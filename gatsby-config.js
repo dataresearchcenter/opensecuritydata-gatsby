@@ -142,7 +142,7 @@ module.exports = {
     },
   ],
   siteMetadata: {
-    title: `Face Off Grant`,
+    title: `OpenSecurityData`,
     siteUrl: `http://localhost:8000/`,
   },
 }
