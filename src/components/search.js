@@ -20,6 +20,7 @@ const getLink = ({ id, name, schema, key }) =>
 const useStyles = makeStyles(theme => ({
   root: {
     position: ({ asPopover }) => (asPopover ? "absolute" : "relative"),
+    backgroundColor: "white",
   },
   searchResults: {
     position: "absolute",
@@ -30,6 +31,13 @@ const useStyles = makeStyles(theme => ({
   searchHint: {
     padding: theme.spacing(1),
   },
+  resultList: ({ asPopover }) =>
+    asPopover
+      ? {
+          maxHeight: "80vh",
+          overflowY: "scroll",
+        }
+      : null,
 }))
 
 const TextItem = ({ name, schema, asPopover }) =>
@@ -41,22 +49,25 @@ const TextItem = ({ name, schema, asPopover }) =>
     </ListItemText>
   )
 
-const ResultList = ({ items, cursor, asPopover }) => (
-  <Paper>
-    <List dense>
-      {items.map(({ id, name, schema, key }, i) => (
-        <ListItemLink
-          divider
-          key={id}
-          to={getLink({ name, schema, key })}
-          autoFocus={i === cursor}
-        >
-          <TextItem name={name} schema={schema} asPopover={asPopover} />{" "}
-        </ListItemLink>
-      ))}
-    </List>
-  </Paper>
-)
+const ResultList = ({ items, cursor, asPopover }) => {
+  const classes = useStyles({ asPopover })
+  return (
+    <Paper>
+      <List dense className={classes.resultList}>
+        {items.map(({ id, name, schema, key }, i) => (
+          <ListItemLink
+            divider
+            key={id}
+            to={getLink({ name, schema, key })}
+            autoFocus={i === cursor}
+          >
+            <TextItem name={name} schema={schema} asPopover={asPopover} />
+          </ListItemLink>
+        ))}
+      </List>
+    </Paper>
+  )
+}
 
 const SearchResults = ({
   index,
@@ -114,13 +125,15 @@ const SearchResults = ({
       )}
     </div>
   ) : (
-    <Paper className={classes.searchHint}>
-      <Typography>
-        Your search for <strong>{query}</strong> has now results. Please try
-        another search phrase or select an item from the lists below to get
-        started.
-      </Typography>
-    </Paper>
+    <div className={classes.root}>
+      <Paper className={classes.searchHint}>
+        <Typography>
+          Your search for <strong>{query}</strong> has now results. Please try
+          another search phrase or select an item from the lists below to get
+          started.
+        </Typography>
+      </Paper>
+    </div>
   )
 }
 
