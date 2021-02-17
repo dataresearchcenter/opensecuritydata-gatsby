@@ -60,6 +60,7 @@ module.exports = {
             projects: allProjectsJson {
               nodes {
                 name
+                description
               }
             }
             programmes: allProgrammesJson {
@@ -87,7 +88,7 @@ module.exports = {
           }
         `,
         ref: `id`,
-        index: [`name`],
+        index: [`name`, `description`],
         store: [`id`, `name`, `schema`, `key`],
         normalizer: ({
           data: {
@@ -110,14 +111,16 @@ module.exports = {
             name,
             schema: `g`,
           })),
-          ...projects.nodes.map(({ name }, i) => ({
+          ...projects.nodes.map(({ name, description }, i) => ({
             id: parseInt(`3${i}`),
             name,
+            description,
             schema: `p`,
           })),
-          ...programmes.nodes.map(({ name }, i) => ({
+          ...programmes.nodes.map(({ name, description }, i) => ({
             id: parseInt(`4${i}`),
             name,
+            description,
             schema: `r`,
           })),
           ...countries.nodes.map(({ name, iso }, i) => ({
