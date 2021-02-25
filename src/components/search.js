@@ -128,7 +128,7 @@ const SearchResults = ({
     <div className={classes.root}>
       <Paper className={classes.searchHint}>
         <Typography>
-          Your search for <strong>{query}</strong> has now results. Please try
+          Your search for <strong>{query}</strong> has no results. Please try
           another search phrase or select an item from the lists below to get
           started.
         </Typography>

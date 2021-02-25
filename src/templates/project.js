@@ -147,6 +147,7 @@ export default function ProjectTemplate({
           <AmountCard
             color={ProjectSchema.color}
             viz={<Viz use="fundingPerCountry" data={payments.nodes} />}
+            hideCaption
             {...node}
           />
           <div>
