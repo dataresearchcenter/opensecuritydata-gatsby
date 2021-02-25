@@ -4,6 +4,8 @@ import { getCountryLink } from "../links"
 import Country from "./country"
 import DataTable, { renderCell, numericSort } from "./tableUtil"
 
+const render = ({ field, value }) => renderCell(field, value)
+
 const columns = [
   {
     field: "name",
@@ -15,7 +17,7 @@ const columns = [
     field: "amount",
     headerName: "Total amount",
     width: 200,
-    renderCell: ({ field, value }) => renderCell(field, value),
+    renderCell: render,
     sortComparator: numericSort,
   },
   {
@@ -29,6 +31,18 @@ const columns = [
     headerName: "Projects",
     width: 200,
     sortComparator: numericSort,
+  },
+  {
+    field: "startDate",
+    headerName: "Activity start",
+    width: 150,
+    renderCell: render,
+  },
+  {
+    field: "endDate",
+    headerName: "Activity end",
+    width: 150,
+    renderCell: render,
   },
 ]
 

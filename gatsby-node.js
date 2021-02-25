@@ -52,6 +52,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
             sourceUrl
             topicName
             euroscivoc
+            categories
           }
         }
       }
@@ -99,6 +100,20 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
             id
             name
             iso
+            projects
+            beneficiaries
+            payments
+            amount
+            startDate
+            endDate
+          }
+        }
+      }
+      allCategoriesJson {
+        edges {
+          node {
+            id
+            name
             projects
             beneficiaries
             payments
@@ -165,7 +180,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
       context: {
         node,
         projectsLookup: node.name,
-        proofLookup: node.proof,
+        proofLookup: (node.proof || "").toString(),
         route: `Programmes`,
         title: node.name,
       },
@@ -189,7 +204,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
         euroscivocLookup: (JSON.parse(node.euroscivoc) || []).map(i =>
           i.substring(1)
         ),
-        proofLookup: node.proof,
+        proofLookup: (node.proof || "").toString(),
         translationsLookup,
         route: `Projects`,
         title: node.name,
@@ -206,7 +221,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
         node,
         paymentsLookup: node.id,
         countryLookup: node.country,
-        proofLookup: node.proof,
+        proofLookup: (node.proof || "").toString(),
         translationLookup: node.name,
         route: `Beneficiaries`,
         title: node.name,
@@ -236,8 +251,21 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
       context: {
         node,
         lookup: node.iso,
-        proofLookup: node.proof,
         route: `Countries`,
+        title: node.name,
+      },
+    })
+  })
+
+  // categories
+  result.data.allCategoriesJson.edges.forEach(({ node }) => {
+    createPage({
+      path: `/categories/${slugify(node.name)}`,
+      component: require.resolve(`./src/templates/category.js`),
+      context: {
+        node,
+        lookup: `/${node.name}/`,
+        route: `Categories`,
         title: node.name,
       },
     })

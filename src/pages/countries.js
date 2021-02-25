@@ -14,6 +14,8 @@ export const query = graphql`
         beneficiaries
         projects
         amount
+        startDate
+        endDate
       }
     }
   }

@@ -15,7 +15,7 @@ import AttributeCard from "../components/attributeCard"
 import Translated from "../components/translation"
 import Viz from "../components/viz"
 import { ProjectSchema } from "../schema"
-import { getTopicLink, getEuroSciVocLink } from "../links"
+import { getTopicLink, getEuroSciVocLink, getCategoryLink } from "../links"
 
 export const query = graphql`
   query projectQuery(
@@ -81,10 +81,10 @@ const useStyles = makeStyles(theme => ({
   moreCard: {
     marginTop: theme.spacing(4),
   },
-  euroscivoc: {
+  taxonomy: {
     marginTop: theme.spacing(4),
   },
-  euroscivocChip: {
+  taxonomyChip: {
     marginBottom: theme.spacing(1),
     marginRight: theme.spacing(1),
   },
@@ -136,6 +136,7 @@ export default function ProjectTemplate({
 }) {
   const classes = useStyles()
   const isf = programme.name === "Internal Security Fund"
+  const categories = JSON.parse(node.categories || "[]")
   return (
     <Layout route={route} title={title.split("-")[0].trim()}>
       <ProjectTitle name={node.name} translations={translations.nodes} />
@@ -183,30 +184,48 @@ export default function ProjectTemplate({
             </Paper>
           </>
         )}
+        {categories.length > 0 && (
+          <section className={classes.taxonomy}>
+            <Typography variant="h5" component="h4" gutterBottom>
+              Categories
+            </Typography>
+            {categories.map(c => (
+              <Chip
+                key={c}
+                className={classes.taxonomyChip}
+                color="primary"
+                label={c}
+                component={Link}
+                to={getCategoryLink({name: c})}
+                clickable
+              />
+            ))}
+          </section>
+        )}
         {topic && (
-          <>
+          <section className={classes.taxonomy}>
             <Typography variant="h5" component="h4" gutterBottom>
               Topic
             </Typography>
             <Chip
-              className={classes.euroscivocChip}
+              className={classes.taxonomyChip}
               color="primary"
               label={topic.name}
               component={Link}
               to={getTopicLink(topic)}
               clickable
             />
-          </>
+          </section>
         )}
         {euroscivoc.nodes.length > 1 && (
-          <section className={classes.euroscivoc}>
+          <section className={classes.taxonomy}>
             <Typography variant="h5" component="h4" gutterBottom>
               EuroSciVoc hierarchy
             </Typography>
             {euroscivoc.nodes.map(({ name, key }) => (
               <Chip
                 variant="outlined"
-                className={classes.euroscivocChip}
+                className={classes.taxonomyChip}
                 key={key}
                 label={name}
                 component={Link}

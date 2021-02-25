@@ -74,6 +74,11 @@ module.exports = {
                 name
               }
             }
+            categories: allCategoriesJson {
+              nodes {
+                name
+              }
+            }
             topics: allTopicsJson {
               nodes {
                 name
@@ -97,6 +102,7 @@ module.exports = {
             projects,
             programmes,
             countries,
+            categories,
             topics,
             euroscivoc,
           },
@@ -128,6 +134,11 @@ module.exports = {
             name,
             schema: `c`,
             key: iso,
+          })),
+          ...categories.nodes.map(({ name }, i) => ({
+            id: parseInt(`8${i}`),
+            name,
+            schema: `k`,
           })),
           ...topics.nodes.map(({ name, key }, i) => ({
             id: parseInt(`6${i}`),

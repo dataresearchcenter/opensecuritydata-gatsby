@@ -84,6 +84,11 @@ export default function SimpleTabs({ data }) {
       getLink: links.getCountryLink,
       getItems: () => getItems(5),
     },
+    categories: {
+      label: "categories",
+      getLink: links.getCategoryLink,
+      getItems: () => getItems(8),
+    },
   }
 
   const tabKeys = [...Object.keys(tabs)]
@@ -94,7 +99,7 @@ export default function SimpleTabs({ data }) {
     setHashValue("show", tabKeys[newValue])
   }
 
-  const shuffle = () => setValue(activeTab ? tabKeys.indexOf(activeTab) : 0) // FIXME
+  // const shuffle = () => setValue(activeTab ? tabKeys.indexOf(activeTab) : 0) // FIXME
 
   return (
     <div className={classes.root}>
@@ -113,9 +118,11 @@ export default function SimpleTabs({ data }) {
       {Object.keys(tabs).map((k, i) => (
         <TabPanel value={value} index={i} key={i}>
           <Paper>
-            <Button onClick={shuffle} startIcon={<CachedIcon />}>
-              Shuffle list
-            </Button>
+            {
+              // <Button onClick={shuffle} startIcon={<CachedIcon />}>
+              // Shuffle list
+              // </Button>
+            }
             <SimpleList
               dense
               items={tabs[k].getItems()}
