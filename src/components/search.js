@@ -10,6 +10,7 @@ import List from "@material-ui/core/List"
 import Button from "@material-ui/core/Button"
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore"
 import ListItemText from "@material-ui/core/ListItemText"
+import { Link } from "gatsby-theme-material-ui"
 import { ListItemLink } from "./util"
 import { updateLocationParams, getLocationParam } from "../util"
 import SCHEMA from "../schema"
@@ -53,6 +54,10 @@ const ResultList = ({ items, cursor, asPopover }) => {
   const classes = useStyles({ asPopover })
   return (
     <Paper>
+      <Typography variant="caption">
+        Not what you are looking for? Try the{" "}
+        <Link to="/search" color="secondary">advanced search</Link>
+      </Typography>
       <List dense className={classes.resultList}>
         {items.map(({ id, name, schema, key }, i) => (
           <ListItemLink

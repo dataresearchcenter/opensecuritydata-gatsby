@@ -1,6 +1,8 @@
 import React from "react"
 import { makeStyles } from "@material-ui/core/styles"
 import { navigate } from "gatsby"
+import Avatar from "@material-ui/core/Avatar"
+import GroupIcon from "@material-ui/icons/Group"
 import Card from "@material-ui/core/Card"
 import CardActionArea from "@material-ui/core/CardActionArea"
 import CardContent from "@material-ui/core/CardContent"
@@ -9,7 +11,20 @@ import CardMedia from "@material-ui/core/CardMedia"
 import Typography from "@material-ui/core/Typography"
 import Date from "./date"
 
-const useStyles = makeStyles({
+const TeamAvatar = ({ inline, className }) => (
+  <Avatar
+    className={className}
+    style={{
+      width: inline ? 30 : 40,
+      height: inline ? 30 : 40,
+      display: inline && "inline-flex",
+    }}
+  >
+    <GroupIcon />
+  </Avatar>
+)
+
+const useStyles = makeStyles(theme => ({
   header: {
     fontSize: 12,
   },
@@ -17,22 +32,31 @@ const useStyles = makeStyles({
     height: 0,
     paddingTop: "56.25%", // 16:9
   },
-})
+  avatar: {
+    backgroundColor: theme.palette.primary.light,
+  },
+}))
 
-const Story = ({ title, abstract, date, image, url, publisher }) => {
+const Story = ({ title, subtitleabstract, date, imageurl, url, publisher, team }) => {
   const dateDisplay = <Date date={date} format="long" />
   const classes = useStyles()
   return (
     <Card>
       <CardActionArea onClick={() => navigate(url)}>
-        <CardHeader title={publisher} subheader={dateDisplay} />
-        <CardMedia className={classes.media} image={image} title={title} />
+        <CardHeader
+          avatar={
+            team === "yes" && <TeamAvatar aria-label="team" className={classes.avatar} />
+          }
+          title={publisher}
+          subheader={dateDisplay}
+        />
+        <CardMedia className={classes.media} image={imageurl} title={title} />
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2">
             {title}
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
-            {abstract}
+            {subtitleabstract}
           </Typography>
         </CardContent>
       </CardActionArea>
@@ -41,3 +65,4 @@ const Story = ({ title, abstract, date, image, url, publisher }) => {
 }
 
 export default Story
+export { TeamAvatar }

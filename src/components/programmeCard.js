@@ -3,20 +3,22 @@ import Card from "@material-ui/core/Card"
 import CardActions from "@material-ui/core/CardActions"
 import CardContent from "@material-ui/core/CardContent"
 import Typography from "@material-ui/core/Typography"
-import { Button } from "gatsby-theme-material-ui"
+import { Button, Link } from "gatsby-theme-material-ui"
 import Amount from "./amount"
 import DataDownload from "./downloadData"
 import { getProgrammeLink } from "../links"
 
 const ProgrammeCard = ({
   data: { id, name, projects, beneficiaries, amount, proof },
+  texts: { url, description },
   showHeader = true,
   showName = true,
   showLink = true,
   showData = true,
   showProof = true,
+  className,
 }) => (
-  <Card>
+  <Card className={className}>
     <CardContent>
       {showHeader && (
         <Typography color="textSecondary" gutterBottom>
@@ -40,15 +42,13 @@ const ProgrammeCard = ({
         </>
       )}
       <Typography variant="body2" component="p">
-        Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy
-        eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam
-        voluptua. At vero eos et accusam et justo duo dolores et ea rebum.
+        {description} <Link to={url}>More information on the EU website</Link>
       </Typography>
     </CardContent>
     <CardActions>
       {showLink && (
-        <Button to={getProgrammeLink({ name })} size="small">
-          Details
+        <Button color="primary" to={getProgrammeLink({ name })} size="small">
+          Browse data
         </Button>
       )}
       {showProof && <DataDownload {...proof} />}

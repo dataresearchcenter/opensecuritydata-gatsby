@@ -1,5 +1,7 @@
 import React from "react"
 import { graphql } from "gatsby"
+import { makeStyles } from "@material-ui/core/styles"
+import Typography from "@material-ui/core/Typography"
 import Layout from "../components/layout"
 import ProgrammeCard from "../components/programmeCard"
 
@@ -14,16 +16,40 @@ export const query = graphql`
         id
       }
     }
+    descriptions: allProgrammeDescriptionsJson {
+      nodes {
+        name
+        description
+        url
+      }
+    }
   }
 `
 
-const ProgrammesPage = ({ data: { programmes } }) => (
-  <Layout route="All funding programmes">
-    <h1>Funding programmes</h1>
-    {programmes.nodes.map(p => (
-      <ProgrammeCard key={p.id} data={p} />
-    ))}
-  </Layout>
-)
+const useStyles = makeStyles(theme => ({
+  card: {
+    marginBottom: theme.spacing(2),
+  },
+}))
+
+const getDescription = (name, descriptions) =>
+  descriptions.nodes.find(d => d.name === name)
+
+const ProgrammesPage = ({ data: { programmes, descriptions } }) => {
+  const classes = useStyles()
+  return (
+    <Layout route="All funding programmes">
+      <Typography variant="h3">Funding programmes</Typography>
+      {programmes.nodes.map(p => (
+        <ProgrammeCard
+          className={classes.card}
+          key={p.id}
+          data={p}
+          texts={getDescription(p.name, descriptions)}
+        />
+      ))}
+    </Layout>
+  )
+}
 
 export default ProgrammesPage

@@ -35,10 +35,10 @@ const IndexPage = ({ data: { search } }) => {
     <Layout hideSearchBar>
       <Box className={classes.hero}>
         <Typography variant="h3" component="h1" className={classes.heroTitle} gutterBottom>
-          Find companies, organizations or topics
+          Find companies, organizations or projets
         </Typography>
         <Typography variant="subtitle1" className={classes.subTitle}>
-          that receive funding from the EU for security research and developement
+          that receive European Union security funding
         </Typography>
         <Search {...search} />
       </Box>

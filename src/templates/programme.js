@@ -13,8 +13,8 @@ import Viz from "../components/viz"
 import { ProgrammeSchema } from "../schema"
 
 export const programmeQuery = graphql`
-  query programmeProjects($projectsLookup: String!, $proofLookup: String!) {
-    projects: allProjectsJson(filter: { programme: { eq: $projectsLookup } }) {
+  query programmeProjects($lookup: String!, $proofLookup: String!) {
+    projects: allProjectsJson(filter: { programme: { eq: $lookup } }) {
       nodes {
         id
         name
@@ -26,7 +26,7 @@ export const programmeQuery = graphql`
         endDate
       }
     }
-    payments: allPaymentsJson(filter: { programme: { eq: $projectsLookup } }) {
+    payments: allPaymentsJson(filter: { programme: { eq: $lookup } }) {
       nodes {
         id
         beneficiaryName
@@ -45,12 +45,16 @@ export const programmeQuery = graphql`
       fileName
       fileSize
     }
+    texts: programmeDescriptionsJson(name: { eq: $lookup }) {
+      description
+      url
+    }
   }
 `
 
 export default function ProgrammeTemplate({
-  pageContext: { node, projectsLookup, proofLookup, route, title },
-  data: { payments, projects, proof },
+  pageContext: { node, lookup, proofLookup, route, title },
+  data: { payments, projects, proof, texts },
 }) {
   const isf = node.name === "Internal Security Fund"
   return (
@@ -66,6 +70,7 @@ export default function ProgrammeTemplate({
         />
         <ProgrammeCard
           data={{ ...node, proof }}
+          texts={texts}
           showName={false}
           showLink={false}
           showData={false}

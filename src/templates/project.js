@@ -45,6 +45,12 @@ export const query = graphql`
       payments
       amount
     }
+    programmeDescription: programmeDescriptionsJson(
+      name: { eq: $programmeLookup }
+    ) {
+      description
+      url
+    }
     euroscivoc: allEuroscivocJson(filter: { key: { in: $euroscivocLookup } }) {
       nodes {
         key
@@ -132,7 +138,15 @@ export default function ProjectTemplate({
     route,
     title,
   },
-  data: { payments, programme, topic, proof, euroscivoc, translations },
+  data: {
+    payments,
+    programme,
+    programmeDescription,
+    topic,
+    proof,
+    euroscivoc,
+    translations,
+  },
 }) {
   const classes = useStyles()
   const isf = programme.name === "Internal Security Fund"
@@ -160,7 +174,7 @@ export default function ProjectTemplate({
               }}
             />
             <div className={classes.moreCard}>
-              <ProgrammeCard data={programme} />
+              <ProgrammeCard data={programme} texts={programmeDescription} />
             </div>
           </div>
           <DataCard sourceUrl={node.sourceUrl} {...proof} />
@@ -196,7 +210,7 @@ export default function ProjectTemplate({
                 color="primary"
                 label={c}
                 component={Link}
-                to={getCategoryLink({name: c})}
+                to={getCategoryLink({ name: c })}
                 clickable
               />
             ))}

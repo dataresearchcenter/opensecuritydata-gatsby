@@ -1,26 +1,42 @@
 ---
 title: About
 ---
-**Hello from netlify cms!**
 
-Tenetur sunt deleniti natus est ea officia ea. Fuga id molestiae vitae quia aut
-ab. Quisquam voluptas consequatur quo repellat qui molestiae impedit fuga.
-Possimus delectus perspiciatis molestiae et quia asperiores qui. Vitae qui
-aliquid voluptas tenetur nihil dolorum itaque. Vel deleniti ea sint facere.
+**Open Security Data Europe** is a public platform aimed at tracking and
+displaying how the European Union spends money on security-related projects,
+including on topics related to  policing, border control, counter-terrorism and
+cybersecurity. The platform is a tool for journalists, researchers, civil
+society organizations and others to better understand the growing investments
+of the European Union in security.
 
-Aut beatae tempora officia neque ut quaerat aut cupiditate. Dolor id aut iusto
-beatae possimus accusantium totam. Quo voluptas est delectus dicta unde nobis
-cum. Temporibus voluptate aut est omnis. Et ipsum beatae sunt sint eos
-doloremque molestiae cumque.
+The platform contains data on three different EU budgets: the Internal Security
+Fund (2014-20), which provided funding to implement EU policing and border
+policies, as well as projects by EU member states; the security component of
+Horizon 2020 (2014-20), the EU’s research and innovation programme; and the
+predecessor to Horizon 2020, the Seventh Framework Programme for Research and
+Development (FP7, 2007-13).
 
-Non quia inventore nam. Enim et beatae ut eos amet est porro. Voluptates ex
-laborum velit expedita id totam. Quia aperiam illum omnis illo earum quia harum
-in. Cumque cum suscipit est iste et distinctio.
+This money has been used to develop controversial technologies such as drones,
+biometrics, and automated behavioural analysis, as well as the development of
+pan-European police networks and border surveillance systems. Some companies
+and organisations have received tens of millions of euros through these funding
+schemes.
 
-Et et aut aspernatur dolorem nam. Eum nobis necessitatibus magnam veniam dolor
-quibusdam. Molestiae cum rerum eaque perspiciatis rerum sunt similique in.
-Molestiae doloribus cumque quo. Sit fugit consequatur hic omnis.
+- [Drones](/projects/BorderUAS-Semi-autonomous-border-surveillance-platform-combining-next-generation-unmanned-aerial-veh--168)
+- [Biometrics](/projects/PROTECT-Pervasive-and-UseR-Focused-BiomeTrics-BordEr-ProjeCT)
+- [Automated behavioural analysis](/projects/P-REACT-Petty-cRiminality-diminution-through-sEarch-and-Analysis-in-multi-source-video-Capturing-and--121)
+- [Pan-European police networks](/projects/ILEAnet-Innovation-by-Law-Enforcement-Agencies-networking)
+- [Border surveillance systems](/projects/EUROSUR-II-enhanced-operational-capability)
 
-Provident magni animi eveniet. Voluptates numquam rerum beatae aspernatur aut
-temporibus. Hic rem consequatur quae omnis repudiandae veniam dolor. Et vel vel
-voluptatibus et.
+Our data is all public: either taken from the websites of EU or national
+institutions or received via freedom of information requests. You can read more
+about the data sources [here](/data).
+
+Open Security Data Europe was created by
+[Caitlin L.  Chandler](http://www.caitlinlchandler.com/),
+[Chris Jones](https://cjwords.net/)
+and [Zach Campbell](https://zachcampbell.net/).
+The data platform was built and is maintained by
+[Simon Wörpel](https://medienrevolte.de). Support for this project comes from the
+[Investigative Journalism for Europe (IJ4EU) Fund](https://www.investigativejournalismforeu.net/).
+

@@ -179,8 +179,8 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
       component: require.resolve(`./src/templates/programme.js`),
       context: {
         node,
-        projectsLookup: node.name,
         proofLookup: (node.proof || "").toString(),
+        lookup: node.name,
         route: `Programmes`,
         title: node.name,
       },
