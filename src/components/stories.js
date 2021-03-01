@@ -18,7 +18,7 @@ const Stories = ({ stories }) => {
       {stories
         .sort((a, b) => new Date(b.date) - new Date(a.date))
         .map(s => (
-          <Grid key={s.url} item xs={12} md={6}>
+          <Grid key={s.url} item xs={12} md={4}>
             <Story {...s} />
           </Grid>
         ))}

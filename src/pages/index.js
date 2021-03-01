@@ -44,7 +44,10 @@ const IndexPage = ({ data: { search } }) => {
       </Box>
       <Box className={classes.hero}>
         <Typography variant="h3" component="h2" className={classes.heroTitle} gutterBottom>
-          Browse data directly
+          Browse data
+        </Typography>
+        <Typography variant="subtitle1" className={classes.subTitle}>
+          Directly jump into a funding program or topic of your interest
         </Typography>
         <SimpleBrowser data={search.store} />
       </Box>
