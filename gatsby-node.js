@@ -52,7 +52,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
             sourceUrl
             topicName
             euroscivoc
-            categories
+            tags
           }
         }
       }
@@ -109,7 +109,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
           }
         }
       }
-      allCategoriesJson {
+      allTagsJson {
         edges {
           node {
             id
@@ -257,15 +257,15 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
     })
   })
 
-  // categories
-  result.data.allCategoriesJson.edges.forEach(({ node }) => {
+  // tags
+  result.data.allTagsJson.edges.forEach(({ node }) => {
     createPage({
-      path: `/categories/${slugify(node.name)}`,
-      component: require.resolve(`./src/templates/category.js`),
+      path: `/tags/${slugify(node.name)}`,
+      component: require.resolve(`./src/templates/tag.js`),
       context: {
         node,
         lookup: `/${node.name}/`,
-        route: `Categories`,
+        route: `Tags`,
         title: node.name,
       },
     })

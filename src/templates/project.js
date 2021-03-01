@@ -15,7 +15,7 @@ import AttributeCard from "../components/attributeCard"
 import Translated from "../components/translation"
 import Viz from "../components/viz"
 import { ProjectSchema } from "../schema"
-import { getTopicLink, getEuroSciVocLink, getCategoryLink } from "../links"
+import { getTopicLink, getEuroSciVocLink, getTagLink } from "../links"
 
 export const query = graphql`
   query projectQuery(
@@ -150,7 +150,7 @@ export default function ProjectTemplate({
 }) {
   const classes = useStyles()
   const isf = programme.name === "Internal Security Fund"
-  const categories = JSON.parse(node.categories || "[]")
+  const tags = JSON.parse(node.tags || "[]")
   return (
     <Layout route={route} title={title.split("-")[0].trim()}>
       <ProjectTitle name={node.name} translations={translations.nodes} />
@@ -198,19 +198,19 @@ export default function ProjectTemplate({
             </Paper>
           </>
         )}
-        {categories.length > 0 && (
+        {tags.length > 0 && (
           <section className={classes.taxonomy}>
             <Typography variant="h5" component="h4" gutterBottom>
-              Categories
+              Tags
             </Typography>
-            {categories.map(c => (
+            {tags.map(c => (
               <Chip
                 key={c}
                 className={classes.taxonomyChip}
                 color="primary"
                 label={c}
                 component={Link}
-                to={getCategoryLink({ name: c })}
+                to={getTagLink({ name: c })}
                 clickable
               />
             ))}

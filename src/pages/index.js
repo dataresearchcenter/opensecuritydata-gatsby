@@ -35,7 +35,7 @@ const IndexPage = ({ data: { search } }) => {
     <Layout hideSearchBar>
       <Box className={classes.hero}>
         <Typography variant="h3" component="h1" className={classes.heroTitle} gutterBottom>
-          Find companies, organizations or projets
+          Find companies, organizations or projects
         </Typography>
         <Typography variant="subtitle1" className={classes.subTitle}>
           that receive European Union security funding

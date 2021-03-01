@@ -74,10 +74,10 @@ const SCHEMA = {
     color: "primary",
   },
   k: {
-    schema: "Category",
-    label: "Category",
-    path: "categories",
-    getLink: links.getCategoryLink,
+    schema: "Tag",
+    label: "Tag",
+    path: "tags",
+    getLink: links.getTagLink,
     color: "primary",
   },
   c: {
@@ -120,7 +120,7 @@ const EuroSciVocSchema = SCHEMA.e
 const ProjectSchema = SCHEMA.p
 const ProgrammeSchema = SCHEMA.r
 const CountrySchema = SCHEMA.c
-const CategorySchema = SCHEMA.k
+const TagSchema = SCHEMA.k
 const BeneficiaryGroupSchema = SCHEMA.g
 
 export {
@@ -129,6 +129,6 @@ export {
   ProjectSchema,
   ProgrammeSchema,
   CountrySchema,
-  CategorySchema,
+  TagSchema,
   BeneficiaryGroupSchema,
 }

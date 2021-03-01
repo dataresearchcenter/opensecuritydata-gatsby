@@ -16,7 +16,7 @@ const getTopicLink = ({ name }) => `/topics/${slugify(name)}`
 
 const getCountryLink = ({ iso, key }) => `/countries/${iso || key}`
 
-const getCategoryLink = ({ name }) => `/categories/${slugify(name)}`
+const getTagLink = ({ name }) => `/tags/${slugify(name)}`
 
 const getBeneficiaryLink = ({ name }) => `/beneficiaries/${slugify(name)}`
 
@@ -29,7 +29,7 @@ export default {
   getTopicLink,
   getEuroSciVocLink,
   getCountryLink,
-  getCategoryLink,
+  getTagLink,
   getBeneficiaryLink,
   getBeneficiaryGroupLink,
 }
@@ -40,7 +40,7 @@ export {
   getTopicLink,
   getEuroSciVocLink,
   getCountryLink,
-  getCategoryLink,
+  getTagLink,
   getBeneficiaryLink,
   getBeneficiaryGroupLink,
 }

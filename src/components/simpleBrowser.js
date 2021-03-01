@@ -76,9 +76,9 @@ export default function SimpleTabs({ data }) {
       getLink: links.getCountryLink,
       getItems: () => getItems(5),
     },
-    categories: {
-      label: "categories",
-      getLink: links.getCategoryLink,
+    tags: {
+      label: "tags",
+      getLink: links.getTagLink,
       getItems: () => getItems(8),
     },
   }

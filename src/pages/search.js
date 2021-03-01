@@ -49,7 +49,6 @@ const SearchPage = ({
     ({ purpose }) => projects.indexOf(purpose) > -1
   )
   const rows = filteredRows.length ? filteredRows : payments.nodes
-  console.log(rows)
 
   return (
     <Layout hideSearchBar route="Search">

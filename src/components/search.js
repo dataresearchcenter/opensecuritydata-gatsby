@@ -50,13 +50,13 @@ const TextItem = ({ name, schema, asPopover }) =>
     </ListItemText>
   )
 
-const ResultList = ({ items, cursor, asPopover }) => {
+const ResultList = ({ items, cursor, asPopover, query }) => {
   const classes = useStyles({ asPopover })
   return (
     <Paper>
       <Typography variant="caption">
         Not what you are looking for? Try the{" "}
-        <Link to="/search" color="secondary">advanced search</Link>
+        <Link to={`/search?q=${query}`} color="secondary">advanced search</Link>
       </Typography>
       <List dense className={classes.resultList}>
         {items.map(({ id, name, schema, key }, i) => (
@@ -107,6 +107,7 @@ const SearchResults = ({
         items={showAll ? results : results.slice(0, 10)}
         cursor={cursor}
         asPopover={asPopover}
+        query={query}
       />
       {!showAll && results.length > 10 && (
         <Button endIcon={<ExpandMoreIcon />} onClick={() => setShowAll(true)}>
