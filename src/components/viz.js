@@ -27,15 +27,16 @@ const addAmountLabel = data => ({
 })
 
 const getLabel = (label, grouper = null) =>
-  grouper === "country" ? (
-    <>
-      <Flag iso={label} /> {CountryNames[label]}
-    </>
-  ) : label.indexOf(" - ") > 0 ? (
-    label.split(" - ")[0]
-  ) : (
-    label
-  )
+  grouper === "country"
+    ? [
+        <>
+          <Flag iso={label} /> {CountryNames[label]}
+        </>,
+        CountryNames[label],
+      ]
+    : label.indexOf(" - ") > 0
+    ? [label.split(" - ")[0], label]
+    : [label, label]
 
 const getGroupedData = (payments, grouper, getLink) => {
   const data = [...new Set(payments.map(d => d[grouper]))]
@@ -57,7 +58,7 @@ const VISUALIZATIONS = {
       ...new Set(payments.map(({ startDate }) => startDate.substring(0, 4))),
     ]
       .map(y => ({
-        label: y,
+        label: [y, y],
         value: payments
           .filter(({ startDate }) => startDate.indexOf(y) === 0)
           .reduce(sum, 0),
@@ -153,17 +154,23 @@ const Bar = ({ width, label, color, url }) => {
   return <div className={`${classes.bar} bar`} />
 }
 
-const DataRow = ({ label, valueLabel, width, color, url }) => {
+const DataRow = ({
+  label: [renderedLabel, textLabel],
+  valueLabel,
+  width,
+  color,
+  url,
+}) => {
   const classes = useStyles({ width, color, url })
   return (
     <div
       className={classes.row}
       onClick={() => (url ? navigate(url) : null)}
       aria-hidden="true"
-      title={label}
+      title={textLabel}
     >
       <Typography variant="caption" className={`${classes.label} label`}>
-        {label}
+        {renderedLabel}
       </Typography>
       <Typography
         variant="caption"
