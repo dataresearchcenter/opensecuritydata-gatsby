@@ -124,16 +124,16 @@ const SearchPage = ({
         Advanced search
       </Typography>
       <SearchField query={query} handleChange={handleChange} />
-      {query && filteredRows.length === 0 && (
-        <Typography component="p">
-          Your search for <strong>{query}</strong> has now results. Displaying
-          all {rows.length} entries in the table below.
-        </Typography>
-      )}
-      {query && filteredRows.length > 0 && (
+      {query && (
         <Typography variant="h4" gutterBottom>
           {filteredRows.length} results for{" "}
           <span style={{ color: theme.palette.primary.light }}>{query}</span>
+        </Typography>
+      )}
+      {query && filteredRows.length === 0 && (
+        <Typography component="p">
+          Your search for <strong>{query}</strong> has no results. Displaying
+          all {rows.length} entries in the table below.
         </Typography>
       )}
 
