@@ -4,7 +4,7 @@ import Card from "@material-ui/core/Card"
 import CardContent from "@material-ui/core/CardContent"
 import Typography from "@material-ui/core/Typography"
 import LaunchIcon from "@material-ui/icons/Launch"
-import { Button, Link } from "gatsby-theme-material-ui"
+import { Link } from "gatsby-theme-material-ui"
 import { getTopicLink } from "../links"
 
 const CallCard = ({
