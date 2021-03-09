@@ -45,8 +45,9 @@ export const programmeQuery = graphql`
       fileName
       fileSize
     }
-    texts: programmeDescriptionsJson(name: { eq: $lookup }) {
+    meta: programmeMetaJson(name: { eq: $lookup }) {
       description
+      fileName
       url
     }
   }
@@ -54,7 +55,7 @@ export const programmeQuery = graphql`
 
 export default function ProgrammeTemplate({
   pageContext: { node, lookup, proofLookup, route, title },
-  data: { payments, projects, proof, texts },
+  data: { payments, projects, proof, meta },
 }) {
   const isf = node.name === "Internal Security Fund"
   return (
@@ -69,11 +70,10 @@ export default function ProgrammeTemplate({
           {...node}
         />
         <ProgrammeCard
-          data={{ ...node, proof }}
-          texts={texts}
           showName={false}
           showLink={false}
           showData={false}
+          {...{ ...node, ...meta, proof }}
         />
         <AttributeCard
           data={{

@@ -1,0 +1,22 @@
+[
+  {
+    "name": "Internal Security Fund",
+    "description": "The Internal Security Fund (ISF, 2014-20) financed national and EU projects for policing, security and borders.",
+    "dataDescription": "All data has been compiled via public sources or freedom of information requests to the relevant European Union or national institutions. Data may be incomplete or missing; some agencies or countries still haven’t responded to us, months later. Spreadsheets have been reformatted in order to fit into this data platform. If you see any errors, typos, translation issues or other problems, please get in touch:  hello@opensecuritydata.eu.",
+    "url": "https://ec.europa.eu/home-affairs/financing/fundings/security-and-safeguarding-liberties/internal-security-fund-police_en"
+  },
+  {
+    "name": "Horizon 2020",
+    "description": "Horizon 2020 was the EU’s research and innovation budget from 2014 to 2020, with an overall budget of some €77 billion. The security research component had a total budget of €1.7 billion.",
+    "dataDescription": "All data has been compiled via public sources or freedom of information requests to the relevant European Union or national institutions. Data may be incomplete or missing; some agencies or countries still haven’t responded to us, months later. Spreadsheets have been reformatted in order to fit into this data platform. If you see any errors, typos, translation issues or other problems, please get in touch:  hello@opensecuritydata.eu.",
+    "url": "https://ec.europa.eu/programmes/horizon2020/en/what-horizon-2020",
+    "fileName": "EU security research funding 2007-2020.xlsx"
+  },
+  {
+    "name": "FP7 Security",
+    "description": "The Seventh Framework Programme for research and development (FP7) provided the first formal EU funding for security research, with €1.3 billion made available from 2007-13.",
+    "dataDescription": "All data has been compiled via public sources or freedom of information requests to the relevant European Union or national institutions. Data may be incomplete or missing; some agencies or countries still haven’t responded to us, months later. Spreadsheets have been reformatted in order to fit into this data platform. If you see any errors, typos, translation issues or other problems, please get in touch:  hello@opensecuritydata.eu.",
+    "url": "https://cordis.europa.eu/programme/id/FP7",
+    "fileName": "EU security research funding 2007-2020.xlsx"
+  }
+]

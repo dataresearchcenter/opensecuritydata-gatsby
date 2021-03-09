@@ -16,7 +16,7 @@ export const query = graphql`
         id
       }
     }
-    descriptions: allProgrammeDescriptionsJson {
+    descriptions: allProgrammeMetaJson {
       nodes {
         name
         description

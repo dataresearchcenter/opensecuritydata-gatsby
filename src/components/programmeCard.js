@@ -9,8 +9,14 @@ import DataDownload from "./downloadData"
 import { getProgrammeLink } from "../links"
 
 const ProgrammeCard = ({
-  data: { id, name, projects, beneficiaries, amount, proof },
-  texts: { url, description },
+  id,
+  name,
+  projects,
+  beneficiaries,
+  amount,
+  proof,
+  url,
+  description,
   showHeader = true,
   showName = true,
   showLink = true,

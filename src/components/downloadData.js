@@ -4,13 +4,9 @@ import GetAppIcon from "@material-ui/icons/GetApp"
 import { Button } from "gatsby-theme-material-ui"
 
 const DataDownload = ({ fileName, fileSize, color = "primary" }) =>
-  fileName && fileSize ? (
-    <Button
-      to={`/${fileName}`}
-      startIcon={<GetAppIcon />}
-      color={color}
-    >
-      {fileName} ({filesize(fileSize)})
+  fileName ? (
+    <Button to={`/${fileName}`} startIcon={<GetAppIcon />} color={color}>
+      {fileName} {fileSize && `(${filesize(fileSize)})`}
     </Button>
   ) : null
 

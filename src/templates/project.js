@@ -45,10 +45,10 @@ export const query = graphql`
       payments
       amount
     }
-    programmeDescription: programmeDescriptionsJson(
-      name: { eq: $programmeLookup }
-    ) {
+    programmeMeta: programmeMetaJson(name: { eq: $programmeLookup }) {
       description
+      dataDescription
+      fileName
       url
     }
     euroscivoc: allEuroscivocJson(filter: { key: { in: $euroscivocLookup } }) {
@@ -134,18 +134,13 @@ export default function ProjectTemplate({
     route,
     title,
   },
-  data: {
-    payments,
-    programme,
-    programmeDescription,
-    proof,
-    euroscivoc,
-    translations,
-  },
+  data: { payments, programme, programmeMeta, proof, euroscivoc, translations },
 }) {
   const classes = useStyles()
   const isf = programme.name === "Internal Security Fund"
   const tags = JSON.parse(node.tags || "[]")
+  const hasCallCard = node.topicName || node.callName
+
   return (
     <Layout route={route} title={title.split("-")[0].trim()}>
       <ProjectTitle name={node.name} translations={translations.nodes} />
@@ -169,12 +164,16 @@ export default function ProjectTemplate({
               }}
             />
             <div className={classes.moreCard}>
-              <ProgrammeCard data={programme} texts={programmeDescription} />
+              <ProgrammeCard {...programme} {...programmeMeta} />
             </div>
           </>
           <>
-            <DataCard {...proof} />
-            {(node.topic || node.callName) && (
+            <DataCard
+              sourceUrl={!hasCallCard && node.sourceUrl}
+              {...proof}
+              {...programmeMeta}
+            />
+            {hasCallCard && (
               <CallCard
                 className={classes.moreCard}
                 color={ProjectSchema.color}

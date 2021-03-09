@@ -21,8 +21,7 @@ Some €350 million of the police component and  around €1 billion of the bord
 component was managed directly by the European Commission. It was spent on a
 broad range of topics, ranging from anti-corruption measures to supporting
 civil society projects. However, it also funded work with human rights and
-civil liberties implications: projects like [some nefarious things it funded
-from the Commission-managed spending data].
+civil liberties implications.
 
 The remaining €750 million (police) and around €1.8 billion (borders)  was
 distributed amongst EU member states and spent in accordance with national
