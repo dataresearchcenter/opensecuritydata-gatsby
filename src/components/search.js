@@ -200,6 +200,9 @@ const Search = ({ index, store }) => {
         }}
         style={{ background: "white" }}
       />
+      <Link to={`/search`} color="textSecondary">
+        advanced search
+      </Link>
       {query?.length > 2 && (
         <SearchResults
           query={query}

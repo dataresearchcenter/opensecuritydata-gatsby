@@ -7,6 +7,7 @@ import Link from "@material-ui/core/Link"
 import Tooltip from "@material-ui/core/Tooltip"
 import HelpOutlineIcon from "@material-ui/icons/HelpOutline"
 import { DataGrid } from "@material-ui/data-grid"
+// import { getLocationParam, updateLocationParams } from "../util"
 import SCHEMA from "../schema"
 import links from "../links"
 import Amount from "./amount"
@@ -140,9 +141,10 @@ const DataTable = ({
     setActiveRows(rows)
     setAvailableFacets(facets)
     setActiveFilters({})
+    // facets.map(({ field }) => updateLocationParams({ [field]: null }))
   }
 
-  // rows changing from "outside" search
+  // rows changing from "outside"
   useEffect(() => {
     setActiveRows(rows)
   }, [rows])
@@ -160,6 +162,7 @@ const DataTable = ({
     }
     const filteredRows = filterRows(activeFilters)
     const availableFacets = getFacets({ filters, rows: filteredRows })
+    // updateLocationParams(activeFilters)
     setActiveRows(filteredRows)
     setActiveFilters(activeFilters)
     setAvailableFacets(availableFacets)
