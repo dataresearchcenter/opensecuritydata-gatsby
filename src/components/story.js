@@ -37,7 +37,7 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-const Story = ({ title, subtitleabstract, date, imageurl, url, publisher, team }) => {
+const Story = ({ title, abstract, date, image_url, url, publisher, team }) => {
   const dateDisplay = <Date date={date} format="long" />
   const classes = useStyles()
   return (
@@ -50,13 +50,13 @@ const Story = ({ title, subtitleabstract, date, imageurl, url, publisher, team }
           title={publisher}
           subheader={dateDisplay}
         />
-        <CardMedia className={classes.media} image={imageurl} title={title} />
+        <CardMedia className={classes.media} image={image_url} title={title} />
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2">
             {title}
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
-            {subtitleabstract}
+            {abstract}
           </Typography>
         </CardContent>
       </CardActionArea>
