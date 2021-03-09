@@ -74,7 +74,7 @@ const SearchBar = () => {
         inputProps={{ "aria-label": "search" }}
         onChange={handleChange}
       />
-      {query?.length > 3 && (
+      {query?.length > 2 && (
         <SearchResults
           query={query}
           cursor={cursor}

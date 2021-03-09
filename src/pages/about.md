@@ -16,17 +16,14 @@ Horizon 2020 (2014-20), the EU’s research and innovation programme; and the
 predecessor to Horizon 2020, the Seventh Framework Programme for Research and
 Development (FP7, 2007-13).
 
-This money has been used to develop controversial technologies such as drones,
-biometrics, and automated behavioural analysis, as well as the development of
-pan-European police networks and border surveillance systems. Some companies
-and organisations have received tens of millions of euros through these funding
-schemes.
-
-- [Drones](/projects/BorderUAS-Semi-autonomous-border-surveillance-platform-combining-next-generation-unmanned-aerial-veh--168)
-- [Biometrics](/projects/PROTECT-Pervasive-and-UseR-Focused-BiomeTrics-BordEr-ProjeCT)
-- [Automated behavioural analysis](/projects/P-REACT-Petty-cRiminality-diminution-through-sEarch-and-Analysis-in-multi-source-video-Capturing-and--121)
-- [Pan-European police networks](/projects/ILEAnet-Innovation-by-Law-Enforcement-Agencies-networking)
-- [Border surveillance systems](/projects/EUROSUR-II-enhanced-operational-capability)
+This money has been used to develop controversial technologies such as
+[drones](/projects/BorderUAS-Semi-autonomous-border-surveillance-platform-combining-next-generation-unmanned-aerial-veh--168),
+[biometrics](/projects/PROTECT-Pervasive-and-UseR-Focused-BiomeTrics-BordEr-ProjeCT), and
+[automated behavioural analysis](/projects/P-REACT-Petty-cRiminality-diminution-through-sEarch-and-Analysis-in-multi-source-video-Capturing-and--121), as well as the development of
+[pan-European police networks](/projects/ILEAnet-Innovation-by-Law-Enforcement-Agencies-networking) and
+[border surveillance systems](/projects/EUROSUR-II-enhanced-operational-capability).
+Some companies and organisations have received tens of millions of euros
+through these funding schemes.
 
 Our data is all public: either taken from the websites of EU or national
 institutions or received via freedom of information requests. You can read more

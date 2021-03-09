@@ -156,7 +156,7 @@ module.exports = {
     },
   ],
   siteMetadata: {
-    title: `Open Security Data – Europe`,
+    title: `Open Security Data Europe`,
     siteUrl: `http://localhost:8000/`,
     storiesSpreadsheet: `1lmejVycuaJz63SziPiKXIpeQZCNZDiMBz16c94TeY2w`,
   },

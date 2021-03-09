@@ -45,7 +45,7 @@ const ProgrammesPage = ({ data: { programmes, descriptions } }) => {
           className={classes.card}
           key={p.id}
           data={p}
-          texts={getDescription(p.name, descriptions)}
+          {...getDescription(p.name, descriptions)}
         />
       ))}
     </Layout>

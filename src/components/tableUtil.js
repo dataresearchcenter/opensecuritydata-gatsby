@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react"
+import React, { useState, useRef, useEffect } from "react"
 import { navigate } from "gatsby"
 import { makeStyles } from "@material-ui/core/styles"
 import Typography from "@material-ui/core/Typography"
@@ -122,12 +122,9 @@ const DataTable = ({
       ...f,
       items: [...new Set(rows.map(r => r[f.field]))],
     }))
+
   const facets = getFacets({ filters, rows })
-  const initialState = {
-    filteredRows: rows,
-    activeFilters: {},
-    availableFacets: facets,
-  }
+
   const filterRows = activeFilters => {
     let filteredRows = rows
     for (const [field, value] of Object.entries(activeFilters)) {
@@ -135,25 +132,36 @@ const DataTable = ({
     }
     return filteredRows
   }
-  const [state, setState] = useState(initialState)
-  const resetFilters = () => setState(initialState)
+
+  const [activeRows, setActiveRows] = useState(rows)
+  const [activeFilters, setActiveFilters] = useState({})
+  const [availableFacets, setAvailableFacets] = useState(facets)
+  const resetFilters = () => (
+    setActiveRows(rows), setAvailableFacets(facets), setActiveFilters({})
+  )
+
+  // rows changing from "outside" search
+  useEffect(() => {
+    setActiveRows(rows)
+  }, [rows])
+
   const applyFilter = ({ field, value }) => {
     let activeFilters = {}
     if (value === "") {
-      const keys = Object.keys(state.activeFilters).filter(k => k !== field)
+      const keys = Object.keys(activeFilters).filter(k => k !== field)
       activeFilters = keys.reduce(
-        (o, k) => ({ ...o, [k]: state.activeFilters[k] }),
+        (o, k) => ({ ...o, [k]: activeFilters[k] }),
         {}
       )
     } else {
-      activeFilters = { ...state.activeFilters, [field]: value }
+      activeFilters = { ...activeFilters, [field]: value }
     }
     const filteredRows = filterRows(activeFilters)
     const availableFacets = getFacets({ filters, rows: filteredRows })
-    setState({ activeFilters, filteredRows, availableFacets })
+    setActiveRows(filteredRows)
+    setActiveFilters(activeFilters)
+    setAvailableFacets(availableFacets)
   }
-
-  const { filteredRows, activeFilters, availableFacets } = state
 
   return (
     <div className={classes.root}>
@@ -178,13 +186,13 @@ const DataTable = ({
       <Paper style={{ minHeight }}>
         <DataGrid
           ref={ref}
-          rows={filteredRows}
+          rows={activeRows}
           columns={columns}
           pageSize={pageSize}
           rowsPerPageOptions={[10, 25, 50, 100]}
           autoHeight
           disableSelectionOnClick
-          hideFooter={rows.length < 11}
+          hideFooter={activeRows.length < 11}
           onCellClick={onCellClick}
           onPageChange={adjustHeight}
           sortingOrder={["desc", "asc", null]}

@@ -103,7 +103,8 @@ const SCHEMA = {
   },
 }
 
-Object.keys(SCHEMA).map(k => { // eslint-disable-line
+Object.keys(SCHEMA).map(k => {
+  // eslint-disable-line
   SCHEMA[k].chip = ({ ...props } = {}) => (
     <Chip
       color={k === "ukn" ? "default" : SCHEMA[k].color}
@@ -122,6 +123,9 @@ const ProgrammeSchema = SCHEMA.r
 const CountrySchema = SCHEMA.c
 const TagSchema = SCHEMA.k
 const BeneficiaryGroupSchema = SCHEMA.g
+const EntitySchemaKeys = Object.entries(SCHEMA)
+  .filter(([_, { color }]) => color === "secondary")
+  .map(([key]) => key)
 
 export {
   EuroSciVocSchema,
@@ -131,4 +135,5 @@ export {
   CountrySchema,
   TagSchema,
   BeneficiaryGroupSchema,
+  EntitySchemaKeys
 }

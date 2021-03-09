@@ -120,7 +120,7 @@ export default function SimpleTabs({ data }) {
               items={tabs[k].getItems()}
               getLink={tabs[k].getLink}
             />
-            <Link to={`/${k}`}>Show all {k}</Link>
+            <Link to={`/${k}`} color="secondary">Show all {k}</Link>
           </Paper>
         </TabPanel>
       ))}

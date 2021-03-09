@@ -56,7 +56,9 @@ const ResultList = ({ items, cursor, asPopover, query }) => {
     <Paper>
       <Typography variant="caption">
         Not what you are looking for? Try the{" "}
-        <Link to={`/search?q=${query}`} color="secondary">advanced search</Link>
+        <Link to={`/search?q=${query}`} color="secondary">
+          advanced search
+        </Link>
       </Typography>
       <List dense className={classes.resultList}>
         {items.map(({ id, name, schema, key }, i) => (
@@ -135,8 +137,10 @@ const SearchResults = ({
       <Paper className={classes.searchHint}>
         <Typography>
           Your search for <strong>{query}</strong> has no results. Please try
-          another search phrase or select an item from the lists below to get
-          started.
+          another search phrase or try to use the{" "}
+          <Link to={`/search?q=${query}`} color="secondary">
+            advanced search
+          </Link>
         </Typography>
       </Paper>
     </div>
@@ -193,7 +197,7 @@ const Search = ({ index, store }) => {
         }}
         style={{ background: "white" }}
       />
-      {query?.length > 3 && (
+      {query?.length > 2 && (
         <SearchResults
           query={query}
           searchInputRef={searchInput}
