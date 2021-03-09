@@ -53,6 +53,9 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
             topicName
             euroscivoc
             tags
+            callName
+            callId
+            workProgramme
           }
         }
       }
@@ -145,6 +148,9 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
           node {
             name
             code
+            callName
+            callId
+            workProgramme
             payments
             beneficiaries
             projects
@@ -200,7 +206,6 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
         node,
         projectLookup: node.name,
         programmeLookup: node.programme,
-        topicLookup: node.topicName || "",
         euroscivocLookup: (JSON.parse(node.euroscivoc) || []).map(i =>
           i.substring(1)
         ),

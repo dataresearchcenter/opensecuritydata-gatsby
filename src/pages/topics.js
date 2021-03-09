@@ -13,6 +13,8 @@ export const query = graphql`
         beneficiaries
         projects
         amount
+        callName
+        workProgramme
       }
     }
   }

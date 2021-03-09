@@ -14,6 +14,8 @@ export const query = graphql`
         beneficiaries
         amount
         payments
+        callName
+        workProgramme
       }
     }
   }

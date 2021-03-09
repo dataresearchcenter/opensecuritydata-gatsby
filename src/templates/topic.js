@@ -53,7 +53,9 @@ export default function topicTemplate({
           {...node}
         />
         <AttributeCard data={attributeData} />
+        <>
         <VizCard use="fundingPerYear" data={payments.nodes} />
+        </>
       </OverviewGrid>
       <Typography variant="h4" component="h2" gutterBottom>
         Funding

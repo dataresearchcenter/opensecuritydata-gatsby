@@ -8,6 +8,16 @@ const render = ({ field, value }) => renderCell(field, value)
 const columns = [
   { field: "name", headerName: "Name", width: 400 },
   {
+    field: "callName",
+    headerName: "Call",
+    width: 200,
+  },
+  {
+    field: "workProgramme",
+    headerName: "Work programme",
+    width: 200,
+  },
+  {
     field: "amount",
     headerName: "Total amount",
     width: 150,
@@ -39,7 +49,7 @@ const ProjectsTable = ({ rows, exclude = [] }) => (
   <DataTable
     rows={rows}
     columns={columns.filter(({ field }) => exclude.indexOf(field) < 0)}
-    filters={["programme"]}
+    filters={["programme", "workProgramme", "callName"]}
     onRowClick={({ row }) => navigate(getProjectLink(row))}
   />
 )

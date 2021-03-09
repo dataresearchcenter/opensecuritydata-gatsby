@@ -14,14 +14,14 @@ import AmountCard from "../components/amountCard"
 import AttributeCard from "../components/attributeCard"
 import Translated from "../components/translation"
 import Viz from "../components/viz"
+import CallCard from "../components/callCard.js"
 import { ProjectSchema } from "../schema"
-import { getTopicLink, getEuroSciVocLink, getTagLink } from "../links"
+import { getEuroSciVocLink, getTagLink } from "../links"
 
 export const query = graphql`
   query projectQuery(
     $projectLookup: String!
     $programmeLookup: String!
-    $topicLookup: String!
     $euroscivocLookup: [String!]
     $proofLookup: String!
     $translationsLookup: [String!]
@@ -56,9 +56,6 @@ export const query = graphql`
         key
         name
       }
-    }
-    topic: topicsJson(name: { eq: $topicLookup }) {
-      name
     }
     proof: documentsJson(id: { eq: $proofLookup }) {
       fileName
@@ -131,7 +128,6 @@ export default function ProjectTemplate({
     node,
     projectLookup,
     programmeLookup,
-    topicLookup,
     euroscivocLookup,
     proofLookup,
     translationsLookup,
@@ -142,7 +138,6 @@ export default function ProjectTemplate({
     payments,
     programme,
     programmeDescription,
-    topic,
     proof,
     euroscivoc,
     translations,
@@ -165,7 +160,7 @@ export default function ProjectTemplate({
             hideCaption
             {...node}
           />
-          <div>
+          <>
             <AttributeCard
               data={{
                 beneficiaries: node.beneficiaries,
@@ -176,8 +171,17 @@ export default function ProjectTemplate({
             <div className={classes.moreCard}>
               <ProgrammeCard data={programme} texts={programmeDescription} />
             </div>
-          </div>
-          <DataCard sourceUrl={node.sourceUrl} {...proof} />
+          </>
+          <>
+            <DataCard {...proof} />
+            {(node.topic || node.callName) && (
+              <CallCard
+                className={classes.moreCard}
+                color={ProjectSchema.color}
+                {...node}
+              />
+            )}
+          </>
         </OverviewGrid>
         {node.description?.length > 0 && (
           <>
@@ -214,21 +218,6 @@ export default function ProjectTemplate({
                 clickable
               />
             ))}
-          </section>
-        )}
-        {topic && (
-          <section className={classes.taxonomy}>
-            <Typography variant="h5" component="h4" gutterBottom>
-              Topic
-            </Typography>
-            <Chip
-              className={classes.taxonomyChip}
-              color="primary"
-              label={topic.name}
-              component={Link}
-              to={getTopicLink(topic)}
-              clickable
-            />
           </section>
         )}
         {euroscivoc.nodes.length > 1 && (

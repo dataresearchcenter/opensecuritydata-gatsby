@@ -7,7 +7,17 @@ const columns = [
   {
     field: "name",
     headerName: "Name",
-    width: 600,
+    width: 400,
+  },
+  {
+    field: "callName",
+    headerName: "Call",
+    width: 200,
+  },
+  {
+    field: "workProgramme",
+    headerName: "Work programme",
+    width: 200,
   },
   {
     field: "amount",
@@ -34,6 +44,7 @@ const TopicsTable = ({ rows, ...props }) => (
   <DataTable
     rows={rows}
     columns={columns}
+    filters={["callName", "workProgramme"]}
     onRowClick={({ row }) => navigate(getTopicLink(row))}
     {...props}
   />

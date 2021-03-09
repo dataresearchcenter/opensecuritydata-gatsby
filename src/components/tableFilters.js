@@ -69,7 +69,7 @@ const TableFilters = ({
         .map(i => ({
           label: i.toUpperCase(),
           value: i,
-          disabled: availableFacets[f.field].indexOf(i) < 0,
+          disabled: availableFacets[f.field]?.indexOf(i) < 0,
         }))
       if (f.field === "country") {
         items = items.map(i => ({
