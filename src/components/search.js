@@ -85,8 +85,11 @@ const SearchResults = ({
   asPopover,
 }) => {
   const [showAll, setShowAll] = useState(false)
-  const refineSearch = () =>
-    setShowAll(false) && searchInputRef?.current.focus()
+  const focus = () => searchInputRef?.current.focus()
+  const refineSearch = () => {
+    setShowAll(false)
+    focus()
+  }
   const classes = useStyles({ asPopover })
   const isMain = !asPopover
   const limit = isMain ? 100 : 20

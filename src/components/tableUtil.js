@@ -136,9 +136,11 @@ const DataTable = ({
   const [activeRows, setActiveRows] = useState(rows)
   const [activeFilters, setActiveFilters] = useState({})
   const [availableFacets, setAvailableFacets] = useState(facets)
-  const resetFilters = () => (
-    setActiveRows(rows), setAvailableFacets(facets), setActiveFilters({})
-  )
+  const resetFilters = () => {
+    setActiveRows(rows)
+    setAvailableFacets(facets)
+    setActiveFilters({})
+  }
 
   // rows changing from "outside" search
   useEffect(() => {

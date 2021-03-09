@@ -55,6 +55,10 @@ const SearchField = ({ query, handleChange }) => {
   const [value, setValue] = useState(query)
   const classes = useStyles()
   const active = !!value?.length
+  const changeValue = v => {
+    setValue(v)
+    handleChange(v)
+  }
 
   return (
     <Paper component="form" className={classes.root}>
@@ -63,9 +67,7 @@ const SearchField = ({ query, handleChange }) => {
         id="q"
         placeholder="Search..."
         value={value || ""}
-        onChange={({ target }) => (
-          setValue(target.value), handleChange(target.value)
-        )}
+        onChange={({ target }) => changeValue(target.value)}
         autoComplete="off"
         variant="outlined"
         fullWidth
@@ -82,7 +84,7 @@ const SearchField = ({ query, handleChange }) => {
         disabled={!active}
         className={classes.iconButton}
         aria-label="reset"
-        onClick={() => (setValue(""), handleChange(""))}
+        onClick={() => changeValue("")}
       >
         <CloseIcon />
       </IconButton>
@@ -102,7 +104,10 @@ const SearchPage = ({
   let timeout = null
   const handleChange = q => {
     clearTimeout(timeout)
-    timeout = setTimeout(() => (setQuery(q), updateLocationParams({ q })), 200)
+    timeout = setTimeout(() => {
+      setQuery(q)
+      updateLocationParams({ q })
+    }, 200)
   }
 
   const results = useFlexSearch(query, index, store)
