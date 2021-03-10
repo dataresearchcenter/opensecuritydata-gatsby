@@ -25,7 +25,7 @@ export const query = graphql`
     ) {
       nodes {
         id
-        programme
+        program
         purpose
         amount
         startDate

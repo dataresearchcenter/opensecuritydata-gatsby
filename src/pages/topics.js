@@ -14,7 +14,7 @@ export const query = graphql`
         projects
         amount
         callName
-        workProgramme
+        workProgram
       }
     }
   }

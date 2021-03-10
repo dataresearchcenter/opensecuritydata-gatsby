@@ -21,7 +21,7 @@ export const query = graphql`
     payments: allPaymentsJson {
       nodes {
         id
-        programme
+        program
         purpose
         beneficiaryName
         notes

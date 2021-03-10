@@ -63,7 +63,7 @@ module.exports = {
                 description
               }
             }
-            programmes: allProgrammesJson {
+            programs: allProgramsJson {
               nodes {
                 name
               }
@@ -100,7 +100,7 @@ module.exports = {
             beneficiaries,
             beneficiaryGroups,
             projects,
-            programmes,
+            programs,
             countries,
             tags,
             topics,
@@ -123,7 +123,7 @@ module.exports = {
             description,
             schema: `p`,
           })),
-          ...programmes.nodes.map(({ name, description }, i) => ({
+          ...programs.nodes.map(({ name, description }, i) => ({
             id: parseInt(`4${i}`),
             name,
             description,

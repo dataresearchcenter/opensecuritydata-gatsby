@@ -23,7 +23,7 @@ export const query = graphql`
         startDate
         endDate
         purpose
-        programme
+        program
         legalForm
         country
       }
@@ -51,7 +51,7 @@ export default function TopicTemplate({
       <OverviewGrid>
         <AmountCard
           color={TopicSchema.color}
-          viz={<Viz use="fundingPerProgramme" data={payments.nodes} />}
+          viz={<Viz use="fundingPerProgram" data={payments.nodes} />}
           {...node}
         />
         <AttributeCard data={attributeData} />

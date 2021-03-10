@@ -23,7 +23,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
   const { createPage } = actions
   const result = await graphql(`
     query {
-      allProgrammesJson {
+      allProgramsJson {
         edges {
           node {
             id
@@ -43,7 +43,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
             id
             name
             description
-            programme
+            program
             beneficiaries
             amount
             proof
@@ -55,7 +55,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
             tags
             callName
             callId
-            workProgramme
+            workProgram
           }
         }
       }
@@ -66,7 +66,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
             foreign_id
             name
             beneficiaries
-            programmes
+            programs
             projects
             payments
             amount
@@ -84,7 +84,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
             legalForm
             address
             website
-            programmes
+            programs
             projects
             payments
             amount
@@ -136,7 +136,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
             payments
             beneficiaries
             projects
-            programmes
+            programs
             amount
             startDate
             endDate
@@ -150,11 +150,11 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
             code
             callName
             callId
-            workProgramme
+            workProgram
             payments
             beneficiaries
             projects
-            programmes
+            programs
             amount
             startDate
             endDate
@@ -178,16 +178,16 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
     return
   }
 
-  // programmes
-  result.data.allProgrammesJson.edges.forEach(({ node }) => {
+  // programs
+  result.data.allProgramsJson.edges.forEach(({ node }) => {
     createPage({
-      path: `/programmes/${slugify(node.name)}`,
-      component: require.resolve(`./src/templates/programme.js`),
+      path: `/programs/${slugify(node.name)}`,
+      component: require.resolve(`./src/templates/program.js`),
       context: {
         node,
         proofLookup: (node.proof || "").toString(),
         lookup: node.name,
-        route: `Programmes`,
+        route: `Programs`,
         title: node.name,
       },
     })
@@ -205,7 +205,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
       context: {
         node,
         projectLookup: node.name,
-        programmeLookup: node.programme,
+        programLookup: node.program,
         euroscivocLookup: (JSON.parse(node.euroscivoc) || []).map(i =>
           i.substring(1)
         ),

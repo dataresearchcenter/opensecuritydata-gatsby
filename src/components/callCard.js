@@ -13,7 +13,7 @@ const CallCard = ({
   topicName,
   callId,
   callName,
-  workProgramme,
+  workProgram,
   sourceUrl,
 }) => (
   <Card className={className}>
@@ -34,11 +34,11 @@ const CallCard = ({
           </Typography>
         </>
       )}
-      {workProgramme && (
+      {workProgram && (
         <>
-          <Typography color="textSecondary">Work programme</Typography>
+          <Typography color="textSecondary">Work program</Typography>
           <Typography variant="body2" component="p" gutterBottom>
-            {workProgramme}
+            {workProgram}
           </Typography>
         </>
       )}

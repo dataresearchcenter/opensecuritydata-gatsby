@@ -6,9 +6,9 @@ import Typography from "@material-ui/core/Typography"
 import { Button, Link } from "gatsby-theme-material-ui"
 import Amount from "./amount"
 import DataDownload from "./downloadData"
-import { getProgrammeLink } from "../links"
+import { getProgramLink } from "../links"
 
-const ProgrammeCard = ({
+const ProgramCard = ({
   id,
   name,
   projects,
@@ -28,7 +28,7 @@ const ProgrammeCard = ({
     <CardContent>
       {showHeader && (
         <Typography color="textSecondary" gutterBottom>
-          Funding programme
+          Funding program
         </Typography>
       )}
       {showName && (
@@ -53,7 +53,7 @@ const ProgrammeCard = ({
     </CardContent>
     <CardActions>
       {showLink && (
-        <Button color="primary" to={getProgrammeLink({ name })} size="small">
+        <Button color="primary" to={getProgramLink({ name })} size="small">
           Browse data
         </Button>
       )}
@@ -62,4 +62,4 @@ const ProgrammeCard = ({
   </Card>
 )
 
-export default ProgrammeCard
+export default ProgramCard

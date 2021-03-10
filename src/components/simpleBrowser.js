@@ -53,9 +53,9 @@ export default function SimpleTabs() {
     ).slice(0, 10)
 
   const tabs = {
-    programmes: {
-      label: "funding programmes",
-      getLink: links.getProgrammeLink,
+    programs: {
+      label: "funding programs",
+      getLink: links.getProgramLink,
       store: useState(getItems(4)),
       i: 4,
     },

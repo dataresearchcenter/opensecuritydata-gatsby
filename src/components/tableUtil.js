@@ -50,8 +50,8 @@ export function renderBeneficiary({ value, row }) {
 
 export function onCellClick({ field, row }, getLink) {
   switch (field) {
-    case "programme":
-      navigate(links.getProgrammeLink({ name: row.programme }))
+    case "program":
+      navigate(links.getProgramLink({ name: row.program }))
       break
     case "purpose":
       navigate(links.getProjectLink({ name: row.purpose }))

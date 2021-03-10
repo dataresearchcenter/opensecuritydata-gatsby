@@ -13,8 +13,8 @@ const columns = [
     width: 200,
   },
   {
-    field: "workProgramme",
-    headerName: "Work programme",
+    field: "workProgram",
+    headerName: "Work program",
     width: 200,
   },
   {
@@ -30,7 +30,7 @@ const columns = [
     width: 150,
     sortComparator: numericSort,
   },
-  { field: "programme", headerName: "Programme", width: 200 },
+  { field: "program", headerName: "Program", width: 200 },
   {
     field: "startDate",
     headerName: "Project start",
@@ -49,7 +49,7 @@ const ProjectsTable = ({ rows, exclude = [] }) => (
   <DataTable
     rows={rows}
     columns={columns.filter(({ field }) => exclude.indexOf(field) < 0)}
-    filters={["programme", "workProgramme", "callName"]}
+    filters={["program", "workProgram", "callName"]}
     onRowClick={({ row }) => navigate(getProjectLink(row))}
   />
 )

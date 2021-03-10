@@ -4,22 +4,22 @@ import Typography from "@material-ui/core/Typography"
 import Layout from "../components/layout"
 import OverviewGrid from "../components/overviewGrid"
 import Tabs from "../components/tabs"
-import ProgrammeCard from "../components/programmeCard"
+import ProgramCard from "../components/programCard"
 import ProjectsTable from "../components/projectsTable"
 import PaymentsTable from "../components/paymentsTable"
 import AmountCard from "../components/amountCard"
 import AttributeCard from "../components/attributeCard"
 import CardsWrapper from "../components/cardsWrapper"
 import Viz, { VizCard } from "../components/viz"
-import { ProgrammeSchema } from "../schema"
+import { ProgramSchema } from "../schema"
 
-export const programmeQuery = graphql`
-  query programmeProjects($lookup: String!, $proofLookup: String!) {
-    projects: allProjectsJson(filter: { programme: { eq: $lookup } }) {
+export const programQuery = graphql`
+  query programProjects($lookup: String!, $proofLookup: String!) {
+    projects: allProjectsJson(filter: { program: { eq: $lookup } }) {
       nodes {
         id
         name
-        programme
+        program
         beneficiaries
         payments
         amount
@@ -27,13 +27,13 @@ export const programmeQuery = graphql`
         endDate
       }
     }
-    payments: allPaymentsJson(filter: { programme: { eq: $lookup } }) {
+    payments: allPaymentsJson(filter: { program: { eq: $lookup } }) {
       nodes {
         id
         beneficiaryName
         notes
         purpose
-        programme
+        program
         amount
         startDate
         endDate
@@ -46,7 +46,7 @@ export const programmeQuery = graphql`
       fileName
       fileSize
     }
-    meta: programmeMetaJson(name: { eq: $lookup }) {
+    meta: programMetaJson(name: { eq: $lookup }) {
       description
       fileName
       url
@@ -54,7 +54,7 @@ export const programmeQuery = graphql`
   }
 `
 
-export default function ProgrammeTemplate({
+export default function ProgramTemplate({
   pageContext: { node, lookup, proofLookup, route, title },
   data: { payments, projects, proof, meta },
 }) {
@@ -62,16 +62,16 @@ export default function ProgrammeTemplate({
   return (
     <Layout route={route} title={title}>
       <Typography variant="h3" component="h1" gutterBottom>
-        {node.name} {ProgrammeSchema.chip()}
+        {node.name} {ProgramSchema.chip()}
       </Typography>
       <OverviewGrid>
         <AmountCard
-          color={ProgrammeSchema.color}
+          color={ProgramSchema.color}
           viz={<Viz use="fundingPerCountry" data={payments.nodes} />}
           {...node}
         />
         <CardsWrapper>
-          <ProgrammeCard
+          <ProgramCard
             showName={false}
             showLink={false}
             showData={false}
@@ -89,20 +89,20 @@ export default function ProgrammeTemplate({
         <VizCard use="fundingPerYear" data={payments.nodes} />
       </OverviewGrid>
       <Tabs
-        indicatorColor={ProgrammeSchema.color}
-        textColor={ProgrammeSchema.color}
+        indicatorColor={ProgramSchema.color}
+        textColor={ProgramSchema.color}
         centered
       >
         <ProjectsTable
           title="Projects"
           rows={projects.nodes}
-          exclude={["programme"]}
+          exclude={["program"]}
         />
         <PaymentsTable
           title="Beneficiaries"
           rows={payments.nodes}
           exclude={[
-            "programme",
+            "program",
             "startDate",
             "endDate",
             isf ? "legalForm" : null,

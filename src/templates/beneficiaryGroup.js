@@ -20,7 +20,7 @@ export const query = graphql`
         id
         beneficiaryName
         notes
-        programme
+        program
         purpose
         amount
         startDate

@@ -10,7 +10,7 @@ import Typography from "@material-ui/core/Typography"
 import {
   getCountryLink,
   getProjectLink,
-  getProgrammeLink,
+  getProgramLink,
   getBeneficiaryLink,
 } from "../links"
 import Amount from "./amount"
@@ -84,12 +84,12 @@ const VISUALIZATIONS = {
       title: "Funding per project",
     }
   },
-  fundingPerProgramme: payments => {
+  fundingPerProgram: payments => {
     return {
-      data: getGroupedData(payments, "programme", name =>
-        getProgrammeLink({ name })
+      data: getGroupedData(payments, "program", name =>
+        getProgramLink({ name })
       ),
-      title: "Funding per programme",
+      title: "Funding per program",
     }
   },
   fundingPerBeneficiary: payments => {

@@ -6,7 +6,7 @@ const slugify = value =>
     ? _slugify(value)
     : `${_slugify(value).slice(0, 100)}--${value.length}`
 
-const getProgrammeLink = ({ name }) => `/programmes/${slugify(name)}`
+const getProgramLink = ({ name }) => `/programs/${slugify(name)}`
 
 const getProjectLink = ({ name }) => `/projects/${slugify(name)}`
 
@@ -24,7 +24,7 @@ const getBeneficiaryGroupLink = ({ name }) =>
   `/beneficiaries/groups/${slugify(name)}`
 
 export default {
-  getProgrammeLink,
+  getProgramLink,
   getProjectLink,
   getTopicLink,
   getEuroSciVocLink,
@@ -35,7 +35,7 @@ export default {
 }
 
 export {
-  getProgrammeLink,
+  getProgramLink,
   getProjectLink,
   getTopicLink,
   getEuroSciVocLink,

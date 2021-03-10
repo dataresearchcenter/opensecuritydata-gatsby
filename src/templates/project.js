@@ -7,7 +7,7 @@ import Typography from "@material-ui/core/Typography"
 import { Link } from "gatsby-theme-material-ui"
 import Layout from "../components/layout"
 import OverviewGrid from "../components/overviewGrid"
-import ProgrammeCard from "../components/programmeCard"
+import ProgramCard from "../components/programCard"
 import DataCard from "../components/dataCard"
 import PaymentsTable from "../components/paymentsTable"
 import AmountCard from "../components/amountCard"
@@ -22,7 +22,7 @@ import { getEuroSciVocLink, getTagLink } from "../links"
 export const query = graphql`
   query projectQuery(
     $projectLookup: String!
-    $programmeLookup: String!
+    $programLookup: String!
     $euroscivocLookup: [String!]
     $proofLookup: String!
     $translationsLookup: [String!]
@@ -39,14 +39,14 @@ export const query = graphql`
         country
       }
     }
-    programme: programmesJson(name: { eq: $programmeLookup }) {
+    program: programsJson(name: { eq: $programLookup }) {
       name
       projects
       beneficiaries
       payments
       amount
     }
-    programmeMeta: programmeMetaJson(name: { eq: $programmeLookup }) {
+    programMeta: programMetaJson(name: { eq: $programLookup }) {
       description
       dataDescription
       fileName
@@ -125,17 +125,17 @@ export default function ProjectTemplate({
   pageContext: {
     node,
     projectLookup,
-    programmeLookup,
+    programLookup,
     euroscivocLookup,
     proofLookup,
     translationsLookup,
     route,
     title,
   },
-  data: { payments, programme, programmeMeta, proof, euroscivoc, translations },
+  data: { payments, program, programMeta, proof, euroscivoc, translations },
 }) {
   const classes = useStyles()
-  const isf = programme.name === "Internal Security Fund"
+  const isf = program.name === "Internal Security Fund"
   const tags = JSON.parse(node.tags || "[]")
   const hasCallCard = node.topicName || node.callName
 
@@ -161,13 +161,13 @@ export default function ProjectTemplate({
                 project_end: node.endDate,
               }}
             />
-            <ProgrammeCard {...programme} {...programmeMeta} />
+            <ProgramCard {...program} {...programMeta} />
           </CardsWrapper>
           <CardsWrapper>
             <DataCard
               sourceUrl={!hasCallCard && node.sourceUrl}
               {...proof}
-              {...programmeMeta}
+              {...programMeta}
             />
             {hasCallCard && (
               <CallCard
@@ -240,7 +240,7 @@ export default function ProjectTemplate({
         <PaymentsTable
           title="Funding"
           rows={payments.nodes}
-          exclude={["programme", "purpose", isf ? "legalForm" : null]}
+          exclude={["program", "purpose", isf ? "legalForm" : null]}
         />
       </section>
     </Layout>

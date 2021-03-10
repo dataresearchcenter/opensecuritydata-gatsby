@@ -12,8 +12,8 @@ of the European Union in security.
 The platform contains data on three different EU budgets: the Internal Security
 Fund (2014-20), which provided funding to implement EU policing and border
 policies, as well as projects by EU member states; the security component of
-Horizon 2020 (2014-20), the EU’s research and innovation programme; and the
-predecessor to Horizon 2020, the Seventh Framework Programme for Research and
+Horizon 2020 (2014-20), the EU’s research and innovation program; and the
+predecessor to Horizon 2020, the Seventh Framework Program for Research and
 Development (FP7, 2007-13).
 
 This money has been used to develop controversial technologies such as

@@ -3,11 +3,11 @@ import { graphql } from "gatsby"
 import { makeStyles } from "@material-ui/core/styles"
 import Typography from "@material-ui/core/Typography"
 import Layout from "../components/layout"
-import ProgrammeCard from "../components/programmeCard"
+import ProgramCard from "../components/programCard"
 
 export const query = graphql`
-  query ProgrammesQuery {
-    programmes: allProgrammesJson {
+  query ProgramsQuery {
+    programs: allProgramsJson {
       nodes {
         name
         projects
@@ -16,7 +16,7 @@ export const query = graphql`
         id
       }
     }
-    descriptions: allProgrammeMetaJson {
+    descriptions: allProgramMetaJson {
       nodes {
         name
         description
@@ -35,13 +35,13 @@ const useStyles = makeStyles(theme => ({
 const getDescription = (name, descriptions) =>
   descriptions.nodes.find(d => d.name === name)
 
-const ProgrammesPage = ({ data: { programmes, descriptions } }) => {
+const ProgramsPage = ({ data: { programs, descriptions } }) => {
   const classes = useStyles()
   return (
-    <Layout route="All funding programmes">
-      <Typography variant="h3">Funding programmes</Typography>
-      {programmes.nodes.map(p => (
-        <ProgrammeCard
+    <Layout route="All funding programs">
+      <Typography variant="h3">Funding programs</Typography>
+      {programs.nodes.map(p => (
+        <ProgramCard
           className={classes.card}
           key={p.id}
           data={p}
@@ -52,4 +52,4 @@ const ProgrammesPage = ({ data: { programmes, descriptions } }) => {
   )
 }
 
-export default ProgrammesPage
+export default ProgramsPage

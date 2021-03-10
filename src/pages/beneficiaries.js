@@ -12,7 +12,7 @@ export const query = graphql`
         name
         legalForm
         country
-        programmes
+        programs
         payments
         amount
         projects

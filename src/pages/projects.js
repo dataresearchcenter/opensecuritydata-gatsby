@@ -10,12 +10,12 @@ export const query = graphql`
       nodes {
         id
         name
-        programme
+        program
         beneficiaries
         amount
         payments
         callName
-        workProgramme
+        workProgram
       }
     }
   }

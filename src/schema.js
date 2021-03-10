@@ -67,10 +67,10 @@ const SCHEMA = {
     color: "primary",
   },
   r: {
-    schema: "Programme",
-    label: "Funding programme",
-    path: "programmes",
-    getLink: links.getProgrammeLink,
+    schema: "Program",
+    label: "Funding program",
+    path: "programs",
+    getLink: links.getProgramLink,
     color: "primary",
   },
   k: {
@@ -118,7 +118,7 @@ export default SCHEMA
 const TopicSchema = SCHEMA.t
 const EuroSciVocSchema = SCHEMA.e
 const ProjectSchema = SCHEMA.p
-const ProgrammeSchema = SCHEMA.r
+const ProgramSchema = SCHEMA.r
 const CountrySchema = SCHEMA.c
 const TagSchema = SCHEMA.k
 const BeneficiaryGroupSchema = SCHEMA.g
@@ -130,7 +130,7 @@ export {
   EuroSciVocSchema,
   TopicSchema,
   ProjectSchema,
-  ProgrammeSchema,
+  ProgramSchema,
   CountrySchema,
   TagSchema,
   BeneficiaryGroupSchema,

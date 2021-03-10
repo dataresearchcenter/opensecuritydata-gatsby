@@ -54,7 +54,7 @@ with an overall budget of some €77 billion. The security research component,
 which had a total budget of €1.7 billion, focused on “understanding, detecting,
 preventing, deterring, preparing and protecting against security threats.”
 
-The programme focused heavily on developing and deploying new technologies such
+The program focused heavily on developing and deploying new technologies such
 as biometrics, drones, surveillance systems and data-mining tools. Funding was
 generally provided to projects undertaken by consortiums made up of different
 groups of organisations, such as private companies (ranging from transnational
@@ -62,17 +62,17 @@ corporations to small businesses), research and education institutions, and
 state ministries and agencies (such as police forces or border control
 agencies).
 
-The Seventh Framework Programme for research and development (FP7, 2007-13) was
+The Seventh Framework Program for research and development (FP7, 2007-13) was
 the precursor to Horizon 2020, and the FP7 security research budget was
 smaller, at €1.3 billion.
 
-Projects funded through both programmes have occasionally come into the public
+Projects funded through both programs have occasionally come into the public
 eye due to their controversial nature: for example, INDECT, TALOS, PROTECT,
 iBorderCtrl or the multitude of projects developing drone technology.
 
 The data in this platform on Horizon 2020 and FP7 comes from the
 [EU’s Open Data](https://data.europa.eu/euodp/en/data/) Portal. The data used
-here for both programmes is a combined subset of the full datasets, which cover
+here for both programs is a combined subset of the full datasets, which cover
 a wide range of research themes apart from security.
 
 ### Future Programs

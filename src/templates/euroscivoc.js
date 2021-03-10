@@ -36,7 +36,7 @@ export const query = graphql`
       nodes {
         id
         name
-        programme
+        program
         beneficiaries
         amount
         payments
@@ -61,7 +61,7 @@ export default function EuroSciVocTemplate({
   const {
     beneficiaries: beneficiaries_count,
     projects: projects_count,
-    programmes: programmes_count,
+    programs: programs_count,
   } = node
   return (
     <Layout route={route} title={title}>
@@ -74,7 +74,7 @@ export default function EuroSciVocTemplate({
           data={{
             beneficiaries_count,
             projects_count,
-            programmes_count,
+            programs_count,
           }}
         />
         <>
