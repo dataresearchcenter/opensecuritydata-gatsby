@@ -20,7 +20,7 @@ export function updateLocationParams(data) {
     for (const [key, val] of Object.entries(data)) {
       !!val ? url.searchParams.set(key, val) : url.searchParams.delete(key)
     }
-    window.history.pushState({}, "", url)
+    window.history.replaceState({}, "", url)
   }
 }
 
