@@ -47,7 +47,7 @@ const IndexPage = ({ data: { search } }) => {
           Browse data
         </Typography>
         <Typography variant="subtitle1" className={classes.subTitle}>
-          Directly jump into a funding program or topic of your interest
+          Directly jump into a funding program, project, or topic of your interest
         </Typography>
         <SimpleBrowser data={search.store} />
       </Box>
