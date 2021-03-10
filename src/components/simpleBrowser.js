@@ -4,8 +4,8 @@ import Paper from "@material-ui/core/Paper"
 import Tabs from "@material-ui/core/Tabs"
 import Tab from "@material-ui/core/Tab"
 import Box from "@material-ui/core/Box"
-// import CachedIcon from "@material-ui/icons/Cached"
-// import Button from "@material-ui/core/Button"
+import CachedIcon from "@material-ui/icons/Cached"
+import Button from "@material-ui/core/Button"
 import { Link } from "gatsby-theme-material-ui"
 import { SimpleList } from "../components/util"
 import { LocalSearchData } from "../components/search"
@@ -56,34 +56,45 @@ export default function SimpleTabs() {
     programmes: {
       label: "funding programmes",
       getLink: links.getProgrammeLink,
-      getItems: () => getItems(4),
+      store: useState(getItems(4)),
+      i: 4,
     },
     projects: {
       label: "projects",
       getLink: links.getProjectLink,
-      getItems: () => getItems(3),
+      store: useState(getItems(3)),
+      i: 3,
     },
     topics: {
       label: "topics",
       getLink: links.getTopicLink,
-      getItems: () => getItems(6),
+      store: useState(getItems(6)),
+      i: 6,
     },
     beneficiaries: {
       label: "companies & organizations",
       getLink: links.getBeneficiaryLink,
-      getItems: () => getItems(1),
+      store: useState(getItems(1)),
+      i: 1,
     },
     countries: {
       label: "countries",
       getLink: links.getCountryLink,
-      getItems: () => getItems(5),
+      store: useState(getItems(5)),
+      i: 5,
     },
     tags: {
       label: "tags",
       getLink: links.getTagLink,
-      getItems: () => getItems(8),
+      store: useState(getItems(8)),
+      i: 8,
     },
   }
+  Object.values(tabs).map(v => {
+    const [items, setItems] = v.store
+    v.items = items
+    v.shuffle = () => setItems(getItems(v.i))
+  })
 
   const tabKeys = [...Object.keys(tabs)]
   const activeTab = getHashValue("show")
@@ -112,16 +123,12 @@ export default function SimpleTabs() {
       {Object.keys(tabs).map((k, i) => (
         <TabPanel value={value} index={i} key={i}>
           <Paper>
-            {
-              // <Button onClick={shuffle} startIcon={<CachedIcon />}>
-              // Shuffle list
-              // </Button>
-            }
-            <SimpleList
-              dense
-              items={tabs[k].getItems()}
-              getLink={tabs[k].getLink}
-            />
+            {tabs[k].items.length == 10 && (
+              <Button onClick={tabs[k].shuffle} startIcon={<CachedIcon />}>
+                Shuffle
+              </Button>
+            )}
+            <SimpleList dense items={tabs[k].items} getLink={tabs[k].getLink} />
             <Link to={`/${k}`} color="secondary">
               Show all {k}
             </Link>
