@@ -139,7 +139,7 @@ const DesktopMenu = () =>
 
 export default function Layout({ children, route, title, ...props }) {
   const { site } = useStaticQuery(graphql`
-    query siteMetadataQuery {
+    query {
       site {
         siteMetadata {
           description

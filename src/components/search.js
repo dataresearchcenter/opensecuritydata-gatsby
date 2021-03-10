@@ -1,4 +1,5 @@
 import React, { useState, useRef } from "react"
+import { useStaticQuery, graphql } from "gatsby"
 import { useFlexSearch } from "react-use-flexsearch"
 import { makeStyles } from "@material-ui/core/styles"
 import Typography from "@material-ui/core/Typography"
@@ -14,6 +15,18 @@ import { Link } from "gatsby-theme-material-ui"
 import { ListItemLink } from "./util"
 import { updateLocationParams, getLocationParam } from "../util"
 import SCHEMA from "../schema"
+
+const LocalSearchData = () => {
+  const { search } = useStaticQuery(graphql`
+    query localSearchData {
+      search: localSearchData {
+        index
+        store
+      }
+    }
+  `)
+  return search
+}
 
 const getLink = ({ id, name, schema, key }) =>
   SCHEMA[schema].getLink({ name, key, iso: key })
@@ -39,6 +52,9 @@ const useStyles = makeStyles(theme => ({
           overflowY: "scroll",
         }
       : null,
+  advancedHint: {
+    padding: theme.spacing(1),
+  },
 }))
 
 const TextItem = ({ name, schema, asPopover }) =>
@@ -54,7 +70,12 @@ const ResultList = ({ items, cursor, asPopover, query }) => {
   const classes = useStyles({ asPopover })
   return (
     <Paper>
-      <Typography variant="caption">
+      <Typography
+        variant="caption"
+        color={asPopover ? "textSecondary" : "inherit"}
+        className={classes.advancedHint}
+        component="p"
+      >
         Not what you are looking for? Try the{" "}
         <Link to={`/search?q=${query}`} color="secondary">
           advanced search
@@ -76,14 +97,8 @@ const ResultList = ({ items, cursor, asPopover, query }) => {
   )
 }
 
-const SearchResults = ({
-  index,
-  store,
-  query,
-  searchInputRef,
-  cursor,
-  asPopover,
-}) => {
+const SearchResults = ({ query, searchInputRef, cursor, asPopover }) => {
+  const { index, store } = LocalSearchData()
   const [showAll, setShowAll] = useState(false)
   const focus = () => searchInputRef?.current.focus()
   const refineSearch = () => {
@@ -200,10 +215,11 @@ const Search = ({ index, store }) => {
         }}
         style={{ background: "white" }}
       />
-      <Link to={`/search`} color="textSecondary">
-        advanced search
-      </Link>
-      {query?.length > 2 && (
+      {!query || query?.length < 3 ? (
+        <Link to={`/search`} color="textSecondary">
+          advanced search
+        </Link>
+      ) : (
         <SearchResults
           query={query}
           searchInputRef={searchInput}
@@ -218,4 +234,4 @@ const Search = ({ index, store }) => {
 }
 
 export default Search
-export { SearchResults }
+export { SearchResults, LocalSearchData }

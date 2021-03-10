@@ -1,5 +1,4 @@
 import React, { useState } from "react"
-import { useStaticQuery, graphql } from "gatsby"
 import { fade, makeStyles } from "@material-ui/core/styles"
 import SearchIcon from "@material-ui/icons/Search"
 import InputBase from "@material-ui/core/InputBase"
@@ -45,16 +44,7 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-const SearchBar = () => {
-  const data = useStaticQuery(graphql`
-    query localSearchStaticQuery {
-      localSearchData {
-        index
-        store
-      }
-    }
-  `)
-  const { index, store } = data.localSearchData
+const SearchBar = ({ index, store }) => {
   const classes = useStyles()
   const [query, setQuery] = useState()
   const [cursor, setCursor] = useState(-1)

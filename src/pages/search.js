@@ -12,6 +12,7 @@ import CloseIcon from "@material-ui/icons/Close"
 import Layout from "../components/layout"
 import PaymentsTable from "../components/paymentsTable"
 import YearRangeSelector, { START, END } from "../components/yearRangeSelector"
+import { LocalSearchData } from "../components/search"
 import { EntitySchemaKeys } from "../schema"
 import { getLocationParam, updateLocationParams } from "../util"
 
@@ -30,10 +31,6 @@ export const query = graphql`
         legalForm
         country
       }
-    }
-    search: localSearchData {
-      index
-      store
     }
   }
 `
@@ -93,12 +90,8 @@ const SearchField = ({ query, handleChange }) => {
   )
 }
 
-const SearchPage = ({
-  data: {
-    search: { index, store },
-    payments,
-  },
-}) => {
+const SearchPage = ({ data: { payments } }) => {
+  const { index, store } = LocalSearchData()
   const theme = useTheme()
   const color = theme.palette.primary.light
   const [query, setQuery] = useState(getLocationParam("q"))
@@ -149,14 +142,23 @@ const SearchPage = ({
           <span style={{ color }}> {start} </span>to
           <span style={{ color }}> {end}</span>
         </Typography>
-        <YearRangeSelector startYear={start} endYear={end} onChange={onChangeYears} />
+        <YearRangeSelector
+          startYear={start}
+          endYear={end}
+          onChange={onChangeYears}
+        />
       </div>
-      {query && (
-        <Typography variant="h4" gutterBottom>
-          {rows.length} results for <span style={{ color }}>{query}</span> from{" "}
-          {start} to {end}
-        </Typography>
-      )}
+      {query &&
+        (filteredRows.length > 0 ? (
+          <Typography variant="h4" gutterBottom>
+            {rows.length} results for <span style={{ color }}>{query}</span>{" "}
+            from {start} to {end}
+          </Typography>
+        ) : (
+          <Typography variant="h4" gutterBottom>
+            All {rows.length} items from {start} to {end}
+          </Typography>
+        ))}
       {query && filteredRows.length === 0 && (
         <Typography component="p">
           Your search for <strong>{query}</strong> has no results. Displaying

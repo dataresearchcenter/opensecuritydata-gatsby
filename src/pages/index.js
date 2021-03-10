@@ -7,15 +7,6 @@ import Layout from "../components/layout"
 import Search from "../components/search"
 import SimpleBrowser from "../components/simpleBrowser"
 
-export const query = graphql`
-  query localSearchQuery {
-    search: localSearchData {
-      index
-      store
-    }
-  }
-`
-
 const useStyles = makeStyles(theme => ({
   hero: {
     textAlign: "center",
@@ -29,7 +20,7 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const IndexPage = ({ data: { search } }) => {
+const IndexPage = () => {
   const classes = useStyles()
   return (
     <Layout hideSearchBar>
@@ -40,7 +31,7 @@ const IndexPage = ({ data: { search } }) => {
         <Typography variant="subtitle1" className={classes.subTitle}>
           that receive European Union security funding
         </Typography>
-        <Search {...search} />
+        <Search />
       </Box>
       <Box className={classes.hero}>
         <Typography variant="h3" component="h2" className={classes.heroTitle} gutterBottom>
@@ -49,7 +40,7 @@ const IndexPage = ({ data: { search } }) => {
         <Typography variant="subtitle1" className={classes.subTitle}>
           Directly jump into a funding program, project, or topic of your interest
         </Typography>
-        <SimpleBrowser data={search.store} />
+        <SimpleBrowser />
       </Box>
     </Layout>
   )

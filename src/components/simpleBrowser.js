@@ -8,6 +8,7 @@ import Box from "@material-ui/core/Box"
 // import Button from "@material-ui/core/Button"
 import { Link } from "gatsby-theme-material-ui"
 import { SimpleList } from "../components/util"
+import { LocalSearchData } from "../components/search"
 import links from "../links"
 import { setHashValue, getHashValue, shuffleArray } from "../util"
 
@@ -42,12 +43,13 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-export default function SimpleTabs({ data }) {
+export default function SimpleTabs() {
   const classes = useStyles()
+  const { store } = LocalSearchData()
 
   const getItems = i =>
     shuffleArray(
-      Object.values(data).filter(({ id }) => id.toString().indexOf(i) === 0)
+      Object.values(store).filter(({ id }) => id.toString().indexOf(i) === 0)
     ).slice(0, 10)
 
   const tabs = {
@@ -120,7 +122,9 @@ export default function SimpleTabs({ data }) {
               items={tabs[k].getItems()}
               getLink={tabs[k].getLink}
             />
-            <Link to={`/${k}`} color="secondary">Show all {k}</Link>
+            <Link to={`/${k}`} color="secondary">
+              Show all {k}
+            </Link>
           </Paper>
         </TabPanel>
       ))}
