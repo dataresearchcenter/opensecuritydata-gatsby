@@ -45,7 +45,7 @@ const Story = ({ title, abstract, date, image_url, url, publisher, team }) => {
       <CardActionArea onClick={() => navigate(url)}>
         <CardHeader
           avatar={
-            team === "yes" && <TeamAvatar aria-label="team" className={classes.avatar} />
+            team && <TeamAvatar aria-label="team" className={classes.avatar} />
           }
           title={publisher}
           subheader={dateDisplay}
