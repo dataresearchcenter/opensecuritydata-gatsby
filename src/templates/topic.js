@@ -1,6 +1,5 @@
 import React from "react"
 import { graphql } from "gatsby"
-import { makeStyles } from "@material-ui/core/styles"
 import Typography from "@material-ui/core/Typography"
 import Layout from "../components/layout"
 import OverviewGrid from "../components/overviewGrid"
@@ -9,6 +8,7 @@ import AmountCard from "../components/amountCard"
 import AttributeCard from "../components/attributeCard"
 import Flag from "../components/flag"
 import CallCard from "../components/callCard.js"
+import CardsWrapper from "../components/cardsWrapper"
 import Viz, { VizCard } from "../components/viz"
 import { TopicSchema } from "../schema"
 
@@ -31,17 +31,10 @@ export const query = graphql`
   }
 `
 
-const useStyles = makeStyles(theme => ({
-  moreCard: {
-    marginTop: theme.spacing(4),
-  },
-}))
-
 export default function TopicTemplate({
   pageContext: { node, lookup, route, title },
   data: { payments },
 }) {
-  const classes = useStyles()
   const attributeData = {
     beneficiaries: node.beneficiaries,
     payments: node.payments,
@@ -62,16 +55,10 @@ export default function TopicTemplate({
           {...node}
         />
         <AttributeCard data={attributeData} />
-        <>
+        <CardsWrapper>
           <VizCard use="fundingPerYear" data={payments.nodes} />
-          {node.callName && (
-            <CallCard
-              className={classes.moreCard}
-              color={TopicSchema.color}
-              {...node}
-            />
-          )}
-        </>
+          {node.callName && <CallCard color={TopicSchema.color} {...node} />}
+        </CardsWrapper>
       </OverviewGrid>
       <Typography variant="h4" component="h2" gutterBottom>
         Funding

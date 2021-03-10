@@ -15,6 +15,7 @@ import AttributeCard from "../components/attributeCard"
 import Translated from "../components/translation"
 import Viz from "../components/viz"
 import CallCard from "../components/callCard.js"
+import CardsWrapper from "../components/cardsWrapper"
 import { ProjectSchema } from "../schema"
 import { getEuroSciVocLink, getTagLink } from "../links"
 
@@ -80,9 +81,6 @@ const useStyles = makeStyles(theme => ({
   },
   description: {
     padding: theme.spacing(2),
-  },
-  moreCard: {
-    marginTop: theme.spacing(4),
   },
   taxonomy: {
     marginTop: theme.spacing(4),
@@ -155,7 +153,7 @@ export default function ProjectTemplate({
             hideCaption
             {...node}
           />
-          <>
+          <CardsWrapper>
             <AttributeCard
               data={{
                 beneficiaries: node.beneficiaries,
@@ -163,11 +161,9 @@ export default function ProjectTemplate({
                 project_end: node.endDate,
               }}
             />
-            <div className={classes.moreCard}>
-              <ProgrammeCard {...programme} {...programmeMeta} />
-            </div>
-          </>
-          <>
+            <ProgrammeCard {...programme} {...programmeMeta} />
+          </CardsWrapper>
+          <CardsWrapper>
             <DataCard
               sourceUrl={!hasCallCard && node.sourceUrl}
               {...proof}
@@ -175,12 +171,11 @@ export default function ProjectTemplate({
             />
             {hasCallCard && (
               <CallCard
-                className={classes.moreCard}
                 color={ProjectSchema.color}
                 {...node}
               />
             )}
-          </>
+          </CardsWrapper>
         </OverviewGrid>
         {node.description?.length > 0 && (
           <>

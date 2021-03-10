@@ -1,6 +1,5 @@
 import React from "react"
 import { graphql } from "gatsby"
-import { makeStyles } from "@material-ui/core/styles"
 import Typography from "@material-ui/core/Typography"
 import Layout from "../components/layout"
 import OverviewGrid from "../components/overviewGrid"
@@ -8,16 +7,11 @@ import PaymentsTable from "../components/paymentsTable"
 import AttributeCard from "../components/attributeCard"
 import AmountCard from "../components/amountCard"
 import DataCard from "../components/dataCard"
+import CardsWrapper from "../components/cardsWrapper"
 import BeneficiaryGroup from "../components/beneficiaryGroup"
 import Translated from "../components/translation"
-import SCHEMA from "../schema"
 import Viz from "../components/viz"
-
-const useStyles = makeStyles(theme => ({
-  moreCard: {
-    marginTop: theme.spacing(4),
-  },
-}))
+import SCHEMA from "../schema"
 
 export const query = graphql`
   query beneficiaryPayments(
@@ -79,7 +73,6 @@ export default function BeneficiaryTemplate({
     postal_address: node.address,
   }
   const schema = SCHEMA[node.legalForm]
-  const classes = useStyles()
   return (
     <Layout route={route} title={title}>
       <Typography variant="h3" gutterBottom>
@@ -91,7 +84,7 @@ export default function BeneficiaryTemplate({
         {schema.chip()}
       </Typography>
       <OverviewGrid>
-        <div>
+        <CardsWrapper>
           <AmountCard
             color={schema.color}
             viz={
@@ -103,12 +96,8 @@ export default function BeneficiaryTemplate({
             }
             {...node}
           />
-          {!!node.beneficiaryGroup && (
-            <div className={classes.moreCard}>
-              <BeneficiaryGroup {...node} />
-            </div>
-          )}
-        </div>
+          {!!node.beneficiaryGroup && <BeneficiaryGroup {...node} />}
+        </CardsWrapper>
         <AttributeCard data={tableData} linkColor={schema.color} />
         <DataCard color="secondary" {...proof} />
       </OverviewGrid>
