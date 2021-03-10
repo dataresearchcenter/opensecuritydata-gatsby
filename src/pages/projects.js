@@ -24,7 +24,7 @@ export const query = graphql`
 const ProjectsPage = ({ data: { projects } }) => (
   <Layout route="Projects">
     <Typography variant="h3">All projects</Typography>
-    <ProjectsTable rows={projects.nodes} />
+    <ProjectsTable rows={projects.nodes} pageSize={25} />
   </Layout>
 )
 

@@ -22,14 +22,15 @@ const useStyles = makeStyles(theme => ({
   control: {
     width: ({ isMobile }) => (isMobile ? "100%" : "auto"),
     minWidth: ({ isMobile }) => (isMobile ? null : 250),
+    backgroundColor: ({ value }) => (!!value ? "white" : null),
   },
 }))
 
 const Filter = ({ label, items, value, applyFilter }) => {
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"))
-  const classes = useStyles({ isMobile })
   value = items.find(i => i.value === value) ? value : ""
+  const classes = useStyles({ isMobile, value })
 
   return (
     <FormControl className={classes.control} variant="outlined">

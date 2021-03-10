@@ -15,52 +15,59 @@ const CallCard = ({
   callName,
   workProgram,
   sourceUrl,
+  theme,
 }) => (
   <Card className={className}>
     <CardContent>
       {callId && (
-        <>
+        <div style={{ paddingBottom: theme.spacing(1) }}>
           <Typography color="textSecondary">Call id</Typography>
-          <Typography variant="body2" component="p" gutterBottom>
+          <Typography variant="body2" component="p">
             {callId}
           </Typography>
-        </>
+        </div>
       )}
       {callName && (
-        <>
+        <div style={{ paddingBottom: theme.spacing(1) }}>
           <Typography color="textSecondary">Call name</Typography>
-          <Typography variant="body2" component="p" gutterBottom>
+          <Link
+            to={`/projects/?callName=${encodeURIComponent(callName)}`}
+            color={color}
+          >
             {callName}
-          </Typography>
-        </>
+          </Link>
+        </div>
       )}
       {workProgram && (
-        <>
+        <div style={{ paddingBottom: theme.spacing(1) }}>
           <Typography color="textSecondary">Work program</Typography>
-          <Typography variant="body2" component="p" gutterBottom>
+          <Link
+            color={color}
+            to={`/projects/?workProgram=${encodeURIComponent(workProgram)}`}
+          >
             {workProgram}
-          </Typography>
-        </>
+          </Link>
+        </div>
       )}
       {topicName && (
-        <>
+        <div style={{ paddingBottom: theme.spacing(1) }}>
           <Typography color="textSecondary">Topic</Typography>
           <Typography variant="body2" component="p" gutterBottom>
             <Link color={color} to={getTopicLink({ name: topicName })}>
               {topicName}
             </Link>
           </Typography>
-        </>
+        </div>
       )}
       {sourceUrl && (
-        <>
+        <div>
           <Typography color="textSecondary">More information</Typography>
           <Typography variant="body2" component="p" gutterBottom>
             <Link color={color} to={sourceUrl}>
               CORDIS <LaunchIcon fontSize="small" />
             </Link>
           </Typography>
-        </>
+        </div>
       )}
     </CardContent>
   </Card>

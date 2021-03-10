@@ -45,12 +45,13 @@ const columns = [
   },
 ]
 
-const ProjectsTable = ({ rows, exclude = [] }) => (
+const ProjectsTable = ({ rows, exclude = [], ...props }) => (
   <DataTable
     rows={rows}
     columns={columns.filter(({ field }) => exclude.indexOf(field) < 0)}
     filters={["program", "workProgram", "callName"]}
     onRowClick={({ row }) => navigate(getProjectLink(row))}
+    {...props}
   />
 )
 
