@@ -64,7 +64,7 @@ const VISUALIZATIONS = {
           .reduce(sum, 0),
       }))
       .map(addAmountLabel)
-    data.sort((a, b) => b.label - a.label)
+    data.sort((a, b) => parseInt(a.label) - parseInt(b.label))
     return {
       data,
       title: "Funding per year",

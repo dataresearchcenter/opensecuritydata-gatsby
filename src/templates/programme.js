@@ -9,7 +9,8 @@ import ProjectsTable from "../components/projectsTable"
 import PaymentsTable from "../components/paymentsTable"
 import AmountCard from "../components/amountCard"
 import AttributeCard from "../components/attributeCard"
-import Viz from "../components/viz"
+import CardsWrapper from "../components/cardsWrapper"
+import Viz, { VizCard } from "../components/viz"
 import { ProgrammeSchema } from "../schema"
 
 export const programmeQuery = graphql`
@@ -69,20 +70,23 @@ export default function ProgrammeTemplate({
           viz={<Viz use="fundingPerCountry" data={payments.nodes} />}
           {...node}
         />
-        <ProgrammeCard
-          showName={false}
-          showLink={false}
-          showData={false}
-          {...{ ...node, ...meta, proof }}
-        />
-        <AttributeCard
-          data={{
-            projects: node.projects,
-            beneficiaries: node.beneficiaries,
-            activity_start: node.startDate,
-            activity_end: node.endDate,
-          }}
-        />
+        <CardsWrapper>
+          <ProgrammeCard
+            showName={false}
+            showLink={false}
+            showData={false}
+            {...{ ...node, ...meta, proof }}
+          />
+          <AttributeCard
+            data={{
+              projects: node.projects,
+              beneficiaries: node.beneficiaries,
+              activity_start: node.startDate,
+              activity_end: node.endDate,
+            }}
+          />
+        </CardsWrapper>
+        <VizCard use="fundingPerYear" data={payments.nodes} />
       </OverviewGrid>
       <Tabs
         indicatorColor={ProgrammeSchema.color}
