@@ -7,7 +7,7 @@ import Link from "@material-ui/core/Link"
 import Tooltip from "@material-ui/core/Tooltip"
 import HelpOutlineIcon from "@material-ui/icons/HelpOutline"
 import { DataGrid } from "@material-ui/data-grid"
-// import { getLocationParam, updateLocationParams } from "../util"
+import { getLocationParam, updateLocationParams } from "../util"
 import SCHEMA from "../schema"
 import links from "../links"
 import Amount from "./amount"
@@ -116,6 +116,15 @@ const DataTable = ({
   const adjustHeight = () =>
     setTimeout(() => setHeight(ref.current?.clientHeight), 100) // FIXME DataGrid height
   adjustHeight() // initial height
+  const handlePageChange = ({ page }) => {
+    updateLocationParams({ p: page })
+    adjustHeight()
+  }
+  const handlePageSizeChange = ({ pageSize }) => {
+    updateLocationParams({ limit: pageSize })
+  }
+  const initialPage = parseInt(getLocationParam("p")) || 1
+  const initialPageSize = parseInt(getLocationParam("limit")) || pageSize
 
   filters = columns.filter(({ field }) => filters.indexOf(field) > -1)
   const getFacets = ({ filters, rows }) =>
@@ -126,47 +135,64 @@ const DataTable = ({
 
   const facets = getFacets({ filters, rows })
 
-  const filterRows = activeFilters => {
+  const filterRows = filters => {
     let filteredRows = rows
-    for (const [field, value] of Object.entries(activeFilters)) {
+    for (const [field, value] of Object.entries(filters)) {
       filteredRows = filteredRows.filter(r => r[field] === value)
     }
     return filteredRows
   }
 
+  const activeFiltersFromURL = {}
+  for (const { field } of facets) {
+    const value = getLocationParam(field)
+    if (value) {
+      activeFiltersFromURL[field] = value
+    }
+  }
+
   const [activeRows, setActiveRows] = useState(rows)
-  const [activeFilters, setActiveFilters] = useState({})
+  const [activeFilters, setActiveFilters] = useState(activeFiltersFromURL)
   const [availableFacets, setAvailableFacets] = useState(facets)
   const resetFilters = () => {
     setActiveRows(rows)
     setAvailableFacets(facets)
     setActiveFilters({})
-    // facets.map(({ field }) => updateLocationParams({ [field]: null }))
+    facets.map(({ field }) => updateLocationParams({ [field]: null }))
   }
 
-  // rows changing from "outside"
-  useEffect(() => {
-    setActiveRows(rows)
-  }, [rows])
-
   const applyFilter = ({ field, value }) => {
-    let activeFilters = {}
+    let newActiveFilters = {}
     if (value === "") {
+      updateLocationParams({[field]: null})
       const keys = Object.keys(activeFilters).filter(k => k !== field)
-      activeFilters = keys.reduce(
+      newActiveFilters = keys.reduce(
         (o, k) => ({ ...o, [k]: activeFilters[k] }),
         {}
       )
     } else {
-      activeFilters = { ...activeFilters, [field]: value }
+      newActiveFilters = { ...activeFilters, [field]: value }
     }
-    const filteredRows = filterRows(activeFilters)
+    const filteredRows = filterRows(newActiveFilters)
     const availableFacets = getFacets({ filters, rows: filteredRows })
-    // updateLocationParams(activeFilters)
+    updateLocationParams(newActiveFilters)
     setActiveRows(filteredRows)
-    setActiveFilters(activeFilters)
+    setActiveFilters(newActiveFilters)
     setAvailableFacets(availableFacets)
   }
+
+  const applyFilters = filters => {
+    for (const [field, value] of Object.entries(filters)) {
+      applyFilter({ field, value })
+    }
+  }
+  useEffect(() => applyFilters(activeFilters), [])
+
+  // rows changing from "outside"
+  useEffect(() => {
+    setActiveRows(rows)
+    applyFilters(activeFilters)
+  }, [rows])
 
   return (
     <div className={classes.root}>
@@ -193,13 +219,15 @@ const DataTable = ({
           ref={ref}
           rows={activeRows}
           columns={columns}
-          pageSize={pageSize}
+          page={initialPage}
+          pageSize={initialPageSize}
           rowsPerPageOptions={[10, 25, 50, 100]}
           autoHeight
           disableSelectionOnClick
-          hideFooter={activeRows.length < 11}
+          hideFooter={activeRows.length < initialPageSize + 1}
           onCellClick={onCellClick}
-          onPageChange={adjustHeight}
+          onPageChange={handlePageChange}
+          onPageSizeChange={handlePageSizeChange}
           sortingOrder={["desc", "asc", null]}
           {...props}
         />

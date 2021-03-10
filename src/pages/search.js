@@ -137,11 +137,15 @@ const SearchPage = ({ data: { payments } }) => {
       </Typography>
       <SearchField query={query} handleChange={handleChange} />
       <div style={{ paddingBottom: theme.spacing(4) }}>
-        <Typography variant="h6">
-          Years:
-          <span style={{ color }}> {start} </span>to
-          <span style={{ color }}> {end}</span>
-        </Typography>
+        {start === START && end === END ? (
+          <Typography variant="h6">All years</Typography>
+        ) : (
+          <Typography variant="h6">
+            Years:
+            <span style={{ color }}> {start} </span>to
+            <span style={{ color }}> {end}</span>
+          </Typography>
+        )}
         <YearRangeSelector
           startYear={start}
           endYear={end}

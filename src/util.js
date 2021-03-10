@@ -17,9 +17,9 @@ if (!Object.entries) {
 export function updateLocationParams(data) {
   if (typeof window !== `undefined`) {
     const url = new URL(window.location)
-    Object.entries(data).map(([key, val]) => { // eslint-disable-line
-      !!val && url.searchParams.set(key, val)
-    })
+    for (const [key, val] of Object.entries(data)) {
+      !!val ? url.searchParams.set(key, val) : url.searchParams.delete(key)
+    }
     window.history.pushState({}, "", url)
   }
 }

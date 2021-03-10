@@ -21,7 +21,7 @@ const useStyles = makeStyles(theme => ({
   },
   control: {
     width: ({ isMobile }) => (isMobile ? "100%" : "auto"),
-    minWidth: ({ isMobile }) => (isMobile ? null : 200),
+    minWidth: ({ isMobile }) => (isMobile ? null : 250),
   },
 }))
 
@@ -29,6 +29,8 @@ const Filter = ({ label, items, value, applyFilter }) => {
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"))
   const classes = useStyles({ isMobile })
+  value = items.find(i => i.value === value) ? value : ""
+
   return (
     <FormControl className={classes.control} variant="outlined">
       <InputLabel id={`label-${label}`}>Filter: {label}</InputLabel>
