@@ -90,7 +90,7 @@ export default function SimpleTabs() {
       i: 8,
     },
   }
-  Object.values(tabs).map(v => {
+  Object.values(tabs).map(v => { //eslint-disable-line
     const [items, setItems] = v.store
     v.items = items
     v.shuffle = () => setItems(getItems(v.i))
@@ -103,8 +103,6 @@ export default function SimpleTabs() {
     setValue(newValue)
     setHashValue("show", tabKeys[newValue])
   }
-
-  // const shuffle = () => setValue(activeTab ? tabKeys.indexOf(activeTab) : 0) // FIXME
 
   return (
     <div className={classes.root}>
@@ -123,7 +121,7 @@ export default function SimpleTabs() {
       {Object.keys(tabs).map((k, i) => (
         <TabPanel value={value} index={i} key={i}>
           <Paper>
-            {tabs[k].items.length == 10 && (
+            {tabs[k].items.length === 10 && (
               <Button onClick={tabs[k].shuffle} startIcon={<CachedIcon />}>
                 Shuffle
               </Button>

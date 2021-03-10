@@ -1,5 +1,4 @@
 import React from "react"
-import { graphql } from "gatsby"
 import { makeStyles } from "@material-ui/core/styles"
 import Typography from "@material-ui/core/Typography"
 import Box from "@material-ui/core/Box"
