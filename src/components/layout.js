@@ -21,6 +21,7 @@ import Typography from "@material-ui/core/Typography"
 import HomeIcon from "@material-ui/icons/Home"
 import MenuIcon from "@material-ui/icons/Menu"
 import { Button, IconButton } from "gatsby-theme-material-ui"
+import SearchStore from "../searchStore"
 import Breadcrumbs from "./breadcrumbs"
 import SearchBar from "./searchBar"
 
@@ -138,7 +139,10 @@ const DesktopMenu = () =>
   ))
 
 export default function Layout({ children, route, title, ...props }) {
-  const { site } = useStaticQuery(graphql`
+  const {
+    site,
+    localSearchData: { publicIndexURL, publicStoreURL },
+  } = useStaticQuery(graphql`
     query {
       site {
         siteMetadata {
@@ -146,8 +150,16 @@ export default function Layout({ children, route, title, ...props }) {
           title
         }
       }
+      localSearchData {
+        publicIndexURL
+        publicStoreURL
+      }
     }
   `)
+
+  // init searchstore
+  SearchStore.init({ publicIndexURL, publicStoreURL })
+
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"))
   const showSearchBar = !props.hideSearchBar
   const classes = useStyles({ isMobile })

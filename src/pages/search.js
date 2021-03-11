@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { graphql } from "gatsby"
 import { useFlexSearch } from "react-use-flexsearch"
 import { useTheme, makeStyles } from "@material-ui/core/styles"
@@ -9,10 +9,11 @@ import InputAdornment from "@material-ui/core/InputAdornment"
 import IconButton from "@material-ui/core/IconButton"
 import SearchIcon from "@material-ui/icons/Search"
 import CloseIcon from "@material-ui/icons/Close"
+import LinearProgress from "@material-ui/core/LinearProgress"
 import Layout from "../components/layout"
 import PaymentsTable from "../components/paymentsTable"
 import YearRangeSelector, { START, END } from "../components/yearRangeSelector"
-import { LocalSearchData } from "../components/search"
+import SearchStore from "../searchStore"
 import { EntitySchemaKeys } from "../schema"
 import { getLocationParam, updateLocationParams } from "../util"
 
@@ -90,10 +91,64 @@ const SearchField = ({ query, handleChange }) => {
   )
 }
 
-const SearchPage = ({ data: { payments } }) => {
-  const { index, store } = LocalSearchData()
+const SearchableTable = ({
+  payments,
+  query,
+  years: [start, end],
+  searchData: { index, store },
+}) => {
   const theme = useTheme()
   const color = theme.palette.primary.light
+  const results = useFlexSearch(query, index, store)
+  const projects = results
+    .filter(({ schema }) => schema === "p")
+    .map(p => p.name)
+  const entities = results
+    .filter(({ schema }) => EntitySchemaKeys.indexOf(schema) > -1)
+    .map(p => p.name)
+  const filteredRows = payments.filter(
+    ({ purpose, beneficiaryName }) =>
+      projects.indexOf(purpose) > -1 || entities.indexOf(beneficiaryName) > -1
+  )
+
+  const rows = (filteredRows.length > 0 ? filteredRows : payments)
+    .filter(({ startDate }) => parseInt(startDate?.slice(0, 4)) >= start)
+    .filter(({ endDate }) => parseInt(endDate?.slice(0, 4)) <= end)
+
+  return (
+    <>
+      {query &&
+        (filteredRows.length > 0 ? (
+          <Typography variant="h4" gutterBottom>
+            {rows.length} results for <span style={{ color }}>{query}</span>{" "}
+            from {start} to {end}
+          </Typography>
+        ) : (
+          <Typography variant="h4" gutterBottom>
+            All {rows.length} items from {start} to {end}
+          </Typography>
+        ))}
+      {query && filteredRows.length === 0 && (
+        <Typography component="p">
+          Your search for <strong>{query}</strong> has no results. Displaying
+          all {rows.length} entries in the table below.
+        </Typography>
+      )}
+
+      <PaymentsTable rows={rows} pageSize={25} />
+    </>
+  )
+}
+
+const SearchPage = ({ data: { payments } }) => {
+  const theme = useTheme()
+  const color = theme.palette.primary.light
+
+  const [searchData, setSearchData] = useState()
+  useEffect(() => {
+    SearchStore.data().then(([index, store]) => setSearchData({ index, store }))
+  }, [])
+
   const [query, setQuery] = useState(getLocationParam("q"))
   const [years, setYears] = useState([
     parseInt(getLocationParam("startYear")) || START,
@@ -113,22 +168,7 @@ const SearchPage = ({ data: { payments } }) => {
     }, 200)
   }
 
-  const results = useFlexSearch(query, index, store)
   const [start, end] = years
-  const projects = results
-    .filter(({ schema }) => schema === "p")
-    .map(p => p.name)
-  const entities = results
-    .filter(({ schema }) => EntitySchemaKeys.indexOf(schema) > -1)
-    .map(p => p.name)
-  const filteredRows = payments.nodes.filter(
-    ({ purpose, beneficiaryName }) =>
-      projects.indexOf(purpose) > -1 || entities.indexOf(beneficiaryName) > -1
-  )
-
-  const rows = (filteredRows.length > 0 ? filteredRows : payments.nodes)
-    .filter(({ startDate }) => parseInt(startDate?.slice(0, 4)) >= start)
-    .filter(({ endDate }) => parseInt(endDate?.slice(0, 4)) <= end)
 
   return (
     <Layout hideSearchBar route="Search">
@@ -152,25 +192,16 @@ const SearchPage = ({ data: { payments } }) => {
           onChange={onChangeYears}
         />
       </div>
-      {query &&
-        (filteredRows.length > 0 ? (
-          <Typography variant="h4" gutterBottom>
-            {rows.length} results for <span style={{ color }}>{query}</span>{" "}
-            from {start} to {end}
-          </Typography>
-        ) : (
-          <Typography variant="h4" gutterBottom>
-            All {rows.length} items from {start} to {end}
-          </Typography>
-        ))}
-      {query && filteredRows.length === 0 && (
-        <Typography component="p">
-          Your search for <strong>{query}</strong> has no results. Displaying
-          all {rows.length} entries in the table below.
-        </Typography>
+      {searchData ? (
+        <SearchableTable
+          payments={payments.nodes}
+          years={years}
+          searchData={searchData}
+          query={query}
+        />
+      ) : (
+        <LinearProgress />
       )}
-
-      <PaymentsTable rows={rows} pageSize={25} />
     </Layout>
   )
 }

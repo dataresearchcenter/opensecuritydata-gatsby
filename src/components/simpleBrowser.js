@@ -1,16 +1,17 @@
-import React, { useState } from "react"
+import React, { useState, useEffect, useRef } from "react"
 import { makeStyles } from "@material-ui/core/styles"
 import Paper from "@material-ui/core/Paper"
 import Tabs from "@material-ui/core/Tabs"
 import Tab from "@material-ui/core/Tab"
 import Box from "@material-ui/core/Box"
+import LinearProgress from "@material-ui/core/LinearProgress"
 import CachedIcon from "@material-ui/icons/Cached"
 import Button from "@material-ui/core/Button"
 import { Link } from "gatsby-theme-material-ui"
 import { SimpleList } from "../components/util"
-import { LocalSearchData } from "../components/search"
 import links from "../links"
 import { setHashValue, getHashValue, shuffleArray } from "../util"
+import SearchStore from "../searchStore"
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props
@@ -43,13 +44,12 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-export default function SimpleTabs() {
+const SimpleTabsInner = ({ items }) => {
   const classes = useStyles()
-  const { store } = LocalSearchData()
 
   const getItems = i =>
     shuffleArray(
-      Object.values(store).filter(({ id }) => id.toString().indexOf(i) === 0)
+      Object.values(items).filter(({ id }) => id.toString().indexOf(i) === 0)
     ).slice(0, 10)
 
   const tabs = {
@@ -90,7 +90,8 @@ export default function SimpleTabs() {
       i: 8,
     },
   }
-  Object.values(tabs).map(v => { //eslint-disable-line
+  Object.values(tabs).map(v => {
+    //eslint-disable-line
     const [items, setItems] = v.store
     v.items = items
     v.shuffle = () => setItems(getItems(v.i))
@@ -134,5 +135,17 @@ export default function SimpleTabs() {
         </TabPanel>
       ))}
     </div>
+  )
+}
+
+export default function SimpleTabs() {
+  const [items, setItems] = useState()
+  useEffect(() => {
+    SearchStore.data().then(([index, store]) => setItems(store))
+  }, [])
+  return items ? (
+    <SimpleTabsInner items={items} />
+  ) : (
+    <LinearProgress color="secondary" />
   )
 }

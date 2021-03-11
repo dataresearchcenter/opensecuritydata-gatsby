@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react"
+import React, { useState, useEffect } from "react"
 import { useStaticQuery, graphql } from "gatsby"
 import { useFlexSearch } from "react-use-flexsearch"
 import { makeStyles } from "@material-ui/core/styles"
@@ -11,22 +11,12 @@ import List from "@material-ui/core/List"
 import Button from "@material-ui/core/Button"
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore"
 import ListItemText from "@material-ui/core/ListItemText"
+import LinearProgress from "@material-ui/core/LinearProgress"
 import { Link } from "gatsby-theme-material-ui"
 import { ListItemLink } from "./util"
 import { updateLocationParams, getLocationParam } from "../util"
 import SCHEMA from "../schema"
-
-const LocalSearchData = () => {
-  const { search } = useStaticQuery(graphql`
-    query localSearchData {
-      search: localSearchData {
-        index
-        store
-      }
-    }
-  `)
-  return search
-}
+import SearchStore from "../searchStore"
 
 const getLink = ({ id, name, schema, key }) =>
   SCHEMA[schema].getLink({ name, key, iso: key })
@@ -97,13 +87,15 @@ const ResultList = ({ items, cursor, asPopover, query }) => {
   )
 }
 
-const SearchResults = ({ query, searchInputRef, cursor, asPopover }) => {
-  const { index, store } = LocalSearchData()
+const ActualSearchResults = ({
+  query,
+  searchData: { index, store },
+  asPopover,
+  cursor,
+}) => {
   const [showAll, setShowAll] = useState(false)
-  const focus = () => searchInputRef?.current.focus()
   const refineSearch = () => {
     setShowAll(false)
-    focus()
   }
   const classes = useStyles({ asPopover })
   const isMain = !asPopover
@@ -165,13 +157,23 @@ const SearchResults = ({ query, searchInputRef, cursor, asPopover }) => {
   )
 }
 
-const Search = ({ index, store }) => {
+const SearchResults = ({ ...props }) => {
+  const [searchData, setSearchData] = useState()
+  useEffect(() => {
+    SearchStore.data().then(([index, store]) => setSearchData({ index, store }))
+  }, [])
+  return searchData ? (
+    <ActualSearchResults searchData={searchData} {...props} />
+  ) : (
+    <LinearProgress color="secondary" />
+  )
+}
+
+const Search = () => {
   const [query, setQuery] = useState(getLocationParam("q"))
   const [cursor, setCursor] = useState(-1)
   const handleChange = ({ target }) => setQuery(target.value)
   query?.length > 3 && updateLocationParams({ q: query })
-
-  const searchInput = useRef()
 
   const handleKeyDown = e => {
     if (e.keyCode === 40) {
@@ -184,10 +186,7 @@ const Search = ({ index, store }) => {
     if (e.keyCode === 38) {
       e.preventDefault()
       if (cursor === 0) {
-        // focus search input
-        // FIXME
         setCursor(-1)
-        searchInput.current.focus()
       } else {
         setCursor(Math.max(cursor - 1, 0))
       }
@@ -197,9 +196,7 @@ const Search = ({ index, store }) => {
   return (
     <div onKeyDown={handleKeyDown} role="search">
       <TextField
-        autoFocus
         id="q"
-        ref={searchInput}
         placeholder="Search..."
         value={query || ""}
         onChange={handleChange}
@@ -220,18 +217,11 @@ const Search = ({ index, store }) => {
           advanced search
         </Link>
       ) : (
-        <SearchResults
-          query={query}
-          searchInputRef={searchInput}
-          cursor={cursor}
-          setCursor={setCursor}
-          index={index}
-          store={store}
-        />
+        <SearchResults query={query} cursor={cursor} setCursor={setCursor} />
       )}
     </div>
   )
 }
 
 export default Search
-export { SearchResults, LocalSearchData }
+export { SearchResults }
