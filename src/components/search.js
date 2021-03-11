@@ -8,7 +8,9 @@ import SearchIcon from "@material-ui/icons/Search"
 import Paper from "@material-ui/core/Paper"
 import List from "@material-ui/core/List"
 import Button from "@material-ui/core/Button"
+import IconButton from "@material-ui/core/IconButton"
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore"
+import CloseIcon from "@material-ui/icons/Close"
 import ListItemText from "@material-ui/core/ListItemText"
 import LinearProgress from "@material-ui/core/LinearProgress"
 import { Link } from "gatsby-theme-material-ui"
@@ -42,6 +44,13 @@ const useStyles = makeStyles(theme => ({
         }
       : null,
   advancedHint: {
+    padding: theme.spacing(1),
+  },
+  searchField: {
+    display: "flex",
+    alignItems: "center",
+  },
+  searchFieldReset: {
     padding: theme.spacing(1),
   },
 }))
@@ -159,7 +168,13 @@ const ActualSearchResults = ({
 const SearchResults = ({ ...props }) => {
   const [searchData, setSearchData] = useState()
   useEffect(() => {
-    SearchStore.data().then(([index, store]) => setSearchData({ index, store }))
+    let mounted = true
+    SearchStore.data().then(
+      ([index, store]) => mounted && setSearchData({ index, store })
+    )
+    return function cleanup() {
+      mounted = false
+    }
   }, [])
   return searchData ? (
     <ActualSearchResults searchData={searchData} {...props} />
@@ -168,11 +183,76 @@ const SearchResults = ({ ...props }) => {
   )
 }
 
-const Search = () => {
-  const [query, setQuery] = useState(getLocationParam("q"))
+const SearchField = ({
+  query,
+  handleChange,
+  withReset,
+  color = "primary",
+  ...props
+}) => {
+  const classes = useStyles()
+  const [value, setValue] = useState(query || "")
+  const [typing, toggleTyping] = useState(false)
+  const [timeout, updateTimeout] = useState()
+
+  const changeValue = value => {
+    clearTimeout(timeout)
+    toggleTyping(true)
+    setValue(value)
+    updateTimeout(
+      setTimeout(() => {
+        handleChange(value)
+        updateLocationParams({ q: value })
+        toggleTyping(false)
+      }, 300)
+    )
+  }
+
+  const active = !!value?.length
+
+  return (
+    <>
+      <Paper component="form" className={classes.searchField}>
+        <TextField
+          id="q"
+          placeholder="Search..."
+          value={value}
+          onChange={({ target }) => changeValue(target.value)}
+          autoComplete="off"
+          variant="outlined"
+          fullWidth
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <SearchIcon />
+              </InputAdornment>
+            ),
+          }}
+          style={{ background: "white" }}
+          color={color}
+          {...props}
+        />
+        {withReset && (
+          <IconButton
+            color={active ? color : "default"}
+            disabled={!active}
+            className={classes.searchFieldReset}
+            aria-label="reset"
+            onClick={() => changeValue("")}
+          >
+            <CloseIcon />
+          </IconButton>
+        )}
+      </Paper>
+      {typing && <LinearProgress color={color} />}
+    </>
+  )
+}
+
+const Search = props => {
+  const initialQuery = getLocationParam("q")
+  const [query, setQuery] = useState(initialQuery)
   const [cursor, setCursor] = useState(-1)
-  const handleChange = ({ target }) => setQuery(target.value)
-  query?.length > 3 && updateLocationParams({ q: query })
 
   const handleKeyDown = e => {
     if (e.keyCode === 40) {
@@ -194,33 +274,22 @@ const Search = () => {
 
   return (
     <div onKeyDown={handleKeyDown} role="search">
-      <TextField
-        id="q"
-        placeholder="Search..."
-        value={query || ""}
-        onChange={handleChange}
-        autoComplete="off"
-        variant="outlined"
-        fullWidth
-        InputProps={{
-          startAdornment: (
-            <InputAdornment position="start">
-              <SearchIcon />
-            </InputAdornment>
-          ),
-        }}
-        style={{ background: "white" }}
-      />
+      <SearchField handleChange={setQuery} query={initialQuery} {...props} />
       {!query || query?.length < 3 ? (
         <Link to={`/search`} color="textSecondary">
           advanced search
         </Link>
       ) : (
-        <SearchResults query={query} cursor={cursor} setCursor={setCursor} />
+        <SearchResults
+          query={query}
+          cursor={cursor}
+          setCursor={setCursor}
+          {...props}
+        />
       )}
     </div>
   )
 }
 
 export default Search
-export { SearchResults }
+export { SearchResults, SearchField }

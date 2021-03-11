@@ -138,15 +138,21 @@ const SimpleTabs = () => {
   const [tabs, setTabs] = useState(initialTabsData)
 
   useEffect(() => {
+    let mounted = true
     SearchStore.data().then(([_, items]) => {
-      const updatedTabs = tabs
-      for (const v of Object.values(updatedTabs)) {
-        v.items = Object.values(items).filter(
-          ({ id }) => id.toString().indexOf(v.i) === 0
-        )
+      if (mounted) {
+        const updatedTabs = tabs
+        for (const v of Object.values(updatedTabs)) {
+          v.items = Object.values(items).filter(
+            ({ id }) => id.toString().indexOf(v.i) === 0
+          )
+        }
+        setTabs(updatedTabs)
       }
-      setTabs(updatedTabs)
     })
+    return function cleanup() {
+      mounted = false
+    }
   }, [tabs])
 
   const tabKeys = [...Object.keys(tabs)]

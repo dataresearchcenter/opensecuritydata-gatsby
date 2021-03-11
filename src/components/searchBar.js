@@ -69,8 +69,6 @@ const SearchBar = ({ index, store }) => {
           query={query}
           cursor={cursor}
           setCursor={setCursor}
-          index={index}
-          store={store}
           asPopover
         />
       )}

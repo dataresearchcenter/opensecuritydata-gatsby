@@ -1,7 +1,7 @@
 // have it as singleton available across the page
 
 const SearchStore = {
-  initialized: false,
+  currentPromise: false,
 }
 
 SearchStore.init = urls => {
@@ -9,17 +9,18 @@ SearchStore.init = urls => {
 }
 
 SearchStore.data = async () => {
-  if (!SearchStore.initialized) {
+  if (!SearchStore.currentPromise) {
     const { publicIndexURL, publicStoreURL } = SearchStore.urls
-    SearchStore.initialized = true
     const [indexRes, storeRes] = await Promise.all([
       fetch(publicIndexURL),
       fetch(publicStoreURL),
     ])
-    SearchStore._index = await indexRes.text()
-    SearchStore._store = await storeRes.json()
+    SearchStore.currentPromise = Promise.all([
+      await indexRes.text(),
+      await storeRes.json(),
+    ])
   }
-  return Promise.all([SearchStore._index, SearchStore._store])
+  return SearchStore.currentPromise
 }
 
 export default SearchStore

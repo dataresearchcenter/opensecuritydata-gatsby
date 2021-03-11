@@ -30,7 +30,7 @@ const IndexPage = () => {
         <Typography variant="subtitle1" className={classes.subTitle}>
           that receive European Union security funding
         </Typography>
-        <Search />
+        <Search color="secondary" />
       </Box>
       <Box className={classes.hero}>
         <Typography variant="h3" component="h2" className={classes.heroTitle} gutterBottom>
