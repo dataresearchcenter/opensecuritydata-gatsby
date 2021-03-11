@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react"
-import { useStaticQuery, graphql } from "gatsby"
 import { useFlexSearch } from "react-use-flexsearch"
 import { makeStyles } from "@material-ui/core/styles"
 import Typography from "@material-ui/core/Typography"
