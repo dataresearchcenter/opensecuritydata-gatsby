@@ -25,6 +25,8 @@ export const programQuery = graphql`
         amount
         startDate
         endDate
+        callName
+        workProgram
       }
     }
     payments: allPaymentsJson(filter: { program: { eq: $lookup } }) {
