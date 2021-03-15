@@ -23,7 +23,7 @@ module.exports = {
     `gatsby-transformer-json`,
     `gatsby-transformer-remark`,
     `gatsby-theme-material-ui`,
-    `gatsby-plugin-netlify-cms`,
+    // `gatsby-plugin-netlify-cms`,
     // {
     //   resolve: `gatsby-plugin-sitemap`,
     //   options: {
