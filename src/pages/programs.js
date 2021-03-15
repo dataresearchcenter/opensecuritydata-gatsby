@@ -44,8 +44,8 @@ const ProgramsPage = ({ data: { programs, descriptions } }) => {
         <ProgramCard
           className={classes.card}
           key={p.id}
-          data={p}
           {...getDescription(p.name, descriptions)}
+          {...p}
         />
       ))}
     </Layout>
