@@ -70,7 +70,7 @@ const TableFilters = ({
         .filter(i => !!i)
         .sort()
         .map(i => ({
-          label: i.toUpperCase(),
+          label: i.length > 40 ? `${i.toUpperCase().substr(0, 40)} ...` : i,
           value: i,
           disabled: availableFacets[f.field]?.indexOf(i) < 0,
         }))
