@@ -154,6 +154,16 @@ module.exports = {
         ],
       },
     },
+    {
+      resolve: `gatsby-plugin-matomo`,
+      options: {
+        siteId: 2,
+        matomoUrl: `https://matomo.statewatch.org/matomo`,
+        siteUrl: `https://opensecuritydata.eu`,
+        matomoPhpScript: `matomo.php`,
+        matomoJsScript: `matomo.js`,
+      },
+    },
   ],
   siteMetadata: {
     title: `Open Security Data Europe`,
