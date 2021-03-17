@@ -32,7 +32,7 @@ about the data sources [here](/data).
 Open Security Data Europe was created by
 [Caitlin L.  Chandler](http://www.caitlinlchandler.com/),
 [Chris Jones](https://cjwords.net/)
-and [Zach Campbell](https://zachcampbell.net/).
+and [Zach Campbell](https://twitter.com/notzachcampbell).
 The data platform was built and is maintained by
 [Simon Wörpel](https://medienrevolte.de). Support for this project comes from the
 [Investigative Journalism for Europe (IJ4EU) Fund](https://www.investigativejournalismforeu.net/).
