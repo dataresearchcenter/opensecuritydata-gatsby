@@ -1,6 +1,5 @@
 import React, { useState } from "react"
 import { useStaticQuery, graphql, navigate } from "gatsby"
-import { Location } from "@reach/router"
 import {
   ThemeProvider,
   createMuiTheme,
@@ -166,51 +165,44 @@ export default function Layout({ children, route, title, ...props }) {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Location>
-        {location => (
-          <section className={classes.root}>
-            <HideOnScroll {...props}>
-              <AppBar
-                position="fixed"
-                color="default"
-                className={classes.appBar}
+      <section className={classes.root}>
+        <HideOnScroll {...props}>
+          <AppBar position="fixed" color="default" className={classes.appBar}>
+            <Toolbar>
+              <IconButton
+                edge="start"
+                className={classes.menuButton}
+                color="inherit"
+                to="/"
               >
-                <Toolbar>
-                  <IconButton
-                    edge="start"
-                    className={classes.menuButton}
-                    color="inherit"
-                    to="/"
-                  >
-                    <HomeIcon />
-                  </IconButton>
-                  <Typography variant="h6" className={classes.title}>
-                    {!isMobile && site.siteMetadata.title}
-                    {route && (
-                      <span className={classes.route}>
-                        {!isMobile && " | "}
-                        {route}
-                      </span>
-                    )}
-                  </Typography>
-                  {showSearchBar && <SearchBar />}
-                  {isMobile ? <MobileMenu /> : <DesktopMenu />}
-                </Toolbar>
-              </AppBar>
-            </HideOnScroll>
-            <Container maxWidth="lg">
-              <Box className={classes.content}>
-                {!isMobile && (
-                  <div className={classes.bcmbs}>
-                    <Breadcrumbs {...location} />
-                  </div>
+                <HomeIcon />
+              </IconButton>
+              <Typography variant="h6" className={classes.title}>
+                {!isMobile && site.siteMetadata.title}
+                {route && (
+                  <span className={classes.route}>
+                    {!isMobile && " | "}
+                    {route}
+                  </span>
                 )}
-                {children}
-              </Box>
-            </Container>
-          </section>
-        )}
-      </Location>
+              </Typography>
+              {showSearchBar && <SearchBar />}
+              {isMobile ? <MobileMenu /> : <DesktopMenu />}
+            </Toolbar>
+          </AppBar>
+        </HideOnScroll>
+        <Container maxWidth="lg">
+          <Box className={classes.content}>
+            {!isMobile && (
+              <div className={classes.bcmbs}>
+                <Breadcrumbs />
+              </div>
+            )}
+            {children}
+          </Box>
+        </Container>
+      </section>
+      }
     </ThemeProvider>
   )
 }

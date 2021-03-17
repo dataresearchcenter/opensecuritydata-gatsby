@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from "react"
 import { navigate } from "gatsby"
 import { makeStyles } from "@material-ui/core/styles"
+import Grid from "@material-ui/core/Grid"
 import Typography from "@material-ui/core/Typography"
 import Paper from "@material-ui/core/Paper"
 import Link from "@material-ui/core/Link"
@@ -14,6 +15,7 @@ import Amount from "./amount"
 import Date from "./date"
 import Country from "./country"
 import TableFilters from "./tableFilters"
+import TableDownload from "./tableDownload"
 
 export function renderCell(key, value, linkColor) {
   if (!value) return value
@@ -164,7 +166,7 @@ const DataTable = ({
   const applyFilter = ({ field, value }) => {
     let newActiveFilters = {}
     if (value === "") {
-      updateLocationParams({[field]: null})
+      updateLocationParams({ [field]: null })
       const keys = Object.keys(activeFilters).filter(k => k !== field)
       newActiveFilters = keys.reduce(
         (o, k) => ({ ...o, [k]: activeFilters[k] }),
@@ -214,6 +216,11 @@ const DataTable = ({
           resetFilters={resetFilters}
         />
       )}
+      <Grid container justify="flex-end">
+        {activeRows.length > 0 && (
+          <TableDownload rows={activeRows} filters={activeFilters} />
+        )}
+      </Grid>
       <Paper style={{ minHeight }}>
         <DataGrid
           ref={ref}
