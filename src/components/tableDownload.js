@@ -6,10 +6,17 @@ import GetAppIcon from "@material-ui/icons/GetApp"
 import { Button } from "gatsby-theme-material-ui"
 import { getCrumbs } from "./breadcrumbs"
 
+const toB64 = value =>
+  typeof btoa !== "undefined"
+    ? btoa(value)
+    : Buffer.from(value).toString("base64") // node build
+
 const TableDownload = ({ rows, filters }) => {
-  const dataUrl = `data:text/csv;base64,${btoa(
-    unescape(encodeURIComponent(Papa.unparse(rows)))
-  )}`
+  const columns = Object.keys(rows[0]).filter(k => k !== "id")
+  const data = toB64(
+    unescape(encodeURIComponent(Papa.unparse(rows, { columns })))
+  )
+  const dataUrl = `data:text/csv;base64,${data}`
   const { pathname } = useLocation()
   const { name } = getCrumbs(pathname).pop()
   const filtersName = Object.values(filters)
