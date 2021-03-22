@@ -38,7 +38,7 @@ export default function BeneficiaryTemplate({
 }) {
   const tableData = {
     projects_involved: node.projects,
-    contracts: node.payments,
+    payments: node.payments,
     activity_start: node.startDate,
     activity_end: node.endDate,
   }
