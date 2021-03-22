@@ -31,7 +31,6 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
             projects
             beneficiaries
             amount
-            proof
             startDate
             endDate
           }
@@ -46,7 +45,6 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
             program
             beneficiaries
             amount
-            proof
             startDate
             endDate
             sourceUrl
@@ -90,7 +88,6 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
             amount
             endDate
             startDate
-            proof
             beneficiaryGroup
             beneficiaryGroupId
             notes
@@ -185,7 +182,6 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
       component: require.resolve(`./src/templates/program.js`),
       context: {
         node,
-        proofLookup: (node.proof || "").toString(),
         lookup: node.name,
         route: `Programs`,
         title: node.name,
@@ -209,7 +205,6 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
         euroscivocLookup: (JSON.parse(node.euroscivoc) || []).map(i =>
           i.substring(1)
         ),
-        proofLookup: (node.proof || "").toString(),
         translationsLookup,
         route: `Projects`,
         title: node.name,
@@ -226,7 +221,6 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
         node,
         paymentsLookup: node.id,
         countryLookup: node.country,
-        proofLookup: (node.proof || "").toString(),
         translationLookup: node.name,
         route: `Beneficiaries`,
         title: node.name,

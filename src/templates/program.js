@@ -14,7 +14,7 @@ import Viz, { VizCard } from "../components/viz"
 import { ProgramSchema } from "../schema"
 
 export const programQuery = graphql`
-  query programProjects($lookup: String!, $proofLookup: String!) {
+  query programProjects($lookup: String!) {
     projects: allProjectsJson(filter: { program: { eq: $lookup } }) {
       nodes {
         id
@@ -43,22 +43,18 @@ export const programQuery = graphql`
         country
       }
     }
-    proof: documentsJson(id: { eq: $proofLookup }) {
-      id
-      fileName
-      fileSize
-    }
     meta: programMetaJson(name: { eq: $lookup }) {
       description
       fileName
+      fileSize
       url
     }
   }
 `
 
 export default function ProgramTemplate({
-  pageContext: { node, lookup, proofLookup, route, title },
-  data: { payments, projects, proof, meta },
+  pageContext: { node, lookup, route, title },
+  data: { payments, projects, meta },
 }) {
   const isf = node.name === "Internal Security Fund"
   return (
@@ -75,9 +71,9 @@ export default function ProgramTemplate({
         <CardsWrapper>
           <ProgramCard
             showName={false}
-            showLink={false}
             showData={false}
-            {...{ ...node, ...meta, proof }}
+            {...node}
+            {...meta}
           />
           <AttributeCard
             data={{

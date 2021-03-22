@@ -3,7 +3,7 @@ import Card from "@material-ui/core/Card"
 import CardActions from "@material-ui/core/CardActions"
 import CardContent from "@material-ui/core/CardContent"
 import Typography from "@material-ui/core/Typography"
-import { Button, Link } from "gatsby-theme-material-ui"
+import { Link } from "gatsby-theme-material-ui"
 import Amount from "./amount"
 import DataDownload from "./downloadData"
 import { getProgramLink } from "../links"
@@ -14,14 +14,13 @@ const ProgramCard = ({
   projects,
   beneficiaries,
   amount,
-  proof,
   url,
   description,
+  fileName,
+  fileSize,
   showHeader = true,
   showName = true,
-  showLink = true,
   showData = true,
-  showProof = true,
   className,
 }) => (
   <Card className={className}>
@@ -33,7 +32,7 @@ const ProgramCard = ({
       )}
       {showName && (
         <Typography variant="h5" component="h2">
-          {name}
+          <Link to={getProgramLink({ name })}>{name}</Link>
         </Typography>
       )}
       {showData && (
@@ -52,12 +51,7 @@ const ProgramCard = ({
       </Typography>
     </CardContent>
     <CardActions>
-      {showLink && (
-        <Button color="primary" to={getProgramLink({ name })} size="small">
-          Browse data
-        </Button>
-      )}
-      {showProof && <DataDownload {...proof} />}
+      <DataDownload {...{ fileName, fileSize }} />
     </CardActions>
   </Card>
 )

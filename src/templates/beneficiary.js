@@ -17,7 +17,6 @@ export const query = graphql`
   query beneficiaryPayments(
     $paymentsLookup: String!
     $countryLookup: String!
-    $proofLookup: String!
     $translationLookup: String!
   ) {
     payments: allPaymentsJson(
@@ -38,11 +37,6 @@ export const query = graphql`
       iso
       name
     }
-    proof: documentsJson(id: { eq: $proofLookup }) {
-      id
-      fileName
-      fileSize
-    }
     translation: translationsJson(key: { eq: $translationLookup }) {
       language
       key
@@ -56,12 +50,11 @@ export default function BeneficiaryTemplate({
     node,
     paymentsLookup,
     countryLookup,
-    proofLookup,
     translationLookup,
     route,
     title,
   },
-  data: { payments, country, proof, translation },
+  data: { payments, country, translation },
 }) {
   const tableData = {
     country,
@@ -99,7 +92,7 @@ export default function BeneficiaryTemplate({
           {!!node.beneficiaryGroup && <BeneficiaryGroup {...node} />}
         </CardsWrapper>
         <AttributeCard data={tableData} linkColor={schema.color} />
-        <DataCard color="secondary" {...proof} />
+        <DataCard color="secondary"  />
       </OverviewGrid>
       <Typography variant="h4" gutterBottom>
         Funding

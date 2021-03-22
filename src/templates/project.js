@@ -24,7 +24,6 @@ export const query = graphql`
     $projectLookup: String!
     $programLookup: String!
     $euroscivocLookup: [String!]
-    $proofLookup: String!
     $translationsLookup: [String!]
   ) {
     payments: allPaymentsJson(filter: { purpose: { eq: $projectLookup } }) {
@@ -50,6 +49,7 @@ export const query = graphql`
       description
       dataDescription
       fileName
+      fileSize
       url
     }
     euroscivoc: allEuroscivocJson(filter: { key: { in: $euroscivocLookup } }) {
@@ -57,10 +57,6 @@ export const query = graphql`
         key
         name
       }
-    }
-    proof: documentsJson(id: { eq: $proofLookup }) {
-      fileName
-      fileSize
     }
     translations: allTranslationsJson(
       filter: { key: { in: $translationsLookup } }
@@ -127,12 +123,11 @@ export default function ProjectTemplate({
     projectLookup,
     programLookup,
     euroscivocLookup,
-    proofLookup,
     translationsLookup,
     route,
     title,
   },
-  data: { payments, program, programMeta, proof, euroscivoc, translations },
+  data: { payments, program, programMeta, euroscivoc, translations },
 }) {
   const classes = useStyles()
   const isf = program.name === "Internal Security Fund"
@@ -166,7 +161,6 @@ export default function ProjectTemplate({
           <CardsWrapper>
             <DataCard
               sourceUrl={!hasCallCard && node.sourceUrl}
-              {...proof}
               {...programMeta}
             />
             {hasCallCard && (
