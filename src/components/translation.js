@@ -1,14 +1,15 @@
 import React from "react"
+import { graphql } from "gatsby"
 import FormControlLabel from "@material-ui/core/FormControlLabel"
 import FormControl from "@material-ui/core/FormControl"
 import Switch from "@material-ui/core/Switch"
 import Tooltip from "@material-ui/core/Tooltip"
 import Flag from "./flag"
 
-export default ({ original, translations }) => {
-  const translation = translations.find(({ key }) => key === original)
+export default ({ original, translations, identifier }) => {
+  const translation = translations.find(({ key }) => key.indexOf(identifier) > -1)
   if (!!translation) {
-    const { key, value, language } = translation
+    const { translated, language } = translation
     const [toggled, toggle] = React.useState(false)
     const msg = toggled ? "Show translation" : "Show original"
     return (
@@ -30,10 +31,18 @@ export default ({ original, translations }) => {
             />
           </FormControl>
         </Tooltip>
-        {toggled ? key : value}
+        {toggled ? original : translated}
       </span>
     )
   } else {
     return <>{original}</>
   }
 }
+
+export const query = graphql`
+  fragment TranslationFragment on TranslationsJson {
+    key: name
+    translated: description
+    language: country
+  }
+`

@@ -5,40 +5,30 @@ import CardContent from "@material-ui/core/CardContent"
 import Typography from "@material-ui/core/Typography"
 import Layout from "../components/layout"
 import OverviewGrid from "../components/overviewGrid"
-import PaymentsTable from "../components/paymentsTable"
+import ParticipationsTable from "../components/participationsTable"
 import AttributeCard from "../components/attributeCard"
 import AmountCard from "../components/amountCard"
 import Viz from "../components/viz"
 import { BeneficiaryGroupSchema } from "../schema"
 
 export const query = graphql`
-  query beneficiaryGroupPayments($paymentsLookup: String!) {
-    payments: allPaymentsJson(
-      filter: { beneficiary_parent: { eq: $paymentsLookup } }
+  query beneficiaryGroupParticipations($foreignId: String!) {
+    participations: allParticipationsJson(
+      filter: { beneficiaryGroupId: { eq: $foreignId } }
     ) {
       nodes {
-        id
-        beneficiaryName
-        notes
-        program
-        purpose
-        amount
-        startDate
-        endDate
-        legalForm
-        country
+        ...ParticipationFragment
       }
     }
   }
 `
 
 export default function BeneficiaryTemplate({
-  pageContext: { node, paymentsLookup, route, title },
-  data: { payments },
+  pageContext: { node, foreignId, route, title },
+  data: { participations },
 }) {
   const tableData = {
     projects_involved: node.projects,
-    payments: node.payments,
     activity_start: node.startDate,
     activity_end: node.endDate,
   }
@@ -58,7 +48,7 @@ export default function BeneficiaryTemplate({
             beneficiaries.
             <Viz
               use="fundingPerBeneficiary"
-              data={payments.nodes}
+              data={participations.nodes}
               color={BeneficiaryGroupSchema.color}
             />
           </CardContent>
@@ -71,7 +61,7 @@ export default function BeneficiaryTemplate({
       <Typography variant="h4" component="h2" gutterBottom>
         Funding
       </Typography>
-      <PaymentsTable rows={payments.nodes} color={BeneficiaryGroupSchema.color} />
+      <ParticipationsTable rows={participations.nodes} color={BeneficiaryGroupSchema.color} />
     </Layout>
   )
 }

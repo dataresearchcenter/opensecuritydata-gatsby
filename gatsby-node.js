@@ -40,6 +40,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
         edges {
           node {
             id
+            foreign_id
             name
             description
             program
@@ -66,7 +67,6 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
             beneficiaries
             programs
             projects
-            payments
             amount
             endDate
             startDate
@@ -77,6 +77,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
         edges {
           node {
             id
+            foreign_id
             name
             country
             legalForm
@@ -84,7 +85,6 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
             website
             programs
             projects
-            payments
             amount
             endDate
             startDate
@@ -102,7 +102,6 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
             iso
             projects
             beneficiaries
-            payments
             amount
             startDate
             endDate
@@ -116,7 +115,6 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
             name
             projects
             beneficiaries
-            payments
             amount
             startDate
             endDate
@@ -130,7 +128,6 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
             descendants
             key
             name
-            payments
             beneficiaries
             projects
             programs
@@ -148,7 +145,6 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
             callName
             callId
             workProgram
-            payments
             beneficiaries
             projects
             programs
@@ -191,21 +187,17 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
 
   // projects
   result.data.allProjectsJson.edges.forEach(({ node }) => {
-    const translationsLookup = [node.name]
-    if (!!node.description) {
-      translationsLookup.push(node.description)
-    }
     createPage({
       path: `/projects/${slugify(node.name)}`,
       component: require.resolve(`./src/templates/project.js`),
       context: {
         node,
+        foreignId: node.foreign_id,
         projectLookup: node.name,
         programLookup: node.program,
         euroscivocLookup: (JSON.parse(node.euroscivoc) || []).map(i =>
           i.substring(1)
         ),
-        translationsLookup,
         route: `Projects`,
         title: node.name,
       },
@@ -219,9 +211,8 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
       component: require.resolve(`./src/templates/beneficiary.js`),
       context: {
         node,
-        paymentsLookup: node.id,
+        foreignId: node.foreign_id,
         countryLookup: node.country,
-        translationLookup: node.name,
         route: `Beneficiaries`,
         title: node.name,
       },
@@ -235,7 +226,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
       component: require.resolve(`./src/templates/beneficiaryGroup.js`),
       context: {
         node,
-        paymentsLookup: node.foreign_id,
+        foreignId: node.foreign_id,
         route: `Beneficiary groups`,
         title: node.name,
       },

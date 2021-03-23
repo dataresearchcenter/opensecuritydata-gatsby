@@ -54,7 +54,7 @@ const SCHEMA = {
   },
   g: {
     schema: "LegalEntity",
-    label: "Beneficiary Group",
+    label: "Beneficiary group",
     path: "beneficiaries/groups",
     getLink: links.getBeneficiaryGroupLink,
     color: "secondary",

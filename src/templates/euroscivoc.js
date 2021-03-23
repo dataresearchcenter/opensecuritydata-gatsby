@@ -39,7 +39,6 @@ export const query = graphql`
         program
         beneficiaries
         amount
-        payments
         startDate
         endDate
       }

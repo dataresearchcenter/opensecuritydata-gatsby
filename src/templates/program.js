@@ -6,7 +6,7 @@ import OverviewGrid from "../components/overviewGrid"
 import Tabs from "../components/tabs"
 import ProgramCard from "../components/programCard"
 import ProjectsTable from "../components/projectsTable"
-import PaymentsTable from "../components/paymentsTable"
+import ParticipationsTable from "../components/participationsTable"
 import AmountCard from "../components/amountCard"
 import AttributeCard from "../components/attributeCard"
 import CardsWrapper from "../components/cardsWrapper"
@@ -21,7 +21,6 @@ export const programQuery = graphql`
         name
         program
         beneficiaries
-        payments
         amount
         startDate
         endDate
@@ -29,18 +28,9 @@ export const programQuery = graphql`
         workProgram
       }
     }
-    payments: allPaymentsJson(filter: { program: { eq: $lookup } }) {
+    participations: allParticipationsJson(filter: { program: { eq: $lookup } }) {
       nodes {
-        id
-        beneficiaryName
-        notes
-        purpose
-        program
-        amount
-        startDate
-        endDate
-        legalForm
-        country
+        ...ParticipationFragment
       }
     }
     meta: programMetaJson(name: { eq: $lookup }) {
@@ -54,7 +44,7 @@ export const programQuery = graphql`
 
 export default function ProgramTemplate({
   pageContext: { node, lookup, route, title },
-  data: { payments, projects, meta },
+  data: { participations, projects, meta },
 }) {
   const isf = node.name === "Internal Security Fund"
   return (
@@ -65,7 +55,7 @@ export default function ProgramTemplate({
       <OverviewGrid>
         <AmountCard
           color={ProgramSchema.color}
-          viz={<Viz use="fundingPerCountry" data={payments.nodes} />}
+          viz={<Viz use="fundingPerCountry" data={participations.nodes} />}
           {...node}
         />
         <CardsWrapper>
@@ -84,7 +74,7 @@ export default function ProgramTemplate({
             }}
           />
         </CardsWrapper>
-        <VizCard use="fundingPerYear" data={payments.nodes} />
+        <VizCard use="fundingPerYear" data={participations.nodes} />
       </OverviewGrid>
       <Tabs
         indicatorColor={ProgramSchema.color}
@@ -96,9 +86,9 @@ export default function ProgramTemplate({
           rows={projects.nodes}
           exclude={["program"]}
         />
-        <PaymentsTable
+        <ParticipationsTable
           title="Beneficiaries"
-          rows={payments.nodes}
+          rows={participations.nodes}
           exclude={[
             "program",
             "startDate",

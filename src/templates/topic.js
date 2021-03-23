@@ -3,7 +3,7 @@ import { graphql } from "gatsby"
 import Typography from "@material-ui/core/Typography"
 import Layout from "../components/layout"
 import OverviewGrid from "../components/overviewGrid"
-import PaymentsTable from "../components/paymentsTable"
+import ParticipationsTable from "../components/participationsTable"
 import AmountCard from "../components/amountCard"
 import AttributeCard from "../components/attributeCard"
 import Flag from "../components/flag"
@@ -14,18 +14,9 @@ import { TopicSchema } from "../schema"
 
 export const query = graphql`
   query topicQuery($lookup: String!) {
-    payments: allPaymentsJson(filter: { topicName: { eq: $lookup } }) {
+    participations: allParticipationsJson(filter: { topicName: { eq: $lookup } }) {
       nodes {
-        id
-        beneficiaryName
-        notes
-        amount
-        startDate
-        endDate
-        purpose
-        program
-        legalForm
-        country
+        ...ParticipationFragment
       }
     }
   }
@@ -33,11 +24,10 @@ export const query = graphql`
 
 export default function TopicTemplate({
   pageContext: { node, lookup, route, title },
-  data: { payments },
+  data: { participations },
 }) {
   const attributeData = {
     beneficiaries: node.beneficiaries,
-    payments: node.payments,
     projects: node.projects,
     activity_start: node.startDate,
     activity_end: node.endDate,
@@ -51,19 +41,19 @@ export default function TopicTemplate({
       <OverviewGrid>
         <AmountCard
           color={TopicSchema.color}
-          viz={<Viz use="fundingPerProgram" data={payments.nodes} />}
+          viz={<Viz use="fundingPerProgram" data={participations.nodes} />}
           {...node}
         />
         <AttributeCard data={attributeData} />
         <CardsWrapper>
-          <VizCard use="fundingPerYear" data={payments.nodes} />
+          <VizCard use="fundingPerYear" data={participations.nodes} />
           {node.callName && <CallCard color={TopicSchema.color} {...node} />}
         </CardsWrapper>
       </OverviewGrid>
       <Typography variant="h4" component="h2" gutterBottom>
         Funding
       </Typography>
-      <PaymentsTable rows={payments.nodes} />
+      <ParticipationsTable rows={participations.nodes} />
     </Layout>
   )
 }

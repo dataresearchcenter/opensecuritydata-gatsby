@@ -50,25 +50,33 @@ export function renderBeneficiary({ value, row }) {
   )
 }
 
-export function onCellClick({ field, row }, getLink) {
+export function onCellClick(data, beneficiaryField, onRowClick) {
+  const { field, row } = data
   switch (field) {
     case "program":
       navigate(links.getProgramLink({ name: row.program }))
       break
-    case "purpose":
-      navigate(links.getProjectLink({ name: row.purpose }))
+    case "project":
+      navigate(links.getProjectLink({ name: row.project }))
       break
     case "country":
       navigate(links.getCountryLink({ iso: row.country }))
       break
-    case "beneficiaryName":
-      navigate(links.getBeneficiaryLink({ name: row.beneficiaryName }))
+    case beneficiaryField:
+      if (!!row.legalForm) {
+        navigate(SCHEMA[row.legalForm].getLink({ name: row[beneficiaryField] }))
+      } else {
+        navigate(links.getBeneficiaryLink({ name: row[beneficiaryField] }))
+      }
       break
     default:
-      getLink
-        ? navigate(getLink(row))
-        : row.beneficiaryName &&
-          navigate(links.getBeneficiaryLink({ name: row.beneficiaryName }))
+      if (!!onRowClick) {
+        onRowClick && onRowClick(data)
+      } else if (!!row.legalForm) {
+        navigate(SCHEMA[row.legalForm].getLink({ name: row[beneficiaryField] }))
+      } else {
+        navigate(links.getBeneficiaryLink({ name: row[beneficiaryField] }))
+      }
   }
 }
 
@@ -110,6 +118,8 @@ const DataTable = ({
   color = "primary",
   filters = [],
   pageSize = 10,
+  beneficiaryField = "beneficiaryName",
+  onRowClick,
   ...props
 }) => {
   const classes = useStyles({ color })
@@ -232,7 +242,7 @@ const DataTable = ({
           autoHeight
           disableSelectionOnClick
           hideFooter={activeRows.length < initialPageSize + 1}
-          onCellClick={onCellClick}
+          onCellClick={data => onCellClick(data, beneficiaryField, onRowClick)}
           onPageChange={handlePageChange}
           onPageSizeChange={handlePageSizeChange}
           sortingOrder={["desc", "asc", null]}

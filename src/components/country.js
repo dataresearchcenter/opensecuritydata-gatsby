@@ -14,7 +14,7 @@ export default ({ name, iso, data, ...props }) => {
   }
   return (
     <Link to={getCountryLink({ iso })} {...props}>
-      <Flag iso={iso} /> {name ? name : null}
+      <Flag iso={iso} />{name || iso.toUpperCase()}
     </Link>
   )
 }

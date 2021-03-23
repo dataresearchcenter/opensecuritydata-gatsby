@@ -1,9 +1,7 @@
 import React from "react"
-import { getBeneficiaryLink } from "../links"
 import DataTable, {
   renderBeneficiary,
   renderCell,
-  onCellClick,
   numericSort,
 } from "./tableUtil"
 
@@ -50,12 +48,12 @@ const columns = [
   },
 ]
 
-const BeneficiariesTable = ({ rows, ...props }) => (
+const BeneficiariesTable = ({ rows, exclude = [], ...props }) => (
   <DataTable
     rows={rows}
-    columns={columns}
+    columns={columns.filter(({ field }) => exclude.indexOf(field) < 0)}
     filters={["country", "legalForm"]}
-    onCellClick={data => onCellClick(data, getBeneficiaryLink)}
+    beneficiaryField="name"
     {...props}
   />
 )

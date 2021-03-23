@@ -3,7 +3,7 @@ import { graphql } from "gatsby"
 import Typography from "@material-ui/core/Typography"
 import Layout from "../components/layout"
 import OverviewGrid from "../components/overviewGrid"
-import PaymentsTable from "../components/paymentsTable"
+import ParticipationsTable from "../components/participationsTable"
 import AmountCard from "../components/amountCard"
 import AttributeCard from "../components/attributeCard"
 import { TagSchema } from "../schema"
@@ -11,18 +11,9 @@ import Viz, { VizCard } from "../components/viz"
 
 export const query = graphql`
   query tagQuery($lookup: String!) {
-    payments: allPaymentsJson(filter: { tags: { regex: $lookup } }) {
+    participations: allParticipationsJson(filter: { tags: { regex: $lookup } }) {
       nodes {
-        id
-        beneficiaryName
-        notes
-        amount
-        startDate
-        endDate
-        purpose
-        program
-        legalForm
-        country
+        ...ParticipationFragment
       }
     }
   }
@@ -30,11 +21,10 @@ export const query = graphql`
 
 export default function countryTemplate({
   pageContext: { node, lookup, route, title },
-  data: { payments },
+  data: { participations },
 }) {
   const attributeData = {
     beneficiaries: node.beneficiaries,
-    payments: node.payments,
     projects: node.projects,
     activity_start: node.startDate,
     activity_end: node.endDate,
@@ -47,16 +37,16 @@ export default function countryTemplate({
       <OverviewGrid>
         <AmountCard
           color={TagSchema.color}
-          viz={<Viz use="fundingPerProgram" data={payments.nodes} />}
+          viz={<Viz use="fundingPerProgram" data={participations.nodes} />}
           {...node}
         />
         <AttributeCard data={attributeData} />
-        <VizCard use="fundingPerYear" data={payments.nodes} />
+        <VizCard use="fundingPerYear" data={participations.nodes} />
       </OverviewGrid>
       <Typography variant="h4" component="h2" gutterBottom>
         Funding
       </Typography>
-      <PaymentsTable rows={payments.nodes} />
+      <ParticipationsTable rows={participations.nodes} />
     </Layout>
   )
 }

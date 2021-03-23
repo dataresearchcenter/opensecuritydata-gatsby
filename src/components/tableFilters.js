@@ -80,7 +80,7 @@ const TableFilters = ({
           label: (
             <>
               <Flag iso={i.value} />
-              {CountryNames[i.value]}
+              {CountryNames[i.value] || i.value?.toUpperCase() || "Unknown"}
             </>
           ),
         }))

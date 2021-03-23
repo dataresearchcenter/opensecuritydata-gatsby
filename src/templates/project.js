@@ -9,7 +9,7 @@ import Layout from "../components/layout"
 import OverviewGrid from "../components/overviewGrid"
 import ProgramCard from "../components/programCard"
 import DataCard from "../components/dataCard"
-import PaymentsTable from "../components/paymentsTable"
+import ParticipationsTable from "../components/participationsTable"
 import AmountCard from "../components/amountCard"
 import AttributeCard from "../components/attributeCard"
 import Translated from "../components/translation"
@@ -21,28 +21,22 @@ import { getEuroSciVocLink, getTagLink } from "../links"
 
 export const query = graphql`
   query projectQuery(
+    $foreignId: String!
     $projectLookup: String!
     $programLookup: String!
     $euroscivocLookup: [String!]
-    $translationsLookup: [String!]
   ) {
-    payments: allPaymentsJson(filter: { purpose: { eq: $projectLookup } }) {
+    participations: allParticipationsJson(
+      filter: { project: { eq: $projectLookup } }
+    ) {
       nodes {
-        id
-        beneficiaryName
-        notes
-        amount
-        startDate
-        endDate
-        legalForm
-        country
+        ...ParticipationFragment
       }
     }
     program: programsJson(name: { eq: $programLookup }) {
       name
       projects
       beneficiaries
-      payments
       amount
     }
     programMeta: programMetaJson(name: { eq: $programLookup }) {
@@ -58,13 +52,9 @@ export const query = graphql`
         name
       }
     }
-    translations: allTranslationsJson(
-      filter: { key: { in: $translationsLookup } }
-    ) {
+    translations: allTranslationsJson(filter: { entity: { eq: $foreignId } }) {
       nodes {
-        language
-        key
-        value
+        ...TranslationFragment
       }
     }
   }
@@ -91,7 +81,11 @@ const ProjectTitle = ({ name, translations }) => {
   if (!!translations) {
     return (
       <Typography variant="h3" component="h1">
-        <Translated original={name} translations={translations} />
+        <Translated
+          original={name}
+          translations={translations}
+          identifier="title"
+        />
         {ProjectSchema.chip()}
       </Typography>
     )
@@ -120,14 +114,14 @@ const ProjectTitle = ({ name, translations }) => {
 export default function ProjectTemplate({
   pageContext: {
     node,
+    foreignId,
     projectLookup,
     programLookup,
     euroscivocLookup,
-    translationsLookup,
     route,
     title,
   },
-  data: { payments, program, programMeta, euroscivoc, translations },
+  data: { participations, program, programMeta, euroscivoc, translations },
 }) {
   const classes = useStyles()
   const isf = program.name === "Internal Security Fund"
@@ -144,7 +138,7 @@ export default function ProjectTemplate({
         <OverviewGrid>
           <AmountCard
             color={ProjectSchema.color}
-            viz={<Viz use="fundingPerCountry" data={payments.nodes} />}
+            viz={<Viz use="fundingPerCountry" data={participations.nodes} />}
             hideCaption
             {...node}
           />
@@ -163,12 +157,7 @@ export default function ProjectTemplate({
               sourceUrl={!hasCallCard && node.sourceUrl}
               {...programMeta}
             />
-            {hasCallCard && (
-              <CallCard
-                color={ProjectSchema.color}
-                {...node}
-              />
-            )}
+            {hasCallCard && <CallCard color={ProjectSchema.color} {...node} />}
           </CardsWrapper>
         </OverviewGrid>
         {node.description?.length > 0 && (
@@ -231,10 +220,10 @@ export default function ProjectTemplate({
         <Typography variant="h4" component="h3" gutterBottom>
           Funding
         </Typography>
-        <PaymentsTable
+        <ParticipationsTable
           title="Funding"
-          rows={payments.nodes}
-          exclude={["program", "purpose", isf ? "legalForm" : null]}
+          rows={participations.nodes}
+          exclude={["program", "project", isf ? "legalForm" : null]}
         />
       </section>
     </Layout>

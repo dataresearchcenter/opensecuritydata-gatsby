@@ -5,7 +5,7 @@ import Layout from "../components/layout"
 import BeneficiariesTable from "../components/beneficiariesTable"
 
 export const query = graphql`
-  query BeneficiariesQuery {
+  query {
     allBeneficiariesJson {
       nodes {
         id
@@ -13,7 +13,6 @@ export const query = graphql`
         legalForm
         country
         programs
-        payments
         amount
         projects
         startDate

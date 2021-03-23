@@ -38,13 +38,13 @@ const getLabel = (label, grouper = null) =>
     ? [label.split(" - ")[0], label]
     : [label, label]
 
-const getGroupedData = (payments, grouper, getLink) => {
-  const data = [...new Set(payments.map(d => d[grouper]))]
+const getGroupedData = (participations, grouper, getLink) => {
+  const data = [...new Set(participations.map(d => d[grouper]))]
     .filter(g => !!g)
     .map(g => ({
       label: getLabel(g, grouper),
       url: getLink(g),
-      value: payments.filter(d => g === d[grouper]).reduce(sum, 0),
+      value: participations.filter(d => g === d[grouper]).reduce(sum, 0),
     }))
     .map(addAmountLabel)
   data.sort((a, b) => b.value - a.value)
@@ -52,14 +52,14 @@ const getGroupedData = (payments, grouper, getLink) => {
 }
 
 const VISUALIZATIONS = {
-  fundingPerYear: payments => {
-    payments = payments.filter(({ startDate }) => !!startDate)
+  fundingPerYear: participations => {
+    participations = participations.filter(({ startDate }) => !!startDate)
     const data = [
-      ...new Set(payments.map(({ startDate }) => startDate.substring(0, 4))),
+      ...new Set(participations.map(({ startDate }) => startDate.substring(0, 4))),
     ]
       .map(y => ({
         label: [y, y],
-        value: payments
+        value: participations
           .filter(({ startDate }) => startDate.indexOf(y) === 0)
           .reduce(sum, 0),
       }))
@@ -70,31 +70,31 @@ const VISUALIZATIONS = {
       title: "Funding per year",
     }
   },
-  fundingPerCountry: payments => {
+  fundingPerCountry: participations => {
     return {
-      data: getGroupedData(payments, "country", iso => getCountryLink({ iso })),
+      data: getGroupedData(participations, "country", iso => getCountryLink({ iso })),
       title: "Funding per country",
     }
   },
-  fundingPerProject: payments => {
+  fundingPerProject: participations => {
     return {
-      data: getGroupedData(payments, "purpose", name =>
+      data: getGroupedData(participations, "project", name =>
         getProjectLink({ name })
       ),
       title: "Funding per project",
     }
   },
-  fundingPerProgram: payments => {
+  fundingPerProgram: participations => {
     return {
-      data: getGroupedData(payments, "program", name =>
+      data: getGroupedData(participations, "program", name =>
         getProgramLink({ name })
       ),
       title: "Funding per program",
     }
   },
-  fundingPerBeneficiary: payments => {
+  fundingPerBeneficiary: participations => {
     return {
-      data: getGroupedData(payments, "beneficiaryName", name =>
+      data: getGroupedData(participations, "beneficiaryName", name =>
         getBeneficiaryLink({ name })
       ),
       title: "Funding per beneficiary",

@@ -5,7 +5,7 @@ import { useTheme } from "@material-ui/core/styles"
 import Typography from "@material-ui/core/Typography"
 import LinearProgress from "@material-ui/core/LinearProgress"
 import Layout from "../components/layout"
-import PaymentsTable from "../components/paymentsTable"
+import ParticipationsTable from "../components/participationsTable"
 import YearRangeSelector, { START, END } from "../components/yearRangeSelector"
 import SearchStore from "../searchStore"
 import { SearchField } from "../components/search"
@@ -14,25 +14,16 @@ import { getLocationParam, updateLocationParams } from "../util"
 
 export const query = graphql`
   query {
-    payments: allPaymentsJson {
+    participations: allParticipationsJson {
       nodes {
-        id
-        program
-        purpose
-        beneficiaryName
-        notes
-        amount
-        startDate
-        endDate
-        legalForm
-        country
+        ...ParticipationFragment
       }
     }
   }
 `
 
 const SearchableTable = ({
-  payments,
+  participations,
   query,
   years: [start, end],
   searchData: { index, store },
@@ -46,12 +37,12 @@ const SearchableTable = ({
   const entities = results
     .filter(({ schema }) => EntitySchemaKeys.indexOf(schema) > -1)
     .map(p => p.name)
-  const filteredRows = payments.filter(
-    ({ purpose, beneficiaryName }) =>
-      projects.indexOf(purpose) > -1 || entities.indexOf(beneficiaryName) > -1
+  const filteredRows = participations.filter(
+    ({ project, beneficiaryName }) =>
+      projects.indexOf(project) > -1 || entities.indexOf(beneficiaryName) > -1
   )
 
-  const rows = (filteredRows.length > 0 ? filteredRows : payments)
+  const rows = (filteredRows.length > 0 ? filteredRows : participations)
     .filter(({ startDate }) => parseInt(startDate?.slice(0, 4)) >= start)
     .filter(({ endDate }) => parseInt(endDate?.slice(0, 4)) <= end)
 
@@ -75,12 +66,12 @@ const SearchableTable = ({
         </Typography>
       )}
 
-      <PaymentsTable rows={rows} pageSize={25} />
+      <ParticipationsTable rows={rows} pageSize={25} />
     </>
   )
 }
 
-const SearchPage = ({ data: { payments } }) => {
+const SearchPage = ({ data: { participations } }) => {
   const theme = useTheme()
   const color = theme.palette.primary.light
 
@@ -140,7 +131,7 @@ const SearchPage = ({ data: { payments } }) => {
       </div>
       {searchData ? (
         <SearchableTable
-          payments={payments.nodes}
+          participations={participations.nodes}
           years={years}
           searchData={searchData}
           query={query}

@@ -13,7 +13,6 @@ export const query = graphql`
         program
         beneficiaries
         amount
-        payments
         callName
         workProgram
       }
