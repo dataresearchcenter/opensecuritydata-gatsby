@@ -42,9 +42,15 @@ const SearchableTable = ({
       projects.indexOf(project) > -1 || entities.indexOf(beneficiaryName) > -1
   )
 
+  // filter for selected year range, include entries without dates if year range
+  // is default [START, END] year range
   const rows = (filteredRows.length > 0 ? filteredRows : participations)
-    .filter(({ startDate }) => parseInt(startDate?.slice(0, 4)) >= start)
-    .filter(({ endDate }) => parseInt(endDate?.slice(0, 4)) <= end)
+    .filter(({ startDate }) =>
+      startDate ? parseInt(startDate?.slice(0, 4)) >= start : start === START
+    )
+    .filter(({ endDate }) =>
+      endDate ? parseInt(endDate?.slice(0, 4)) <= end : end === END
+    )
 
   return (
     <>
@@ -108,11 +114,7 @@ const SearchPage = ({ data: { participations } }) => {
       <Typography variant="h3" gutterBottom>
         Advanced search
       </Typography>
-      <SearchField
-        query={initialQuery}
-        handleChange={setQuery}
-        withReset
-      />
+      <SearchField query={initialQuery} handleChange={setQuery} withReset />
       <div style={yearSelectStyle}>
         {start === START && end === END ? (
           <Typography variant="h6">All years</Typography>
