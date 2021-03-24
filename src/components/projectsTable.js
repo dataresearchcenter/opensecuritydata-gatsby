@@ -3,8 +3,6 @@ import { navigate } from "gatsby"
 import DataTable, { renderCell, numericSort } from "./tableUtil"
 import { getProjectLink } from "../links"
 
-const render = ({ field, value }) => renderCell(field, value)
-
 const columns = [
   { field: "name", headerName: "Name", width: 400 },
   {
@@ -21,7 +19,7 @@ const columns = [
     field: "amount",
     headerName: "Total amount",
     width: 150,
-    renderCell: render,
+    renderCell,
     sortComparator: numericSort,
   },
   {
@@ -35,13 +33,13 @@ const columns = [
     field: "startDate",
     headerName: "Project start",
     width: 150,
-    renderCell: render,
+    renderCell,
   },
   {
     field: "endDate",
     headerName: "Project end",
     width: 150,
-    renderCell: render,
+    renderCell,
   },
 ]
 

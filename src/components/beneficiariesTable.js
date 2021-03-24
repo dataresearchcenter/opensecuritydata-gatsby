@@ -5,8 +5,6 @@ import DataTable, {
   numericSort,
 } from "./tableUtil"
 
-const render = ({ field, value }) => renderCell(field, value)
-
 const columns = [
   {
     field: "name",
@@ -18,7 +16,7 @@ const columns = [
     field: "amount",
     headerName: "Total amount",
     width: 150,
-    renderCell: render,
+    renderCell,
     sortComparator: numericSort,
   },
   {
@@ -31,19 +29,19 @@ const columns = [
     field: "startDate",
     headerName: "Active from",
     width: 150,
-    renderCell: render,
+    renderCell,
   },
   {
     field: "endDate",
     headerName: "Active until",
     width: 150,
-    renderCell: render,
+    renderCell,
   },
-  { field: "country", headerName: "Country", renderCell: render, width: 100 },
+  { field: "country", headerName: "Country", renderCell, width: 100 },
   {
     field: "legalForm",
     headerName: "Legal form",
-    renderCell: render,
+    renderCell,
     width: 220,
   },
 ]

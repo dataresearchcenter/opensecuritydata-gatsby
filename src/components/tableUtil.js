@@ -17,16 +17,16 @@ import Country from "./country"
 import TableFilters from "./tableFilters"
 import TableDownload from "./tableDownload"
 
-export function renderCell(key, value, linkColor) {
+export function renderCell({ field, value, row }, linkColor = "primary") {
   if (!value) return value
-  if (key === "country") return <Country data={value} color={linkColor} />
-  if (key === "legalForm") return SCHEMA[value].chip({ variant: "outlined" })
-  if (key.indexOf("amount") > -1) return <Amount value={value} />
+  if (field === "country") return <Country data={value} color={linkColor} />
+  if (field === "legalForm") return SCHEMA[value].chip({ variant: "outlined" })
+  if (field.indexOf("amount") > -1) return <Amount value={value} {...row} />
   if (
-    key.indexOf("date") > -1 ||
-    key.indexOf("activity") > -1 ||
-    key.indexOf("start") > -1 ||
-    key.indexOf("end") > -1
+    field.indexOf("date") > -1 ||
+    field.indexOf("activity") > -1 ||
+    field.indexOf("start") > -1 ||
+    field.indexOf("end") > -1
   )
     return <Date date={value} />
   if (value.toString().indexOf("http") === 0)

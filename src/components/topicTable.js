@@ -23,7 +23,7 @@ const columns = [
     field: "amount",
     headerName: "Total amount",
     width: 200,
-    renderCell: ({ field, value }) => renderCell(field, value),
+    renderCell,
     sortComparator: numericSort,
   },
   {

@@ -18,7 +18,7 @@ const AttributeTable = ({ data, linkColor, ...rest }) => (
                 {k.replace("_", " ").replace(/^\w/, k[0].toUpperCase())}
               </TableCell>
               <TableCell align="right" style={{ paddingRight: 0 }}>
-                {renderCell(k, data[k], linkColor)}
+                {renderCell({ field: k, value: data[k] }, linkColor)}
               </TableCell>
             </TableRow>
           ))}
