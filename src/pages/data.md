@@ -29,8 +29,8 @@ plans. For example, to develop the EUROSUR border surveillance system, to
 implement the Passenger Name Record (PNR) system of air travel surveillance, or
 to construct the Entry/Exit System for monitoring border crossings.
 
-The data on the ISF included in this platform covers 18 EU member states and
-comes from the
+The data on the ISF included in this platform covers 18 EU member states and direct European Commission spending.
+It comes from the
 [European Commission website](https://ec.europa.eu/home-affairs/financing/fundings/overview_en),
 the [EU’s funding database](https://ec.europa.eu/info/funding-tenders/opportunities/portal/screen/opportunities/projects-results),
 the [EU Financial Transparency System](https://ec.europa.eu/budget/fts/index_en.htm),
