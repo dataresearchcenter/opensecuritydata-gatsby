@@ -20,7 +20,7 @@ exports.onCreateNode = ({ node, getNode, actions }) => {
 }
 
 exports.createPages = async ({ graphql, actions, reporter }) => {
-  const { createPage } = actions
+  const { createPage, createRedirect } = actions
   const result = await graphql(`
     query {
       allProgramsJson {
@@ -304,4 +304,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
       context: { slug: node.fields.slug },
     })
   })
+
+  // ionos configuration wtf
+  createRedirect({ fromPath: "/defaultsite", toPath: "/", isPermanent: true })
 }

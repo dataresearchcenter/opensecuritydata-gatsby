@@ -164,6 +164,7 @@ module.exports = {
         matomoJsScript: `matomo.js`,
       },
     },
+    `gatsby-plugin-client-side-redirect`, // keep it in last in list
   ],
   siteMetadata: {
     title: `Open Security Data Europe`,
