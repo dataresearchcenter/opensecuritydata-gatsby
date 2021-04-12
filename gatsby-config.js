@@ -24,12 +24,12 @@ module.exports = {
     `gatsby-transformer-remark`,
     `gatsby-theme-material-ui`,
     // `gatsby-plugin-netlify-cms`,
-    // {
-    //   resolve: `gatsby-plugin-sitemap`,
-    //   options: {
-    //     sitemapSize: 5000,
-    //   },
-    // },
+    {
+      resolve: `gatsby-plugin-sitemap`,
+      options: {
+        sitemapSize: 5000,
+      },
+    },
     {
       resolve: `gatsby-plugin-local-search`,
       options: {
