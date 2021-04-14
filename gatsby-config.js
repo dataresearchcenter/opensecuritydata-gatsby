@@ -165,9 +165,17 @@ module.exports = {
       },
     },
     `gatsby-plugin-client-side-redirect`, // keep it in last in list
+    `gatsby-plugin-react-helmet`,
   ],
   siteMetadata: {
     title: `Open Security Data Europe`,
-    siteUrl: `http://localhost:8000/`,
+    titleTemplate: `%s | Open Security Data Europe | opensecuritydata.eu`,
+    siteUrl: `https://opensecuritydata.eu`,
+    description: `Open Security Data Europe is a public platform aimed at
+    tracking and displaying how the European Union spends money on
+    security-related projects, including on topics related to policing, border
+    control, counter-terrorism and cybersecurity. The platform is a tool for
+    journalists, researchers, civil society organizations and others to better
+    understand the growing investments of the European Union in security.`,
   },
 }

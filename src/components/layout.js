@@ -23,6 +23,7 @@ import { Button, IconButton } from "gatsby-theme-material-ui"
 import SearchStore from "../searchStore"
 import Breadcrumbs from "./breadcrumbs"
 import SearchBar from "./searchBar"
+import SEO from "./seo"
 
 import "../fonts.css"
 
@@ -164,6 +165,7 @@ export default function Layout({ children, route, title, ...props }) {
   const classes = useStyles({ isMobile })
   return (
     <ThemeProvider theme={theme}>
+      <SEO />
       <CssBaseline />
       <section className={classes.root}>
         <HideOnScroll {...props}>
