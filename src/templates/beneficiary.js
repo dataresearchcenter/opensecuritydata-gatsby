@@ -29,13 +29,6 @@ export const query = graphql`
       iso
       name
     }
-    translations: allTranslationsJson(
-      filter: { entity: { eq: $foreignId } }
-    ) {
-      nodes {
-        ...TranslationFragment
-      }
-    }
   }
 `
 

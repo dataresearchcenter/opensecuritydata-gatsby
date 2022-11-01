@@ -8,7 +8,7 @@ import Link from "@material-ui/core/Link"
 import Tooltip from "@material-ui/core/Tooltip"
 import HelpOutlineIcon from "@material-ui/icons/HelpOutline"
 import { DataGrid } from "@material-ui/data-grid"
-import { getLocationParam, updateLocationParams } from "../util"
+import { getLocationParam, updateLocationParams, filterByScope } from "../util"
 import SCHEMA from "../schema"
 import links from "../links"
 import Amount from "./amount"
@@ -16,6 +16,7 @@ import Date from "./date"
 import Country from "./country"
 import TableFilters from "./tableFilters"
 import TableDownload from "./tableDownload"
+import ScopeSwitcher from "./scopeSwitcher"
 
 export function renderCell({ field, value, row }, linkColor = "primary") {
   if (!value) return value
@@ -117,6 +118,7 @@ const DataTable = ({
   columns,
   color = "primary",
   filters = [],
+  scopeSwitcher = false,
   pageSize = 10,
   beneficiaryField = "beneficiaryName",
   onRowClick,
@@ -206,6 +208,13 @@ const DataTable = ({
     applyFilters(activeFilters)
   }, [rows])
 
+  // switch scope military / non-military
+  const [scope, setScope] = useState(null)
+  useEffect(() => {
+    const newRows = filterByScope(rows, scope)
+    setActiveRows(newRows)
+  }, [scope])
+
   return (
     <div className={classes.root}>
       {rows.length > 1 && (
@@ -225,6 +234,9 @@ const DataTable = ({
           activeFilters={activeFilters}
           resetFilters={resetFilters}
         />
+      )}
+      {rows.length > 1 && !!scopeSwitcher && (
+        <ScopeSwitcher scope={scope} onChange={setScope} />
       )}
       <Grid container justify="flex-end">
         {activeRows.length > 0 && (

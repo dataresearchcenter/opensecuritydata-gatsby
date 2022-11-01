@@ -50,7 +50,6 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
             endDate
             sourceUrl
             topicName
-            euroscivoc
             tags
             callName
             callId
@@ -90,7 +89,6 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
             startDate
             beneficiaryGroup
             beneficiaryGroupId
-            notes
           }
         }
       }
@@ -115,22 +113,6 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
             name
             projects
             beneficiaries
-            amount
-            startDate
-            endDate
-          }
-        }
-      }
-      allEuroscivocJson {
-        edges {
-          node {
-            ancestor
-            descendants
-            key
-            name
-            beneficiaries
-            projects
-            programs
             amount
             startDate
             endDate
@@ -195,9 +177,6 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
         foreignId: node.foreign_id,
         projectLookup: node.name,
         programLookup: node.program,
-        euroscivocLookup: (JSON.parse(node.euroscivoc) || []).map(i =>
-          i.substring(1)
-        ),
         route: `Projects`,
         title: node.name,
       },
@@ -270,27 +249,6 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
         node,
         lookup: node.name,
         route: `Topics`,
-        title: node.name,
-      },
-    })
-  })
-
-  // euroscivoc
-  const pathSlugify = path =>
-    path
-      .split("/")
-      .map(p => slugify(p))
-      .join("/")
-  result.data.allEuroscivocJson.edges.forEach(({ node }) => {
-    createPage({
-      path: `/euroscivoc/${pathSlugify(node.key)}`,
-      component: require.resolve(`./src/templates/euroscivoc.js`),
-      context: {
-        node,
-        ancestorLookup: node.ancestor || "",
-        descendantsLookup: `/^${node.key}/`,
-        projectsLookup: `/${node.key.replace("/", "\\/")}/`,
-        route: `EuroSciVoc`,
         title: node.name,
       },
     })

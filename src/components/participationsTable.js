@@ -59,7 +59,6 @@ export const query = graphql`
   fragment ParticipationFragment on ParticipationsJson {
     id
     beneficiaryName
-    notes
     program
     project
     amount

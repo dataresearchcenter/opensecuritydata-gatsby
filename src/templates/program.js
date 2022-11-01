@@ -1,5 +1,9 @@
 import React from "react"
 import { graphql } from "gatsby"
+import { Link } from "gatsby-theme-material-ui"
+import styled from "@emotion/styled"
+import Paper from "@mui/material/Paper"
+import Chip from "@material-ui/core/Chip"
 import Typography from "@material-ui/core/Typography"
 import Layout from "../components/layout"
 import OverviewGrid from "../components/overviewGrid"
@@ -12,6 +16,13 @@ import AttributeCard from "../components/attributeCard"
 import CardsWrapper from "../components/cardsWrapper"
 import Viz, { VizCard } from "../components/viz"
 import { ProgramSchema } from "../schema"
+
+const ProgramHeader = styled(Paper)`
+  padding: 20px;
+  margin-bottom: 50px;
+  background-color: ${({ scope }) =>
+    scope === "military" ? "#f3e5f5" : "#e3f2fd"};
+`
 
 export const programQuery = graphql`
   query programProjects($lookup: String!) {
@@ -28,13 +39,16 @@ export const programQuery = graphql`
         workProgram
       }
     }
-    participations: allParticipationsJson(filter: { program: { eq: $lookup } }) {
+    participations: allParticipationsJson(
+      filter: { program: { eq: $lookup } }
+    ) {
       nodes {
         ...ParticipationFragment
       }
     }
     meta: programMetaJson(name: { eq: $lookup }) {
       description
+      scope
       fileName
       fileSize
       url
@@ -49,31 +63,19 @@ export default function ProgramTemplate({
   const isf = node.name === "Internal Security Fund"
   return (
     <Layout route={route} title={title}>
-      <Typography variant="h3" component="h1" gutterBottom>
-        {node.name} {ProgramSchema.chip()}
-      </Typography>
+      <ProgramHeader scope={meta.scope}>
+        <Typography variant="h3" component="h1" gutterBottom>
+          {node.name} {ProgramSchema.chip()} <Chip label={meta.scope} />
+        </Typography>
+        <Typography component="p">{meta.description}</Typography>
+        <Link to={meta.url}>More information on the EU website</Link>
+      </ProgramHeader>
       <OverviewGrid>
         <AmountCard
           color={ProgramSchema.color}
           viz={<Viz use="fundingPerCountry" data={participations.nodes} />}
           {...node}
         />
-        <CardsWrapper>
-          <ProgramCard
-            showName={false}
-            showData={false}
-            {...node}
-            {...meta}
-          />
-          <AttributeCard
-            data={{
-              projects: node.projects,
-              beneficiaries: node.beneficiaries,
-              activity_start: node.startDate,
-              activity_end: node.endDate,
-            }}
-          />
-        </CardsWrapper>
         <VizCard use="fundingPerYear" data={participations.nodes} />
       </OverviewGrid>
       <Tabs

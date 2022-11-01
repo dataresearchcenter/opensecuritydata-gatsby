@@ -1,6 +1,7 @@
 import React from "react"
 import { graphql } from "gatsby"
 import { makeStyles } from "@material-ui/core/styles"
+import styled from "@emotion/styled"
 import Paper from "@material-ui/core/Paper"
 import Chip from "@material-ui/core/Chip"
 import Typography from "@material-ui/core/Typography"
@@ -17,14 +18,20 @@ import Viz from "../components/viz"
 import CallCard from "../components/callCard.js"
 import CardsWrapper from "../components/cardsWrapper"
 import { ProjectSchema } from "../schema"
-import { getEuroSciVocLink, getTagLink } from "../links"
+import { getTagLink, getProgramLink } from "../links"
+
+const ProjectBlock = styled(Paper)`
+  padding: 20px;
+  margin-bottom: 50px;
+  background-color: ${({ scope }) =>
+    scope === "military" ? "#f3e5f5" : "#e3f2fd"};
+`
 
 export const query = graphql`
   query projectQuery(
     $foreignId: String!
     $projectLookup: String!
     $programLookup: String!
-    $euroscivocLookup: [String!]
   ) {
     participations: allParticipationsJson(
       filter: { project: { eq: $projectLookup } }
@@ -41,16 +48,11 @@ export const query = graphql`
     }
     programMeta: programMetaJson(name: { eq: $programLookup }) {
       description
+      scope
       dataDescription
       fileName
       fileSize
       url
-    }
-    euroscivoc: allEuroscivocJson(filter: { key: { in: $euroscivocLookup } }) {
-      nodes {
-        key
-        name
-      }
     }
     translations: allTranslationsJson(filter: { entity: { eq: $foreignId } }) {
       nodes {
@@ -66,7 +68,7 @@ const useStyles = makeStyles(theme => ({
     paddingBottom: theme.spacing(8),
   },
   description: {
-    padding: theme.spacing(2),
+    paddingTop: theme.spacing(2),
   },
   taxonomy: {
     marginTop: theme.spacing(4),
@@ -77,7 +79,7 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-const ProjectTitle = ({ name, translations }) => {
+const ProjectTitle = ({ name, translations, scope }) => {
   if (!!translations) {
     return (
       <Typography variant="h3" component="h1">
@@ -87,6 +89,7 @@ const ProjectTitle = ({ name, translations }) => {
           identifier="title"
         />
         {ProjectSchema.chip()}
+        <Chip label={scope} />
       </Typography>
     )
   }
@@ -96,6 +99,7 @@ const ProjectTitle = ({ name, translations }) => {
       <>
         <Typography variant="h3" component="h1">
           {mainname} {ProjectSchema.chip()}
+          <Chip label={scope} />
         </Typography>
         <Typography variant="h5" component="h2" gutterBottom>
           {subname.join(" - ")}
@@ -106,35 +110,75 @@ const ProjectTitle = ({ name, translations }) => {
     return (
       <Typography variant="h3" component="h1" gutterBottom>
         {name} {ProjectSchema.chip()}
+        <Chip label={scope} />
       </Typography>
     )
   }
 }
 
 export default function ProjectTemplate({
-  pageContext: {
-    node,
-    foreignId,
-    projectLookup,
-    programLookup,
-    euroscivocLookup,
-    route,
-    title,
-  },
-  data: { participations, program, programMeta, euroscivoc, translations },
+  pageContext: { node, foreignId, projectLookup, programLookup, route, title },
+  data: { participations, program, programMeta, translations },
 }) {
   const classes = useStyles()
   const isf = program.name === "Internal Security Fund"
   const tags = JSON.parse(node.tags || "[]")
   const hasCallCard = node.topicName || node.callName
+  const scope = programMeta.scope
 
   return (
     <Layout route={route} title={title.split("-")[0].trim()}>
-      <ProjectTitle name={node.name} translations={translations.nodes} />
-      <section className={classes.section}>
-        <Typography variant="h4" component="h3" gutterBottom>
-          Overview
+      <ProjectBlock scope={scope}>
+        <ProjectTitle
+          name={node.name}
+          translations={translations.nodes}
+          scope={scope}
+        />
+        <Typography component="p">
+          <strong>{node.name}</strong> is a project funded under the program{" "}
+          <Link to={getProgramLink({ name: node.program })}>
+            {node.program}
+          </Link>{" "}
+          which is part of the <strong>{programMeta.scope}</strong> funding from
+          the EU.
         </Typography>
+      </ProjectBlock>
+      {node.description?.length > 0 && (
+        <ProjectBlock scope={scope}>
+          <Typography variant="h5" component="h4" gutterBottom>
+            Description
+          </Typography>
+          <Typography component="div" variant="body1">
+            {translations.nodes ? (
+              <Translated
+                original={node.description}
+                translations={translations.nodes}
+              />
+            ) : (
+              node.description
+            )}
+          </Typography>
+        </ProjectBlock>
+      )}
+      {tags.length > 0 && (
+        <section className={classes.taxonomy}>
+          <Typography variant="h5" component="h4" gutterBottom>
+            Tags
+          </Typography>
+          {tags.map(c => (
+            <Chip
+              key={c}
+              className={classes.taxonomyChip}
+              color="primary"
+              label={c}
+              component={Link}
+              to={getTagLink({ name: c })}
+              clickable
+            />
+          ))}
+        </section>
+      )}
+      <section className={classes.section}>
         <OverviewGrid>
           <AmountCard
             color={ProjectSchema.color}
@@ -142,16 +186,15 @@ export default function ProjectTemplate({
             hideCaption
             {...node}
           />
-          <CardsWrapper>
-            <AttributeCard
-              data={{
-                beneficiaries: node.beneficiaries,
-                project_start: node.startDate,
-                project_end: node.endDate,
-              }}
-            />
-            <ProgramCard {...program} {...programMeta} />
-          </CardsWrapper>
+
+          <AttributeCard
+            data={{
+              beneficiaries: node.beneficiaries,
+              project_start: node.startDate,
+              project_end: node.endDate,
+            }}
+          />
+
           <CardsWrapper>
             <DataCard
               sourceUrl={!hasCallCard && node.sourceUrl}
@@ -160,61 +203,6 @@ export default function ProjectTemplate({
             {hasCallCard && <CallCard color={ProjectSchema.color} {...node} />}
           </CardsWrapper>
         </OverviewGrid>
-        {node.description?.length > 0 && (
-          <>
-            <Typography variant="h5" component="h4" gutterBottom>
-              Description
-            </Typography>
-            <Paper className={classes.description}>
-              <Typography component="div" variant="body1">
-                {translations.nodes ? (
-                  <Translated
-                    original={node.description}
-                    translations={translations.nodes}
-                  />
-                ) : (
-                  node.description
-                )}
-              </Typography>
-            </Paper>
-          </>
-        )}
-        {tags.length > 0 && (
-          <section className={classes.taxonomy}>
-            <Typography variant="h5" component="h4" gutterBottom>
-              Tags
-            </Typography>
-            {tags.map(c => (
-              <Chip
-                key={c}
-                className={classes.taxonomyChip}
-                color="primary"
-                label={c}
-                component={Link}
-                to={getTagLink({ name: c })}
-                clickable
-              />
-            ))}
-          </section>
-        )}
-        {euroscivoc.nodes.length > 1 && (
-          <section className={classes.taxonomy}>
-            <Typography variant="h5" component="h4" gutterBottom>
-              EuroSciVoc hierarchy
-            </Typography>
-            {euroscivoc.nodes.map(({ name, key }) => (
-              <Chip
-                variant="outlined"
-                className={classes.taxonomyChip}
-                key={key}
-                label={name}
-                component={Link}
-                to={getEuroSciVocLink({ key })}
-                clickable
-              />
-            ))}
-          </section>
-        )}
       </section>
       <section className={classes.section}>
         <Typography variant="h4" component="h3" gutterBottom>

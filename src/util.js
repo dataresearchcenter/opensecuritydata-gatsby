@@ -57,3 +57,18 @@ export function shuffleArray(arr) {
   }
   return arr
 }
+
+// DATA
+export function filterByScope(items, scope) {
+  const scopes = {
+    military: ["PADR", "EDIDP"],
+    nonMilitary: [
+      "FP7 Security",
+      "Horizon 2020",
+      "Horizon Europe",
+      "Internal Security Fund",
+    ],
+  }
+  if (!scope) return items
+  return items.filter(i => scopes[scope].indexOf(i.program) > -1)
+}

@@ -94,13 +94,6 @@ const SCHEMA = {
     getLink: links.getTopicLink,
     color: "primary",
   },
-  e: {
-    schema: "EuroSciVoc",
-    label: "EuroSciVoc",
-    path: "euroscivoc",
-    getLink: links.getEuroSciVocLink,
-    color: "primary",
-  },
 }
 
 Object.keys(SCHEMA).map(k => { // eslint-disable-line
