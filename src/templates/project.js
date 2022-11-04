@@ -3,10 +3,13 @@ import { graphql } from "gatsby"
 import { makeStyles } from "@material-ui/core/styles"
 import styled from "@emotion/styled"
 import Paper from "@material-ui/core/Paper"
+import Grid from "@material-ui/core/Grid"
 import Chip from "@material-ui/core/Chip"
 import Typography from "@material-ui/core/Typography"
 import { Link } from "gatsby-theme-material-ui"
 import Layout from "../components/layout"
+import Card from "@material-ui/core/Card"
+import CardContent from "@material-ui/core/CardContent"
 import OverviewGrid from "../components/overviewGrid"
 import ProgramCard from "../components/programCard"
 import DataCard from "../components/dataCard"
@@ -82,7 +85,7 @@ const useStyles = makeStyles(theme => ({
 const ProjectTitle = ({ name, translations, scope }) => {
   if (!!translations) {
     return (
-      <Typography variant="h3" component="h1">
+      <Typography variant="h3" component="h1" gutterBottom>
         <Translated
           original={name}
           translations={translations}
@@ -122,6 +125,7 @@ export default function ProjectTemplate({
 }) {
   const classes = useStyles()
   const isf = program.name === "Internal Security Fund"
+  const edidp = program.name === "EDIDP"
   const tags = JSON.parse(node.tags || "[]")
   const hasCallCard = node.topicName || node.callName
   const scope = programMeta.scope
@@ -160,60 +164,77 @@ export default function ProjectTemplate({
           </Typography>
         </ProjectBlock>
       )}
-      {tags.length > 0 && (
-        <section className={classes.taxonomy}>
-          <Typography variant="h5" component="h4" gutterBottom>
-            Tags
+      <Grid container spacing={4}>
+        <Grid item md={9}>
+          <Typography variant="h4" component="h3" gutterBottom>
+            Funding
           </Typography>
-          {tags.map(c => (
-            <Chip
-              key={c}
-              className={classes.taxonomyChip}
-              color="primary"
-              label={c}
-              component={Link}
-              to={getTagLink({ name: c })}
-              clickable
+          <ParticipationsTable
+            title="Funding"
+            rows={participations.nodes}
+            exclude={["program", "project", isf ? "legalForm" : null]}
+          />
+        </Grid>
+        <Grid item md={3}>
+          <OverviewGrid>
+            <AmountCard
+              color={ProjectSchema.color}
+              viz={<Viz use="fundingPerCountry" data={participations.nodes} />}
+              hideCaption
+              {...node}
             />
-          ))}
-        </section>
-      )}
-      <section className={classes.section}>
-        <OverviewGrid>
-          <AmountCard
-            color={ProjectSchema.color}
-            viz={<Viz use="fundingPerCountry" data={participations.nodes} />}
-            hideCaption
-            {...node}
-          />
 
-          <AttributeCard
-            data={{
-              beneficiaries: node.beneficiaries,
-              project_start: node.startDate,
-              project_end: node.endDate,
-            }}
-          />
+            {edidp ? (
+              <Card>
+                <CardContent>
+                  <Typography color="textSecondary" gutterBottom>
+                    Data
+                  </Typography>
+                  <Typography color="textSecondary" gutterBottom>
+                    Detailed data on specific payments for individual
+                    beneficiaries not available for this funding program.
+                  </Typography>
+                </CardContent>
+              </Card>
+            ) : (
+              <AttributeCard
+                data={{
+                  beneficiaries: node.beneficiaries,
+                  project_start: node.startDate,
+                  project_end: node.endDate,
+                }}
+              />
+            )}
 
-          <CardsWrapper>
             <DataCard
               sourceUrl={!hasCallCard && node.sourceUrl}
               {...programMeta}
             />
             {hasCallCard && <CallCard color={ProjectSchema.color} {...node} />}
-          </CardsWrapper>
-        </OverviewGrid>
-      </section>
-      <section className={classes.section}>
-        <Typography variant="h4" component="h3" gutterBottom>
-          Funding
-        </Typography>
-        <ParticipationsTable
-          title="Funding"
-          rows={participations.nodes}
-          exclude={["program", "project", isf ? "legalForm" : null]}
-        />
-      </section>
+
+            {tags.length > 0 && (
+              <Card>
+                <CardContent>
+                  <Typography variant="h5" component="h4" gutterBottom>
+                    Tags
+                  </Typography>
+                  {tags.map(c => (
+                    <Chip
+                      key={c}
+                      className={classes.taxonomyChip}
+                      color="primary"
+                      label={c}
+                      component={Link}
+                      to={getTagLink({ name: c })}
+                      clickable
+                    />
+                  ))}
+                </CardContent>
+              </Card>
+            )}
+          </OverviewGrid>
+        </Grid>
+      </Grid>
     </Layout>
   )
 }

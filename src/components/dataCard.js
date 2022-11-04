@@ -4,7 +4,6 @@ import CardContent from "@material-ui/core/CardContent"
 import Typography from "@material-ui/core/Typography"
 import Link from "@material-ui/core/Link"
 import LaunchIcon from "@material-ui/icons/Launch"
-import DataDownload from "./downloadData"
 
 const DefaultDescription = ({ color }) => (
   <>
@@ -35,12 +34,6 @@ const DataCard = ({
       <Typography color="textSecondary" variant="caption" component="p">
         {dataDescription || <DefaultDescription color={color} />}
       </Typography>
-      <DataDownload
-        fileName={fileName}
-        fileSize={fileSize}
-        color={color}
-        size="small"
-      />
       {sourceUrl && (
         <Link href={sourceUrl} color={color}>
           {sourceUrl} <LaunchIcon fontSize="small" />

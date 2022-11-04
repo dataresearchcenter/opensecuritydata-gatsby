@@ -1,5 +1,6 @@
 import React from "react"
 import { graphql } from "gatsby"
+import Grid from "@material-ui/core/Grid"
 import Card from "@material-ui/core/Card"
 import CardContent from "@material-ui/core/CardContent"
 import Typography from "@material-ui/core/Typography"
@@ -37,31 +38,40 @@ export default function BeneficiaryTemplate({
       <Typography variant="h3" component="h1" gutterBottom>
         {node.name} {BeneficiaryGroupSchema.chip()}
       </Typography>
-      <OverviewGrid>
-        <AmountCard color={BeneficiaryGroupSchema.color} {...node} />
-        <Card>
-          <CardContent>
-            <Typography color={BeneficiaryGroupSchema.color}>
-              {node.name}
-            </Typography>
-            is a global group consisting of {node.beneficiaries} sub
-            beneficiaries.
-            <Viz
-              use="fundingPerBeneficiary"
-              data={participations.nodes}
-              color={BeneficiaryGroupSchema.color}
+      <Grid container spacing={4}>
+        <Grid item md={9}>
+          <Typography variant="h4" component="h2" gutterBottom>
+            Funding
+          </Typography>
+          <ParticipationsTable
+            rows={participations.nodes}
+            color={BeneficiaryGroupSchema.color}
+          />
+        </Grid>
+        <Grid item md={3}>
+          <OverviewGrid>
+            <AmountCard color={BeneficiaryGroupSchema.color} {...node} />
+            <Card>
+              <CardContent>
+                <Typography color={BeneficiaryGroupSchema.color}>
+                  {node.name}
+                </Typography>
+                is a global group consisting of {node.beneficiaries} sub
+                beneficiaries.
+                <Viz
+                  use="fundingPerBeneficiary"
+                  data={participations.nodes}
+                  color={BeneficiaryGroupSchema.color}
+                />
+              </CardContent>
+            </Card>
+            <AttributeCard
+              data={tableData}
+              linkColor={BeneficiaryGroupSchema.color}
             />
-          </CardContent>
-        </Card>
-        <AttributeCard
-          data={tableData}
-          linkColor={BeneficiaryGroupSchema.color}
-        />
-      </OverviewGrid>
-      <Typography variant="h4" component="h2" gutterBottom>
-        Funding
-      </Typography>
-      <ParticipationsTable rows={participations.nodes} color={BeneficiaryGroupSchema.color} />
+          </OverviewGrid>
+        </Grid>
+      </Grid>
     </Layout>
   )
 }

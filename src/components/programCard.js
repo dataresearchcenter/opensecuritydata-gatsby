@@ -12,6 +12,7 @@ import { getProgramLink } from "../links"
 const ProgramCard = ({
   id,
   name,
+  title,
   projects,
   beneficiaries,
   amount,
@@ -34,7 +35,7 @@ const ProgramCard = ({
       )}
       {showName && (
         <Typography variant="h5" component="h2">
-          <Link to={getProgramLink({ name })}>{name}</Link>
+          <Link to={getProgramLink({ name })}>{title}</Link>
           <Chip label={scope} />
         </Typography>
       )}

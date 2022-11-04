@@ -1,11 +1,6 @@
 import React, { useState } from "react"
 import { useStaticQuery, graphql, navigate } from "gatsby"
-import {
-  ThemeProvider,
-  createMuiTheme,
-  makeStyles,
-  responsiveFontSizes,
-} from "@material-ui/core/styles"
+import { ThemeProvider, makeStyles } from "@material-ui/core/styles"
 import useMediaQuery from "@material-ui/core/useMediaQuery"
 import useScrollTrigger from "@material-ui/core/useScrollTrigger"
 import CssBaseline from "@material-ui/core/CssBaseline"
@@ -16,40 +11,18 @@ import Menu from "@material-ui/core/Menu"
 import Container from "@material-ui/core/Container"
 import Box from "@material-ui/core/Box"
 import Toolbar from "@material-ui/core/Toolbar"
+import Divider from "@material-ui/core/Divider"
 import Typography from "@material-ui/core/Typography"
 import HomeIcon from "@material-ui/icons/Home"
 import MenuIcon from "@material-ui/icons/Menu"
 import { Button, IconButton } from "gatsby-theme-material-ui"
+import theme from "../theme"
 import SearchStore from "../searchStore"
 import Breadcrumbs from "./breadcrumbs"
 import SearchBar from "./searchBar"
 import SEO from "./seo"
 
 import "../fonts.css"
-
-const theme = responsiveFontSizes(
-  createMuiTheme({
-    spacing: 12,
-    typography: {
-      fontSize: 15,
-      fontFamily: "Work Sans",
-    },
-    shape: {
-      borderRadius: 0,
-    },
-    palette: {
-      background: {
-        default: "#eee",
-      },
-    },
-    shadows: [...new Array(25)].map(() => "none"),
-    props: {
-      MuiButtonBase: {
-        disableRipple: true,
-      },
-    },
-  })
-)
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -87,6 +60,11 @@ const MENU = [
   ["About", "/about"],
   ["Stories", "/stories"],
   ["Data", "/data"],
+  [null, null],
+  ["Countries", "/countries"],
+  ["Programs", "/programs"],
+  ["Projects", "/projects"],
+  ["Beneficiaries", "/beneficiaries"],
 ]
 
 const MobileMenu = () => {
@@ -121,22 +99,28 @@ const MobileMenu = () => {
         open={open}
         onClose={handleClose}
       >
-        {MENU.map(([label, url]) => (
-          <MenuItem key={url} onClick={() => navigate(url)}>
-            {label}
-          </MenuItem>
-        ))}
+        {MENU.map(([label, url]) => {
+          if (!label) return <Divider />
+          return (
+            <MenuItem key={url} onClick={() => navigate(url)}>
+              {label}
+            </MenuItem>
+          )
+        })}
       </Menu>
     </div>
   )
 }
 
 const DesktopMenu = () =>
-  MENU.map(([label, url]) => (
-    <Button key={url} color="inherit" to={url}>
-      {label}
-    </Button>
-  ))
+  MENU.map(([label, url]) => {
+    if (!label) return <Divider orientation="vertical" flexItem />
+    return (
+      <Button key={url} color="inherit" to={url}>
+        {label}
+      </Button>
+    )
+  })
 
 export default function Layout({ children, route, title, ...props }) {
   const {
@@ -181,19 +165,15 @@ export default function Layout({ children, route, title, ...props }) {
               </IconButton>
               <Typography variant="h6" className={classes.title}>
                 {!isMobile && site.siteMetadata.title}
-                {route && (
-                  <span className={classes.route}>
-                    {!isMobile && " | "}
-                    {route}
-                  </span>
-                )}
               </Typography>
-              {showSearchBar && <SearchBar />}
+              {!isMobile && <Divider orientation="vertical" flexItem />}
               {isMobile ? <MobileMenu /> : <DesktopMenu />}
+              {!isMobile && <Divider orientation="vertical" flexItem />}
+              {showSearchBar && <SearchBar />}
             </Toolbar>
           </AppBar>
         </HideOnScroll>
-        <Container maxWidth="lg">
+        <Container maxWidth="xl">
           <Box className={classes.content}>
             {!isMobile && (
               <div className={classes.bcmbs}>

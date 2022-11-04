@@ -10,7 +10,7 @@ import ProgramCard from "../components/programCard"
 const Program = styled(Paper)`
   padding: 20px;
   margin-bottom: 50px;
-  background-color: ${({ scope }) =>
+  background-color: ${({ scope, theme }) =>
     scope === "military" ? "#f3e5f5" : "#e3f2fd"};
 `
 
@@ -28,6 +28,7 @@ export const query = graphql`
     programsMeta: allProgramMetaJson {
       nodes {
         name
+        title
         scope
         description
         url
@@ -53,7 +54,7 @@ const ProgramsPage = ({ data: { programs, programsMeta } }) => {
       {programs.nodes.map(p => {
         const data = { ...p, ...getMeta(p.name) }
         return (
-          <Program scope={data.scope}>
+          <Program elevation={0} scope={data.scope}>
             <ProgramCard className={classes.card} key={data.id} {...data} />
           </Program>
         )

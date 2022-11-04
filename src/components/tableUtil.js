@@ -119,7 +119,7 @@ const DataTable = ({
   color = "primary",
   filters = [],
   scopeSwitcher = false,
-  pageSize = 10,
+  pageSize = 25,
   beneficiaryField = "beneficiaryName",
   onRowClick,
   ...props
@@ -210,6 +210,13 @@ const DataTable = ({
 
   // switch scope military / non-military
   const [scope, setScope] = useState(null)
+  const handleScopeChange = scope => {
+    if (scope === "all") {
+      setScope(null)
+    } else {
+      setScope(scope)
+    }
+  }
   useEffect(() => {
     const newRows = filterByScope(rows, scope)
     setActiveRows(newRows)
@@ -236,7 +243,7 @@ const DataTable = ({
         />
       )}
       {rows.length > 1 && !!scopeSwitcher && (
-        <ScopeSwitcher scope={scope} onChange={setScope} />
+        <ScopeSwitcher scope={scope} onChange={handleScopeChange} />
       )}
       <Grid container justify="flex-end">
         {activeRows.length > 0 && (

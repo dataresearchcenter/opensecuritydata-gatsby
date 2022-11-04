@@ -1,6 +1,7 @@
 import React from "react"
 import { graphql } from "gatsby"
 import Typography from "@material-ui/core/Typography"
+import Grid from "@material-ui/core/Grid"
 import Layout from "../components/layout"
 import OverviewGrid from "../components/overviewGrid"
 import ParticipationsTable from "../components/participationsTable"
@@ -14,7 +15,9 @@ import { TopicSchema } from "../schema"
 
 export const query = graphql`
   query topicQuery($lookup: String!) {
-    participations: allParticipationsJson(filter: { topicName: { eq: $lookup } }) {
+    participations: allParticipationsJson(
+      filter: { topicName: { eq: $lookup } }
+    ) {
       nodes {
         ...ParticipationFragment
       }
@@ -38,22 +41,30 @@ export default function TopicTemplate({
       <Typography variant="h3" component="h1" gutterBottom>
         {node.name} {TopicSchema.chip()}
       </Typography>
-      <OverviewGrid>
-        <AmountCard
-          color={TopicSchema.color}
-          viz={<Viz use="fundingPerProgram" data={participations.nodes} />}
-          {...node}
-        />
-        <AttributeCard data={attributeData} />
-        <CardsWrapper>
-          <VizCard use="fundingPerYear" data={participations.nodes} />
-          {node.callName && <CallCard color={TopicSchema.color} {...node} />}
-        </CardsWrapper>
-      </OverviewGrid>
-      <Typography variant="h4" component="h2" gutterBottom>
-        Funding
-      </Typography>
-      <ParticipationsTable rows={participations.nodes} />
+      <Grid container spacing={4}>
+        <Grid item md={9}>
+          <Typography variant="h4" component="h2" gutterBottom>
+            Funding
+          </Typography>
+          <ParticipationsTable rows={participations.nodes} />
+        </Grid>
+        <Grid item md={3}>
+          <OverviewGrid>
+            <AmountCard
+              color={TopicSchema.color}
+              viz={<Viz use="fundingPerProgram" data={participations.nodes} />}
+              {...node}
+            />
+            <AttributeCard data={attributeData} />
+            <CardsWrapper>
+              <VizCard use="fundingPerYear" data={participations.nodes} />
+              {node.callName && (
+                <CallCard color={TopicSchema.color} {...node} />
+              )}
+            </CardsWrapper>
+          </OverviewGrid>
+        </Grid>
+      </Grid>
     </Layout>
   )
 }

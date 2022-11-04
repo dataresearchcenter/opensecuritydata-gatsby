@@ -7,16 +7,6 @@ const columns = [
   { field: "name", headerName: "Name", width: 400 },
   { field: "program", headerName: "Program", width: 200 },
   {
-    field: "callName",
-    headerName: "Call",
-    width: 200,
-  },
-  {
-    field: "workProgram",
-    headerName: "Work program",
-    width: 200,
-  },
-  {
     field: "amount",
     headerName: "Total amount",
     width: 150,
@@ -40,6 +30,16 @@ const columns = [
     headerName: "Project end",
     width: 150,
     renderCell,
+  },
+  {
+    field: "callName",
+    headerName: "Call",
+    width: 200,
+  },
+  {
+    field: "workProgram",
+    headerName: "Work program",
+    width: 200,
   },
 ]
 

@@ -1,6 +1,7 @@
 import React from "react"
 import { graphql } from "gatsby"
 import Typography from "@material-ui/core/Typography"
+import Grid from "@material-ui/core/Grid"
 import Layout from "../components/layout"
 import OverviewGrid from "../components/overviewGrid"
 import ParticipationsTable from "../components/participationsTable"
@@ -33,13 +34,7 @@ export const query = graphql`
 `
 
 export default function BeneficiaryTemplate({
-  pageContext: {
-    node,
-    foreignId,
-    countryLookup,
-    route,
-    title,
-  },
+  pageContext: { node, foreignId, countryLookup, route, title },
   data: { participations, country, translations },
 }) {
   const tableData = {
@@ -65,32 +60,38 @@ export default function BeneficiaryTemplate({
         )}
         {schema.chip()}
       </Typography>
-      <OverviewGrid>
-        <CardsWrapper>
-          <AmountCard
+      <Grid container spacing={4}>
+        <Grid item md={9}>
+          <Typography variant="h4" gutterBottom>
+            Funding
+          </Typography>
+          <ParticipationsTable
+            rows={participations.nodes}
+            exclude={["beneficiaryName", "legalForm", "country"]}
             color={schema.color}
-            viz={
-              <Viz
-                use="fundingPerProject"
-                color="secondary"
-                data={participations.nodes}
-              />
-            }
-            {...node}
           />
-          {!!node.beneficiaryGroup && <BeneficiaryGroup {...node} />}
-        </CardsWrapper>
-        <AttributeCard data={tableData} linkColor={schema.color} />
-        <DataCard color="secondary" />
-      </OverviewGrid>
-      <Typography variant="h4" gutterBottom>
-        Funding
-      </Typography>
-      <ParticipationsTable
-        rows={participations.nodes}
-        exclude={["beneficiaryName", "legalForm", "country"]}
-        color={schema.color}
-      />
+        </Grid>
+        <Grid item md={3}>
+          <OverviewGrid>
+            <CardsWrapper>
+              <AmountCard
+                color={schema.color}
+                viz={
+                  <Viz
+                    use="fundingPerProject"
+                    color="secondary"
+                    data={participations.nodes}
+                  />
+                }
+                {...node}
+              />
+              {!!node.beneficiaryGroup && <BeneficiaryGroup {...node} />}
+            </CardsWrapper>
+            <AttributeCard data={tableData} linkColor={schema.color} />
+            <DataCard color="secondary" />
+          </OverviewGrid>
+        </Grid>
+      </Grid>
     </Layout>
   )
 }

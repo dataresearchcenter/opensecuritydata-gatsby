@@ -47,6 +47,7 @@ const getGroupedData = (participations, grouper, getLink) => {
       value: participations.filter(d => g === d[grouper]).reduce(sum, 0),
     }))
     .map(addAmountLabel)
+    .filter(d => d.value > 0)
   data.sort((a, b) => b.value - a.value)
   return data
 }
