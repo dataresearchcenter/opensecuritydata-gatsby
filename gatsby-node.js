@@ -3,9 +3,11 @@ const path = require(`path`)
 const { createFilePath } = require(`gatsby-source-filesystem`)
 
 const slugify = value =>
-  value.length < 100
-    ? _slugify(value)
-    : `${_slugify(value).slice(0, 100)}--${value.length}`
+  value
+    ? value.length < 100
+      ? _slugify(value)
+      : `${_slugify(value).slice(0, 100)}--${value.length}`
+    : "DATA-MISSING"
 
 exports.onCreateNode = ({ node, getNode, actions }) => {
   const { createNodeField } = actions
@@ -247,7 +249,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
       component: require.resolve(`./src/templates/topic.js`),
       context: {
         node,
-        lookup: node.name,
+        lookup: node.name || "DATA-MISSING",
         route: `Topics`,
         title: node.name,
       },

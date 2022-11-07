@@ -51,7 +51,7 @@ export default function BeneficiaryTemplate({
     activity_end: node.endDate,
     website: node.website,
     postal_address: node.address,
-    vat_number: ftmData.vatCode?.join(SPACER),
+    vat_number: ftmData?.vatCode?.join(SPACER),
   }
   const schema = SCHEMA[node.legalForm]
   return (
