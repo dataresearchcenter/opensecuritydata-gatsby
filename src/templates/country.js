@@ -39,28 +39,19 @@ export default function countryTemplate({
       <Typography variant="h3" component="h1" gutterBottom>
         {node.name} {CountrySchema.chip()}
       </Typography>
-      <Grid container spacing={4}>
-        <Grid item md={9}>
-          <Typography variant="h4" component="h2" gutterBottom>
-            Funding
-          </Typography>
-          <ParticipationsTable
-            rows={participations.nodes}
-            exclude={["country"]}
-          />
-        </Grid>
-        <Grid item md={3}>
-          <OverviewGrid>
-            <AmountCard
-              color={CountrySchema.color}
-              viz={<Viz use="fundingPerProgram" data={participations.nodes} />}
-              {...node}
-            />
-            <AttributeCard data={attributeData} />
-            <VizCard use="fundingPerYear" data={participations.nodes} />
-          </OverviewGrid>
-        </Grid>
-      </Grid>
+      <OverviewGrid>
+        <AmountCard
+          color={CountrySchema.color}
+          viz={<Viz use="fundingPerProgram" data={participations.nodes} />}
+          {...node}
+        />
+        <AttributeCard data={attributeData} />
+        <VizCard use="fundingPerYear" data={participations.nodes} />
+      </OverviewGrid>
+      <Typography variant="h4" component="h2" gutterBottom>
+        Funding
+      </Typography>
+      <ParticipationsTable rows={participations.nodes} exclude={["country"]} />
     </Layout>
   )
 }

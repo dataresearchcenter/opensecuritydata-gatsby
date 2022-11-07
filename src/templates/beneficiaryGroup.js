@@ -38,40 +38,34 @@ export default function BeneficiaryTemplate({
       <Typography variant="h3" component="h1" gutterBottom>
         {node.name} {BeneficiaryGroupSchema.chip()}
       </Typography>
-      <Grid container spacing={4}>
-        <Grid item md={9}>
-          <Typography variant="h4" component="h2" gutterBottom>
-            Funding
-          </Typography>
-          <ParticipationsTable
-            rows={participations.nodes}
-            color={BeneficiaryGroupSchema.color}
-          />
-        </Grid>
-        <Grid item md={3}>
-          <OverviewGrid>
-            <AmountCard color={BeneficiaryGroupSchema.color} {...node} />
-            <Card>
-              <CardContent>
-                <Typography color={BeneficiaryGroupSchema.color}>
-                  {node.name}
-                </Typography>
-                is a global group consisting of {node.beneficiaries} sub
-                beneficiaries.
-                <Viz
-                  use="fundingPerBeneficiary"
-                  data={participations.nodes}
-                  color={BeneficiaryGroupSchema.color}
-                />
-              </CardContent>
-            </Card>
-            <AttributeCard
-              data={tableData}
-              linkColor={BeneficiaryGroupSchema.color}
+      <OverviewGrid>
+        <AmountCard color={BeneficiaryGroupSchema.color} {...node} />
+        <Card>
+          <CardContent>
+            <Typography color={BeneficiaryGroupSchema.color}>
+              {node.name}
+            </Typography>
+            is a global group consisting of {node.beneficiaries} sub
+            beneficiaries.
+            <Viz
+              use="fundingPerBeneficiary"
+              data={participations.nodes}
+              color={BeneficiaryGroupSchema.color}
             />
-          </OverviewGrid>
-        </Grid>
-      </Grid>
+          </CardContent>
+        </Card>
+        <AttributeCard
+          data={tableData}
+          linkColor={BeneficiaryGroupSchema.color}
+        />
+      </OverviewGrid>
+      <Typography variant="h4" component="h2" gutterBottom>
+        Funding
+      </Typography>
+      <ParticipationsTable
+        rows={participations.nodes}
+        color={BeneficiaryGroupSchema.color}
+      />
     </Layout>
   )
 }

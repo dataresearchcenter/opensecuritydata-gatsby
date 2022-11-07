@@ -30,13 +30,20 @@ export const query = graphql`
       iso
       name
     }
+    ftmData: entitiesJson(id: { eq: $foreignId }) {
+      properties {
+        name
+        vatCode
+      }
+    }
   }
 `
 
 export default function BeneficiaryTemplate({
   pageContext: { node, foreignId, countryLookup, route, title },
-  data: { participations, country, translations },
+  data: { participations, country, translations, ftmData },
 }) {
+  const SPACER = " · "
   const tableData = {
     country,
     projects_involved: node.projects,
@@ -44,6 +51,7 @@ export default function BeneficiaryTemplate({
     activity_end: node.endDate,
     website: node.website,
     postal_address: node.address,
+    vat_number: ftmData.vatCode?.join(SPACER),
   }
   const schema = SCHEMA[node.legalForm]
   return (
@@ -60,38 +68,32 @@ export default function BeneficiaryTemplate({
         )}
         {schema.chip()}
       </Typography>
-      <Grid container spacing={4}>
-        <Grid item md={9}>
-          <Typography variant="h4" gutterBottom>
-            Funding
-          </Typography>
-          <ParticipationsTable
-            rows={participations.nodes}
-            exclude={["beneficiaryName", "legalForm", "country"]}
+      <OverviewGrid>
+        <CardsWrapper>
+          <AmountCard
             color={schema.color}
-          />
-        </Grid>
-        <Grid item md={3}>
-          <OverviewGrid>
-            <CardsWrapper>
-              <AmountCard
-                color={schema.color}
-                viz={
-                  <Viz
-                    use="fundingPerProject"
-                    color="secondary"
-                    data={participations.nodes}
-                  />
-                }
-                {...node}
+            viz={
+              <Viz
+                use="fundingPerProject"
+                color="secondary"
+                data={participations.nodes}
               />
-              {!!node.beneficiaryGroup && <BeneficiaryGroup {...node} />}
-            </CardsWrapper>
-            <AttributeCard data={tableData} linkColor={schema.color} />
-            <DataCard color="secondary" />
-          </OverviewGrid>
-        </Grid>
-      </Grid>
+            }
+            {...node}
+          />
+          {!!node.beneficiaryGroup && <BeneficiaryGroup {...node} />}
+        </CardsWrapper>
+        <AttributeCard data={tableData} linkColor={schema.color} />
+        <DataCard color="secondary" />
+      </OverviewGrid>
+      <Typography variant="h4" gutterBottom>
+        Funding
+      </Typography>
+      <ParticipationsTable
+        rows={participations.nodes}
+        exclude={["beneficiaryName", "legalForm", "country"]}
+        color={schema.color}
+      />
     </Layout>
   )
 }

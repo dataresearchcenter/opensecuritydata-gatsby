@@ -14,18 +14,17 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-// const OverviewGrid = ({ children }) => {
-//   const classes = useStyles()
-//   return (
-//     <Grid container spacing={4} className={classes.root}>
-//       {children.map((c, i) => (
-//         <Grid item md={4} key={i} className={classes.root}>
-//           {c}
-//         </Grid>
-//       ))}
-//     </Grid>
-//   )
-// }
-const OverviewGrid = ({ children }) => <>{children}</>
+const OverviewGrid = ({ children }) => {
+  const classes = useStyles()
+  return (
+    <Grid container spacing={4} className={classes.root}>
+      {children.map((c, i) => (
+        <Grid item md={4} key={i} className={classes.root}>
+          {c}
+        </Grid>
+      ))}
+    </Grid>
+  )
+}
 
 export default OverviewGrid

@@ -164,77 +164,57 @@ export default function ProjectTemplate({
           </Typography>
         </ProjectBlock>
       )}
-      <Grid container spacing={4}>
-        <Grid item md={9}>
-          <Typography variant="h4" component="h3" gutterBottom>
-            Funding
-          </Typography>
-          <ParticipationsTable
-            title="Funding"
-            rows={participations.nodes}
-            exclude={["program", "project", isf ? "legalForm" : null]}
+      <OverviewGrid>
+        <AmountCard
+          color={ProjectSchema.color}
+          viz={<Viz use="fundingPerCountry" data={participations.nodes} />}
+          hideCaption
+          {...node}
+        />
+
+        <AttributeCard
+          data={{
+            beneficiaries: node.beneficiaries,
+            project_start: node.startDate,
+            project_end: node.endDate,
+          }}
+        />
+
+        <CardsWrapper>
+          <DataCard
+            sourceUrl={!hasCallCard && node.sourceUrl}
+            {...programMeta}
           />
-        </Grid>
-        <Grid item md={3}>
-          <OverviewGrid>
-            <AmountCard
-              color={ProjectSchema.color}
-              viz={<Viz use="fundingPerCountry" data={participations.nodes} />}
-              hideCaption
-              {...node}
+          {hasCallCard && <CallCard color={ProjectSchema.color} {...node} />}
+        </CardsWrapper>
+      </OverviewGrid>
+
+      {tags.length > 0 && (
+        <>
+          <Typography variant="h5" component="h4" gutterBottom>
+            Tags
+          </Typography>
+          {tags.map(c => (
+            <Chip
+              key={c}
+              className={classes.taxonomyChip}
+              color="primary"
+              label={c}
+              component={Link}
+              to={getTagLink({ name: c })}
+              clickable
             />
-
-            {edidp ? (
-              <Card>
-                <CardContent>
-                  <Typography color="textSecondary" gutterBottom>
-                    Data
-                  </Typography>
-                  <Typography color="textSecondary" gutterBottom>
-                    Detailed data on specific payments for individual
-                    beneficiaries not available for this funding program.
-                  </Typography>
-                </CardContent>
-              </Card>
-            ) : (
-              <AttributeCard
-                data={{
-                  beneficiaries: node.beneficiaries,
-                  project_start: node.startDate,
-                  project_end: node.endDate,
-                }}
-              />
-            )}
-
-            <DataCard
-              sourceUrl={!hasCallCard && node.sourceUrl}
-              {...programMeta}
-            />
-            {hasCallCard && <CallCard color={ProjectSchema.color} {...node} />}
-
-            {tags.length > 0 && (
-              <Card>
-                <CardContent>
-                  <Typography variant="h5" component="h4" gutterBottom>
-                    Tags
-                  </Typography>
-                  {tags.map(c => (
-                    <Chip
-                      key={c}
-                      className={classes.taxonomyChip}
-                      color="primary"
-                      label={c}
-                      component={Link}
-                      to={getTagLink({ name: c })}
-                      clickable
-                    />
-                  ))}
-                </CardContent>
-              </Card>
-            )}
-          </OverviewGrid>
-        </Grid>
-      </Grid>
+          ))}
+        </>
+      )}
+      <Typography variant="h4" component="h3" gutterBottom>
+        Funding
+      </Typography>
+      <ParticipationsTable
+        title="Funding"
+        rows={participations.nodes}
+        exclude={["program", "project", isf ? "legalForm" : null]}
+      />
     </Layout>
   )
 }

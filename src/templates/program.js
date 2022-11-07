@@ -76,56 +76,50 @@ export default function ProgramTemplate({
         <Typography component="p">{meta.description}</Typography>
         <Link to={meta.url}>More information on the EU website</Link>
       </ProgramHeader>
-      <Grid container spacing={4}>
-        <Grid item md={9}>
-          <Tabs
-            indicatorColor={ProgramSchema.color}
-            textColor={ProgramSchema.color}
-            centered
-          >
-            <ProjectsTable
-              title="Projects"
-              rows={projects.nodes}
-              exclude={["program"]}
-            />
-            <ParticipationsTable
-              title="Beneficiaries"
-              rows={participations.nodes}
-              exclude={[
-                "program",
-                "startDate",
-                "endDate",
-                isf ? "legalForm" : null,
-              ]}
-            />
-          </Tabs>
-        </Grid>
-        <Grid item md={3}>
-          <OverviewGrid>
-            <AmountCard
-              color={ProgramSchema.color}
-              viz={<Viz use="fundingPerCountry" data={participations.nodes} />}
-              {...node}
-            />
-            {edidp ? (
-              <Card>
-                <CardContent>
-                  <Typography color="textSecondary" gutterBottom>
-                    Data
-                  </Typography>
-                  <Typography color="textSecondary" gutterBottom>
-                    Detailed data on specific payments for individual
-                    beneficiaries not available for this funding program.
-                  </Typography>
-                </CardContent>
-              </Card>
-            ) : (
-              <VizCard use="fundingPerYear" data={participations.nodes} />
-            )}
-            <DataCard {...node} />
-          </OverviewGrid>
-        </Grid>
-      </Grid>
+      <OverviewGrid>
+        <AmountCard
+          color={ProgramSchema.color}
+          viz={<Viz use="fundingPerCountry" data={participations.nodes} />}
+          {...node}
+        />
+        {edidp ? (
+          <Card>
+            <CardContent>
+              <Typography color="textSecondary" gutterBottom>
+                Data
+              </Typography>
+              <Typography color="textSecondary" gutterBottom>
+                Detailed data on specific payments for individual beneficiaries
+                not available for this funding program.
+              </Typography>
+            </CardContent>
+          </Card>
+        ) : (
+          <VizCard use="fundingPerYear" data={participations.nodes} />
+        )}
+        <DataCard {...node} />
+      </OverviewGrid>
+      <Tabs
+        indicatorColor={ProgramSchema.color}
+        textColor={ProgramSchema.color}
+        centered
+      >
+        <ProjectsTable
+          title="Projects"
+          rows={projects.nodes}
+          exclude={["program"]}
+        />
+        <ParticipationsTable
+          title="Beneficiaries"
+          rows={participations.nodes}
+          exclude={[
+            "program",
+            "startDate",
+            "endDate",
+            isf ? "legalForm" : null,
+          ]}
+        />
+      </Tabs>
     </Layout>
   )
 }
