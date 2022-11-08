@@ -3,9 +3,11 @@ const path = require(`path`)
 const { createFilePath } = require(`gatsby-source-filesystem`)
 
 const slugify = value =>
-  value.length < 100
-    ? _slugify(value)
-    : `${_slugify(value).slice(0, 100)}--${value.length}`
+  value
+    ? value.length < 100
+      ? _slugify(value)
+      : `${_slugify(value).slice(0, 100)}--${value.length}`
+    : "DATA-MISSING"
 
 exports.onCreateNode = ({ node, getNode, actions }) => {
   const { createNodeField } = actions
@@ -50,7 +52,6 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
             endDate
             sourceUrl
             topicName
-            euroscivoc
             tags
             callName
             callId
@@ -90,7 +91,6 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
             startDate
             beneficiaryGroup
             beneficiaryGroupId
-            notes
           }
         }
       }
@@ -115,22 +115,6 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
             name
             projects
             beneficiaries
-            amount
-            startDate
-            endDate
-          }
-        }
-      }
-      allEuroscivocJson {
-        edges {
-          node {
-            ancestor
-            descendants
-            key
-            name
-            beneficiaries
-            projects
-            programs
             amount
             startDate
             endDate
@@ -195,9 +179,6 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
         foreignId: node.foreign_id,
         projectLookup: node.name,
         programLookup: node.program,
-        euroscivocLookup: (JSON.parse(node.euroscivoc) || []).map(i =>
-          i.substring(1)
-        ),
         route: `Projects`,
         title: node.name,
       },
@@ -268,29 +249,8 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
       component: require.resolve(`./src/templates/topic.js`),
       context: {
         node,
-        lookup: node.name,
+        lookup: node.name || "DATA-MISSING",
         route: `Topics`,
-        title: node.name,
-      },
-    })
-  })
-
-  // euroscivoc
-  const pathSlugify = path =>
-    path
-      .split("/")
-      .map(p => slugify(p))
-      .join("/")
-  result.data.allEuroscivocJson.edges.forEach(({ node }) => {
-    createPage({
-      path: `/euroscivoc/${pathSlugify(node.key)}`,
-      component: require.resolve(`./src/templates/euroscivoc.js`),
-      context: {
-        node,
-        ancestorLookup: node.ancestor || "",
-        descendantsLookup: `/^${node.key}/`,
-        projectsLookup: `/${node.key.replace("/", "\\/")}/`,
-        route: `EuroSciVoc`,
         title: node.name,
       },
     })

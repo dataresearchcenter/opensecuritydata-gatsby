@@ -10,8 +10,6 @@ const getProgramLink = ({ name }) => `/programs/${slugify(name)}`
 
 const getProjectLink = ({ name }) => `/projects/${slugify(name)}`
 
-const getEuroSciVocLink = ({ key }) => `/euroscivoc/${pathSlugify(key)}`
-
 const getTopicLink = ({ name }) => `/topics/${slugify(name)}`
 
 const getCountryLink = ({ iso, key }) => `/countries/${iso || key}`
@@ -27,7 +25,6 @@ export default {
   getProgramLink,
   getProjectLink,
   getTopicLink,
-  getEuroSciVocLink,
   getCountryLink,
   getTagLink,
   getBeneficiaryLink,
@@ -38,7 +35,6 @@ export {
   getProgramLink,
   getProjectLink,
   getTopicLink,
-  getEuroSciVocLink,
   getCountryLink,
   getTagLink,
   getBeneficiaryLink,

@@ -11,7 +11,7 @@ const AttributeTable = ({ data, linkColor, ...rest }) => (
     <Table aria-label="simple table">
       <TableBody>
         {Object.keys(data)
-          .filter(k => data[k] !== "")
+          .filter(k => data[k] !== "" && !!data[k])
           .map(k => (
             <TableRow key={k}>
               <TableCell component="th" scope="row" style={{ paddingLeft: 0 }}>

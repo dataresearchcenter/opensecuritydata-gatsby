@@ -1,6 +1,7 @@
 import React from "react"
 import { graphql } from "gatsby"
 import Typography from "@material-ui/core/Typography"
+import Grid from "@material-ui/core/Grid"
 import Layout from "../components/layout"
 import OverviewGrid from "../components/overviewGrid"
 import ParticipationsTable from "../components/participationsTable"
@@ -29,26 +30,20 @@ export const query = graphql`
       iso
       name
     }
-    translations: allTranslationsJson(
-      filter: { entity: { eq: $foreignId } }
-    ) {
-      nodes {
-        ...TranslationFragment
+    ftmData: entitiesJson(id: { eq: $foreignId }) {
+      properties {
+        name
+        vatCode
       }
     }
   }
 `
 
 export default function BeneficiaryTemplate({
-  pageContext: {
-    node,
-    foreignId,
-    countryLookup,
-    route,
-    title,
-  },
-  data: { participations, country, translations },
+  pageContext: { node, foreignId, countryLookup, route, title },
+  data: { participations, country, translations, ftmData },
 }) {
+  const SPACER = " · "
   const tableData = {
     country,
     projects_involved: node.projects,
@@ -56,6 +51,7 @@ export default function BeneficiaryTemplate({
     activity_end: node.endDate,
     website: node.website,
     postal_address: node.address,
+    vat_number: ftmData?.vatCode?.join(SPACER),
   }
   const schema = SCHEMA[node.legalForm]
   return (

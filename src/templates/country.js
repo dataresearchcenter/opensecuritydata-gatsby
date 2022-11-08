@@ -1,5 +1,6 @@
 import React from "react"
 import { graphql } from "gatsby"
+import Grid from "@material-ui/core/Grid"
 import Typography from "@material-ui/core/Typography"
 import Layout from "../components/layout"
 import OverviewGrid from "../components/overviewGrid"
@@ -12,7 +13,9 @@ import Viz, { VizCard } from "../components/viz"
 
 export const query = graphql`
   query countryQuery($lookup: String!) {
-    participations: allParticipationsJson(filter: { country: { eq: $lookup } }) {
+    participations: allParticipationsJson(
+      filter: { country: { eq: $lookup } }
+    ) {
       nodes {
         ...ParticipationFragment
       }

@@ -5,16 +5,7 @@ import { getProjectLink } from "../links"
 
 const columns = [
   { field: "name", headerName: "Name", width: 400 },
-  {
-    field: "callName",
-    headerName: "Call",
-    width: 200,
-  },
-  {
-    field: "workProgram",
-    headerName: "Work program",
-    width: 200,
-  },
+  { field: "program", headerName: "Program", width: 200 },
   {
     field: "amount",
     headerName: "Total amount",
@@ -28,7 +19,6 @@ const columns = [
     width: 150,
     sortComparator: numericSort,
   },
-  { field: "program", headerName: "Program", width: 200 },
   {
     field: "startDate",
     headerName: "Project start",
@@ -40,6 +30,16 @@ const columns = [
     headerName: "Project end",
     width: 150,
     renderCell,
+  },
+  {
+    field: "callName",
+    headerName: "Call",
+    width: 200,
+  },
+  {
+    field: "workProgram",
+    headerName: "Work program",
+    width: 200,
   },
 ]
 

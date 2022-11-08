@@ -1,5 +1,6 @@
 import React from "react"
 import { graphql } from "gatsby"
+import Grid from "@material-ui/core/Grid"
 import Card from "@material-ui/core/Card"
 import CardContent from "@material-ui/core/CardContent"
 import Typography from "@material-ui/core/Typography"
@@ -61,7 +62,10 @@ export default function BeneficiaryTemplate({
       <Typography variant="h4" component="h2" gutterBottom>
         Funding
       </Typography>
-      <ParticipationsTable rows={participations.nodes} color={BeneficiaryGroupSchema.color} />
+      <ParticipationsTable
+        rows={participations.nodes}
+        color={BeneficiaryGroupSchema.color}
+      />
     </Layout>
   )
 }

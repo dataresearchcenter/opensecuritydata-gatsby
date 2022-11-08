@@ -38,7 +38,7 @@ const columns = [
   {
     field: "legalForm",
     headerName: "Legal form",
-    width: 220,
+    width: 250,
     renderCell,
   },
   { field: "role", headerName: "Role" },
@@ -59,7 +59,6 @@ export const query = graphql`
   fragment ParticipationFragment on ParticipationsJson {
     id
     beneficiaryName
-    notes
     program
     project
     amount
