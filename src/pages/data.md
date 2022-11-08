@@ -14,6 +14,10 @@ problems, please get in touch:
 
 ### Internal Security Fund
 
+The Internal Security Fund (ISF, 2014-20 and 2021-27) finances national and EU
+projects for policing, security and borders.
+[More information on the EU website](https://ec.europa.eu/info/funding-tenders/find-funding/eu-funding-programmes/internal-security-fund_en)
+
 The original Internal Security Fund (ISF) was in place from 2014 to 2020 and
 had two components: Internal Security Fund - Police (worth approximately €1.2
 billion); and Internal Security Fund - Borders and Visa (worth almost €2.8
@@ -72,10 +76,13 @@ not participate in the ISF. Member states that did not respond (as of November 2
 
 ### Horizon Europe/Horizon 2020/FP7
 
-The security component of Horizon Europe (2021-27) which funds projects
-designed to develop new security tools and techniques, in particular the
-development and deployment of new surveillance technologies has a total budget
-of €1.56 billion, slightly less than its precursor, Horizon 2020.
+Horizon Europe (2021-27) is the EU’s key funding programme for research and
+innovation with a budget of €95.5 billion. The security research component
+which funds projects designed to develop new security tools and techniques, in
+particular the development and deployment of new surveillance technologies has
+a total budget of €1.56 billion, slightly less than its precursor, Horizon
+2020.
+
 
 Horizon 2020 was the EU’s research and innovation budget from 2014 to 2020,
 with an overall budget of some €77 billion. The security research component,

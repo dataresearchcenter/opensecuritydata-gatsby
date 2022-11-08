@@ -33,11 +33,10 @@ This money has been used to develop controversial technologies such as
 [border surveillance systems](/projects/EUROSUR-II-enhanced-operational-capability).
 
 In the military domain EU budgets have focussed on
-[uncrewed](/projects/osd-project-c4978e7819bae87ad4211aac3facbf2c4f6e4c36/MALE-RPAS)
-and [autonomous](/projects/osd-project-2c7d9694fe7e467ac3a69e17fa692064b72a9b31/ARTUS)
+[uncrewed](/projects/MALE-RPAS) and [autonomous](/projects/ARTUS)
 weapon systems, military applications of artificial intelligence, as well as
-the development of [hypersonic](/projects/osd-project-b4b46c20d9d992987bd87119d8dcc2b0880ce296/PILUM)
-and [directed energy](/projects/osd-project-6218ae01ddd00f510418a217a67ac327d81b7f17/TALOS) weapons.
+the development of [hypersonic](/projects/PILUM)
+and [directed energy](/projects/TALOS) weapons.
 
 Our data is all public: either taken from the websites of EU or national
 institutions or received via freedom of information requests. You can read more
