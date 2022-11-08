@@ -41,14 +41,9 @@ export default function TopicTemplate({
       <Typography variant="h3" component="h1" gutterBottom>
         {node.name} {TopicSchema.chip()}
       </Typography>
-      <Grid container spacing={4}>
-        <Grid item md={9}>
           <Typography variant="h4" component="h2" gutterBottom>
             Funding
           </Typography>
-          <ParticipationsTable rows={participations.nodes} />
-        </Grid>
-        <Grid item md={3}>
           <OverviewGrid>
             <AmountCard
               color={TopicSchema.color}
@@ -63,8 +58,7 @@ export default function TopicTemplate({
               )}
             </CardsWrapper>
           </OverviewGrid>
-        </Grid>
-      </Grid>
+          <ParticipationsTable rows={participations.nodes} />
     </Layout>
   )
 }
