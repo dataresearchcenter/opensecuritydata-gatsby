@@ -193,7 +193,7 @@ cross-matched against and enriched from the following databases:
 - [OpenOwnership Register](https://www.openownership.org/en/)
 - [OpenCorporates](https://opencorporates.com/)
 - [EU Financial Transparency System (FTS)](https://data.europa.eu/data/datasets/fts?locale=en)
-- [German Handelsregister (via offeneregister.de)][https//offeneregister.de]
+- [German Handelsregister (via offeneregister.de)](https//offeneregister.de)
 - [Companies House (UK) Persons with Significant Control](https://www.gov.uk/government/organisations/companies-house)
 - [Cyprus company registry](https://www.companies.gov.cy/en/)
 - [Czechia business register](http://wwwinfo.mfcr.cz/ares/ares.html.en)
