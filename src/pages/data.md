@@ -189,10 +189,21 @@ other hints like location or identifiers. Therefore, beneficiaries are
 cross-matched against and enriched from the following databases:
 
 - [Global Legal Entity Identifier Foundation](https://www.gleif.org/en)
+- [Research Organization Registry (ROR)](https://ror.org)
 - [OpenOwnership Register](https://www.openownership.org/en/)
 - [OpenCorporates](https://opencorporates.com/)
 - [EU Financial Transparency System (FTS)](https://data.europa.eu/data/datasets/fts?locale=en)
-- [German Handelsregister](https://offeneregister.de/)
+- [German Handelsregister (via offeneregister.de)](https//offeneregister.de)
+- [Companies House (UK) Persons with Significant Control](https://www.gov.uk/government/organisations/companies-house)
+- [Cyprus company registry](https://www.companies.gov.cy/en/)
+- [Czechia business register](http://wwwinfo.mfcr.cz/ares/ares.html.en)
+- Denmark Central Business Register 
+- [Estonia e-Business Register](https://www.rik.ee/en/e-business-register)
+- [Register of Enterprises of the Republic of Latvia](https://www.ur.gov.lv/lv/)
+- Slovakia Public Sector Partners Register 
+- [State Register of legal entities in the Republic of Moldova](http://asp.gov.md/)
+- [Ukraine Consolidated State Registry](https://usr.minjust.gov.ua/)
+- [US CorpWatch EX-21 Filings](https://corpwatch.org/)
 
 This deduplication is a manual process by an actual human being. If you see any
 errors, typos, translation issues or other problems, please get in touch:

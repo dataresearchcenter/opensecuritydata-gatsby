@@ -58,5 +58,15 @@
     "url": "https://defence-industry-space.ec.europa.eu/eu-defence-industry/preparatory-action-defence-research-padr_en",
     "fileName": "Open Security Data Europe - EU security research funding 2007-2020.ods",
     "fileSize": 2479083
+  },
+  {
+    "name": "EDF",
+    "title": "European Defence Fund",
+    "scope": "military",
+    "description": "The European Defence Fund (EDF) has a budget of €8 billion for the research and development (R&D) of new arms and military technologies for the current EU budget cycle (Multiannual Financial Framework 2021-27). The EDF is managed by the European Commission (DG Defence Industry and Space). The projects funded under the EDF are based on calls, determined by the European Commission in the annual working programmes, which set priorities for military cooperation and capability development.",
+    "dataDescription": "All data has been compiled via public sources or freedom of information requests to the relevant European Union or national institutions. Data may be incomplete or missing; some agencies or countries still haven’t responded to us, months later. Spreadsheets have been reformatted in order to fit into this data platform. If you see any errors, typos, translation issues or other problems, please get in touch:  hello@opensecuritydata.eu.",
+    "url": "https://defence-industry-space.ec.europa.eu/eu-defence-industry/european-defence-fund-edf_en",
+    "fileName": "Open Security Data Europe - EU security research funding 2007-2020.ods",
+    "fileSize": 2479083
   }
 ]
