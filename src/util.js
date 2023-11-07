@@ -61,7 +61,7 @@ export function shuffleArray(arr) {
 // DATA
 export function filterByScope(items, scope) {
   const scopes = {
-    military: ["PADR", "EDIDP"],
+    military: ["PADR", "EDIDP", "EDF"],
     nonMilitary: [
       "FP7 Security",
       "Horizon 2020",
