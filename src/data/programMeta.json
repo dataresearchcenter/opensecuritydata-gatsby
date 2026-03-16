@@ -68,5 +68,13 @@
     "url": "https://defence-industry-space.ec.europa.eu/eu-defence-industry/european-defence-fund-edf_en",
     "fileName": "Open Security Data Europe - EU security research funding 2007-2020.ods",
     "fileSize": 2479083
+  },
+  {
+    "name": "ASAP",
+    "title": "Act in Support of Ammunition Production (ASAP)",
+    "scope": "military",
+    "description": "The Act in Support of Ammunition Production (ASAP) is an EU programme to ramp up ammunition production capacity across Europe, help Member States refill stocks and support ammunition delivery to Ukraine. Launched in 2023 with a budget of \u20ac500 million in EU funding, 31 projects were selected targeting five supply chain bottlenecks: explosives, powder, shells, missiles, and testing and reconditioning certification. ASAP is managed by the European Commission (DG Defence Industry and Space).",
+    "dataDescription": "All data has been compiled via public sources or freedom of information requests to the relevant European Union or national institutions. Data may be incomplete or missing; some agencies or countries still haven't responded to us, months later. Spreadsheets have been reformatted in order to fit into this data platform. If you see any errors, typos, translation issues or other problems, please get in touch:  hello@opensecuritydata.eu.",
+    "url": "https://defence-industry-space.ec.europa.eu/eu-defence-industry/asap-boosting-defence-production_en"
   }
 ]
